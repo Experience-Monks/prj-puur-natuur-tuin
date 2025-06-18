@@ -1,0 +1,11 @@
+/*
+ * Mixin to set a prop with a lvh/dvh/svh value but only if the browser supports it.
+ * First sets the value as a vh value, then checks if the browser supports the new value.
+ */
+@mixin vh($value: 100, $property: min-block-size, $dynamicValue: 1svh) {
+  #{$property}: calc($value * 1vh);
+
+  @supports (block-size: #{$dynamicValue}) {
+    #{$property}: calc($value * $dynamicValue);
+  }
+}

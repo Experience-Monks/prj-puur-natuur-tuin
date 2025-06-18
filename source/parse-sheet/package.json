@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "googleapis": "39",
+    "lodash": "^4.17.15"
+  }
+}

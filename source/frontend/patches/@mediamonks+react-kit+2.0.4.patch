@@ -1,0 +1,39 @@
+diff --git a/node_modules/@mediamonks/react-kit/dist/gsap.d.ts b/node_modules/@mediamonks/react-kit/dist/gsap.d.ts
+index 93c978c..2d234ff 100644
+--- a/node_modules/@mediamonks/react-kit/dist/gsap.d.ts
++++ b/node_modules/@mediamonks/react-kit/dist/gsap.d.ts
+@@ -3,6 +3,7 @@ export * from './gsap/hooks/useAnimation/useAnimation.js';
+ export * from './gsap/hooks/useExposeAnimation/useExposeAnimation.js';
+ export * from './gsap/hooks/useExposedAnimation/useExposedAnimation.js';
+ export * from './gsap/hooks/useExposedAnimations/useExposedAnimations.js';
+-export * from './gsap/hooks/useFlip/useFlip.js';
+ export * from './gsap/hooks/useScrollAnimation/useScrollAnimation.js';
+ export * from './gsap/utils/getAnimation/getAnimation.js';
++export * from './gsap/animations.js';
++
+diff --git a/node_modules/@mediamonks/react-kit/dist/gsap.js b/node_modules/@mediamonks/react-kit/dist/gsap.js
+index 93c978c..2d234ff 100644
+--- a/node_modules/@mediamonks/react-kit/dist/gsap.js
++++ b/node_modules/@mediamonks/react-kit/dist/gsap.js
+@@ -3,6 +3,7 @@ export * from './gsap/hooks/useAnimation/useAnimation.js';
+ export * from './gsap/hooks/useExposeAnimation/useExposeAnimation.js';
+ export * from './gsap/hooks/useExposedAnimation/useExposedAnimation.js';
+ export * from './gsap/hooks/useExposedAnimations/useExposedAnimations.js';
+-export * from './gsap/hooks/useFlip/useFlip.js';
+ export * from './gsap/hooks/useScrollAnimation/useScrollAnimation.js';
+ export * from './gsap/utils/getAnimation/getAnimation.js';
++export * from './gsap/animations.js';
++
+diff --git a/node_modules/@mediamonks/react-kit/dist/gsap/components/SplitTextWrapper/SplitTextWrapper.js b/node_modules/@mediamonks/react-kit/dist/gsap/components/SplitTextWrapper/SplitTextWrapper.js
+index 7dc6dcb..bb314d6 100644
+--- a/node_modules/@mediamonks/react-kit/dist/gsap/components/SplitTextWrapper/SplitTextWrapper.js
++++ b/node_modules/@mediamonks/react-kit/dist/gsap/components/SplitTextWrapper/SplitTextWrapper.js
+@@ -13,7 +13,7 @@ export const SplitTextWrapper = ensuredForwardRef(({ variables = {}, as, childre
+      * created whenever this component rerenders the children
+      */
+     const onRef = async (element) => {
+-        if (ref.current && 'isSplit' in ref.current && ref.current.isSplit) {
++        if (ref.current) {
+             return;
+         }
+         ref.current = new SplitText(element, variables);

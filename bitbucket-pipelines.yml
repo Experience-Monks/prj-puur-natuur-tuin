@@ -1,0 +1,56 @@
+image: node:lts
+
+definitions:
+  caches:
+    npm: $HOME/.npm
+    next: source/frontend/.next/cache
+
+  scripts:
+    npm-gsap-auth: &npm-gsap-auth |
+      echo "//npm.greensock.com/:_authToken=$GSAP_NPM_TOKEN" >> ~/.npmrc
+
+  steps:
+    - step: &step-frontend
+        runs-on:
+          - "self.hosted"
+          - "linux"
+        caches:
+          - npm
+          - next
+
+    - step: &step-test
+        <<: *step-frontend
+        name: Build
+        script:
+          - *npm-gsap-auth
+          - cd source/frontend
+          - npm ci
+          - npm run postinstall
+          - npm run test
+
+    - step: &step-build
+        <<: *step-frontend
+        name: Test
+        script:
+          - *npm-gsap-auth
+          - cd source/frontend
+          - npm ci
+          - npm run postinstall
+          - npm run test
+
+pipelines:
+  pull-requests:
+    "**":
+      - parallel:
+          fail-fast: true
+          steps:
+            - step: *step-build
+            - step: *step-test
+
+  branches:
+    main:
+      - step: *step-build
+
+  custom:
+    renovate:
+      import: shared-pipeline-renovate:main:renovate

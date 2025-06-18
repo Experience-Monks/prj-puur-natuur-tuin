@@ -1,0 +1,30 @@
+.newsSection {
+  background: $colorGreenDark;
+  padding: fluid-size(70, 255) remify(20);
+}
+
+.heading {
+  color: $colorWhite;
+  text-align: center;
+  margin-block-end: remify(63);
+}
+
+.newsList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: remify(27);
+  max-inline-size: remify(1038);
+  margin: 0 auto;
+}
+
+@include respond-to(MEDIUM) {
+  .newsSection {
+    padding-inline: 0;
+  }
+
+  .heading {
+    margin-block-end: remify(155);
+  }
+}

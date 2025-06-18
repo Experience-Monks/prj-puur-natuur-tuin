@@ -1,0 +1,12 @@
+query NewsSectionData {
+  allNews(sort: { date: DESC }) {
+    _id
+    title
+    date
+    icon {
+      asset {
+        url
+      }
+    }
+  }
+}

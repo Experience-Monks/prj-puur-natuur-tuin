@@ -1,0 +1,26 @@
+// Fonts
+
+// Z Index
+$zLayout: default, navigation;
+
+// Colors
+$colorGreenPrimary: #0f7d19;
+$colorGreenDark: #031d06;
+$colorGreenLight: #40c34c;
+
+$colorWhite: #ffffff;
+$colorBlack: #000000;
+
+// spacing
+$spacingSectionBlock: fluid-size(70, 255);
+$spacingSectionInline: remify(20);
+
+//Size
+$maxInlineSize: remify(1070);
+
+// Shared variables like MediaQueries
+@import '../../data/shared-variables/shared-variables.internal.json';
+
+// Eases
+$easeVinnieInOut: cubic-bezier(0.2, 0, 0, 1);
+$easeJorisInOut: cubic-bezier(0.3, 0, 0.25, 1);

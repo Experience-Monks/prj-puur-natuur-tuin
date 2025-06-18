@@ -1,0 +1,29 @@
+.heading {
+  font-family: var(--font-heading, inherit);
+  font-weight: 700;
+  margin: 0;
+}
+
+.sizeHeading1 {
+  font-size: fluid-size(72, 157);
+  line-height: fluid-size(90, 130);
+  letter-spacing: -0.05em;
+}
+
+.sizeHeading2 {
+  font-size: fluid-size(55, 98);
+  line-height: fluid-size(50, 100);
+  letter-spacing: -0.04em;
+}
+
+.sizeHeading3 {
+  font-size: fluid-size(46, 57);
+  line-height: fluid-size(44, 55);
+  letter-spacing: -0.03em;
+}
+
+.sizeHeading4 {
+  font-size: fluid-size(24, 46);
+  line-height: fluid-size(28, 55);
+  letter-spacing: -0.03em;
+}

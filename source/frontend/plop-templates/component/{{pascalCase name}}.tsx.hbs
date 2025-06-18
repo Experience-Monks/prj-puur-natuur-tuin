@@ -1,0 +1,44 @@
+{{#if useForwardRef}}
+import { ensuredForwardRef, useRefs, type MutableRefs } from '@mediamonks/react-kit';
+{{else}}
+import { useRefs } from '@mediamonks/react-kit';
+{{/if}}
+import { type ReactElement } from 'react';
+import { useEnabledAnimation } from '{{root}}hooks/useEnabledAnimation';
+import { useEnabledBeforeUnmount } from '{{root}}hooks/useEnabledBeforeUnmount';
+import { createInAnimation, createOutAnimation } from './{{pascalCase name}}.animations';
+import styles from './{{pascalCase name}}.module.scss';
+
+type {{pascalCase name}}Props = {};
+
+export type {{pascalCase name}}Refs = MutableRefs<{
+  self: HTMLDivElement;
+}>;
+
+{{#if useForwardRef}}
+export const {{pascalCase name}} = ensuredForwardRef<HTMLDivElement, {{pascalCase name}}Props>(({}, ref): ReactElement => {
+{{else}}
+export const {{pascalCase name}} = ({}: {{pascalCase name}}Props): ReactElement => {
+{{/if}}
+
+{{#if useForwardRef}}
+  const refs = useRefs<{{pascalCase name}}Refs>({
+    self: ref
+  });
+{{else}}
+  const refs = useRefs<{{pascalCase name}}Refs>();
+{{/if}}
+
+  useEnabledAnimation(() => createInAnimation(refs), [refs]);
+  useEnabledBeforeUnmount(async () => createOutAnimation(refs));
+
+  return (
+    <div className={styles.{{camelCase name}} } ref={refs.self}>
+      {{pascalCase name}}
+    </div>
+  );
+{{#if useForwardRef}}
+})
+{{else}}
+}
+{{/if}}

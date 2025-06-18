@@ -1,0 +1,67 @@
+.programSection {
+  background: $colorGreenPrimary;
+  position: relative;
+  padding: $spacingSectionBlock $spacingSectionInline;
+}
+
+.heading {
+  text-align: center;
+  margin-inline: auto;
+  margin-block-end: fluid-size(80, 132);
+  color: $colorWhite;
+}
+
+.ctaWrapper {
+  display: flex;
+  justify-content: center;
+  margin-block-end: remify(40);
+}
+.programList {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  margin-block-end: remify(40);
+  max-inline-size: remify(1200);
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: remify(40);
+}
+
+.programCard {
+  position: relative;
+}
+
+@include respond-to(MEDIUM) {
+  .programList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    inline-size: 100%;
+    gap: remify(55);
+    max-inline-size: remify(1124);
+  }
+
+  .programCard {
+    max-inline-size: remify(839);
+    inline-size: 100%;
+    align-self: flex-start;
+
+    &:nth-child(4n + 1) {
+      margin-inline-start: 0;
+    }
+
+    &:nth-child(4n + 2) {
+      margin-inline-start: remify(142);
+    }
+
+    &:nth-child(4n + 3) {
+      margin-inline-start: remify(286);
+    }
+
+    &:nth-child(4n) {
+      margin-inline-start: remify(142);
+    }
+  }
+}

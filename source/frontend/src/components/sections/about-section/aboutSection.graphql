@@ -1,0 +1,17 @@
+query AboutSectionData {
+  allAbout(limit: 1) {
+    _id
+    title
+    content
+    image {
+      asset {
+        url
+      }
+    }
+    ctaButton {
+      label
+      url
+    }
+    enabled
+  }
+}

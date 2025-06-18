@@ -1,0 +1,44 @@
+{
+  "name": "puur-natuur-tuin",
+  "private": true,
+  "version": "1.0.0",
+  "main": "package.json",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "sanity dev",
+    "start": "sanity start",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "deploy:monkapps": "rsync -avPx dist/* ${npm_package_config_name}@${npm_package_config_host}:~/public/studio --delete",
+    "deploy-graphql": "sanity graphql deploy",
+    "format": "prettier . --write --log-level warn"
+  },
+  "config": {
+    "name": "puur-natuur-tuin",
+    "host": "eu.dev.monkapps.com"
+  },
+  "keywords": [
+    "sanity"
+  ],
+  "dependencies": {
+    "@mediamonks/prettier-config": "^1.0.1",
+    "@sanity/vision": "^3.52.2",
+    "@types/crypto-js": "^4.2.2",
+    "crypto-js": "^4.2.0",
+    "lodash-es": "^4.17.21",
+    "prettier": "^3.3.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sanity": "^3.52.2",
+    "sanity-plugin-media": "^2.3.2",
+    "styled-components": "^6.1.17"
+  },
+  "devDependencies": {
+    "@sanity/eslint-config-studio": "^4.0.0",
+    "@types/lodash-es": "^4.17.12",
+    "@types/react": "^18.0.25",
+    "eslint": "^8.6.0",
+    "typescript": "^5.1.6"
+  },
+  "prettier": "@mediamonks/prettier-config"
+}

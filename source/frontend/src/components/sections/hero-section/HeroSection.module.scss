@@ -1,0 +1,69 @@
+.heroSection {
+  position: relative;
+  text-align: center;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: $colorGreenPrimary;
+  padding-block-start: $spacingSectionBlock;
+  padding-inline: $spacingSectionInline;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-inline-size: $maxInlineSize;
+  position: relative;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: fluid-size(24, 48);
+}
+
+.title {
+  color: $colorGreenDark;
+  text-transform: capitalize;
+  font-size: fluid-size(46, 157);
+  overflow-wrap: normal;
+  word-break: break-word;
+}
+
+.subtitle {
+  color: $colorGreenLight;
+  max-inline-size: remify(700);
+}
+
+.contentBlocks {
+  display: flex;
+  flex-direction: column;
+  gap: fluid-size(24, 48);
+  inline-size: 100%;
+  max-inline-size: remify(800);
+}
+
+.contentBlock {
+  inline-size: 100%;
+}
+
+.ctaWrapper {
+  margin-block-start: fluid-size(16, 32);
+}
+
+// Variants
+.variantCentered {
+  .contentWrapper {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.variantLarge {
+  .contentWrapper {
+    padding-block: fluid-size(72, 144);
+  }
+}

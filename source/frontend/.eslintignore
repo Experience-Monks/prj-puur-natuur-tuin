@@ -1,0 +1,12 @@
+.next/
+out/
+storybook-static/
+
+next-env.d.ts
+src/definitions.d.ts
+
+src/webgl/**/*
+
+# Generated GraphQL files
+src/graphql/gql.ts
+src/graphql/graphql.ts

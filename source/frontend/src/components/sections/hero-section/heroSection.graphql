@@ -1,0 +1,39 @@
+fragment HeroSectionFragment on HeroSection {
+  _key
+  _type
+  title
+  subtitle
+  enabled
+  backgroundImage {
+    asset {
+      url
+      metadata {
+        dimensions {
+          width
+          height
+        }
+      }
+    }
+  }
+  contentBlocks {
+    _key
+    _type
+    text
+    richText
+    variant
+    align
+    maxWidth
+  }
+  ctaButton {
+    label
+    url
+  }
+  variant
+}
+
+query HeroSectionData {
+  allHeroSection {
+    _id
+    ...HeroSectionFragment
+  }
+}

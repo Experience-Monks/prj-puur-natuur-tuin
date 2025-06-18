@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+cd source/frontend
+npx --no -- commitlint --edit ${1}
+npx --no -- commitlint-issue-reference --file "../../${1}"

@@ -1,0 +1,7 @@
+.canvasContainer {
+  @include offset(0, 0);
+  @include size(100%);
+
+  position: fixed;
+  pointer-events: none;
+}

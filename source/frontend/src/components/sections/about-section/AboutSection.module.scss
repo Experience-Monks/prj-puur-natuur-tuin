@@ -1,0 +1,57 @@
+.aboutSection {
+  padding: $spacingSectionBlock $spacingSectionInline;
+  position: relative;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-inline-size: $maxInlineSize;
+  position: relative;
+  inline-size: 100%;
+  text-align: center;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  inline-size: 100%;
+  gap: fluid-size(36, 73);
+}
+
+.title {
+  color: $colorGreenPrimary;
+  text-transform: capitalize;
+}
+
+.content {
+  color: $colorGreenLight;
+  max-inline-size: remify(831);
+}
+
+.ctaWrapper {
+  margin-block-start: remify(16px);
+}
+
+.imageWrapper {
+  position: relative;
+  border-radius: remify(16px);
+  overflow: hidden;
+  flex-shrink: 0;
+  inline-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-block-end: fluid-size(94, 188);
+}
+
+.image {
+  display: block;
+  object-fit: cover;
+  block-size: 100%;
+  inline-size: 100%;
+}

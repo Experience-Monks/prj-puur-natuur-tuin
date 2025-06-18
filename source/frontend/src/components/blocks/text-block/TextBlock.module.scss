@@ -1,0 +1,40 @@
+.textBlock {
+  margin-block-end: fluid-size(16, 32);
+}
+
+.text {
+  color: $colorGreenLight;
+}
+
+// Variants
+.variantDefault {
+  .text {
+    color: $colorGreenLight;
+  }
+}
+
+.variantLarge {
+  .text {
+    color: $colorGreenPrimary;
+  }
+}
+
+.variantHighlight {
+  .text {
+    color: $colorGreenPrimary;
+    font-weight: 600;
+  }
+}
+
+// Alignment
+.alignLeft {
+  text-align: start;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.alignRight {
+  text-align: end;
+}

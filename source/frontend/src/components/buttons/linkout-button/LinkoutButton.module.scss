@@ -1,0 +1,23 @@
+.linkoutButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $colorGreenPrimary;
+  color: $colorWhite;
+  border-radius: 30px;
+  padding: 15px 65px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arrow {
+  fill: currentColor;
+  inline-size: 16px;
+  block-size: 16px;
+}

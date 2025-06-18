@@ -1,0 +1,27 @@
+.copy {
+  font-family: var(--font-body, inherit);
+  margin: 0;
+}
+
+.sizeBody {
+  font-size: remify(16);
+}
+
+.sizeBodyLarge {
+  font-size: remify(22);
+  line-height: 150%;
+  letter-spacing: 0.02em;
+  font-weight: 400;
+}
+
+.sizeBodyExtraLarge {
+  font-size: remify(37);
+  line-height: remify(55);
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+.caption {
+  font-size: remify(17);
+  letter-spacing: 0.02em;
+}

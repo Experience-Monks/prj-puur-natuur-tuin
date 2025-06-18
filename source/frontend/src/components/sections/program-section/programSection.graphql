@@ -1,0 +1,13 @@
+query ProgramSectionData {
+  allProgram(sort: { datetime: ASC }) {
+    _id
+    title
+    datetime
+    description
+    image {
+      asset {
+        url
+      }
+    }
+  }
+}

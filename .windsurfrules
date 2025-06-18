@@ -1,0 +1,16 @@
+1. Always use TypeScript
+2. Use React
+3. Don't use nextjs
+4. Always use types instead of interfaces
+5. Always use ESM
+6. Do not use inline comments
+7. Callbacks in tsx should start with on
+8. Use ReactElement instead of JSX.Element
+9. Use scss for styling
+10. Use clsx for classnames
+11. Never use index.ts for components
+12. Don't run `npm run dev` or `npm run build`
+13. A summary after code changes is not needed
+14. Use logical properties for scss
+15. Use remify for px values
+16. Put the media queries in the scss file at the bottom not in the classname

@@ -1,0 +1,83 @@
+.newsCard {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  background: $colorGreenPrimary;
+  border-radius: remify(30);
+  padding: remify(10);
+  gap: remify(10);
+  min-block-size: auto;
+}
+
+.iconBackground {
+  background: $colorGreenDark;
+  border-radius: remify(25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  block-size: auto;
+  min-block-size: remify(80);
+  padding: remify(12) remify(15);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.iconWrapper {
+  display: block;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  inline-size: remify(60);
+}
+
+.iconImage {
+  @include size(100);
+  display: block;
+  max-inline-size: 80%;
+  max-block-size: 80%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.date {
+  color: $colorWhite;
+  margin-block-end: remify(2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.title {
+  color: $colorWhite;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+@include respond-to(MEDIUM) {
+  .newsCard {
+    border-radius: remify(60);
+    padding: remify(18);
+    gap: remify(18);
+    min-block-size: remify(130);
+    flex-wrap: nowrap;
+  }
+
+  .iconBackground {
+    border-radius: remify(50);
+    min-block-size: remify(130);
+    padding: remify(23) remify(30);
+  }
+
+  .iconWrapper {
+    inline-size: remify(86);
+  }
+
+  .date {
+    margin-block-end: remify(4);
+  }
+}

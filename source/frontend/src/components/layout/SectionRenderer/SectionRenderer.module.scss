@@ -1,0 +1,29 @@
+.section {
+  position: relative;
+  inline-size: 100%;
+}
+
+.firstSection {
+  padding-block-start: 0;
+}
+
+.loadingSection {
+  min-block-size: remify(200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingIndicator {
+  font-size: remify(16);
+  color: #666666;
+}
+
+.fallbackMessage {
+  padding: remify(20);
+  background-color: #f8f8f8;
+  border: remify(1) solid #dddddd;
+  border-radius: remify(4);
+  color: #666666;
+  text-align: center;
+}

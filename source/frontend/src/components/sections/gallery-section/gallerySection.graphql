@@ -1,0 +1,10 @@
+query GallerySectionData {
+  allGallery(limit: 1) {
+    _id
+    images {
+      asset {
+        url
+      }
+    }
+  }
+}
