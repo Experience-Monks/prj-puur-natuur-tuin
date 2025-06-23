@@ -46,10 +46,18 @@ export default createComponentDocument('heroSection', {
       description: 'Add and arrange content blocks for the hero section',
     },
     {
+      name: 'showButton',
+      title: 'Show Button',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Toggle to show or hide the call to action button',
+    },
+    {
       name: 'ctaButton',
       title: 'Call to Action Button',
-      type: 'ctaButton',
+      type: 'buttonFragment',
       description: 'Button to learn more or take action',
+      hidden: ({ parent }) => !parent?.showButton,
     },
     {
       name: 'variant',

@@ -11,19 +11,19 @@ A website for Puur Natuur Tuin built with Next.js and Sanity CMS.
 - **State Management**: Recoil for global state
 - **Data Fetching**: GraphQL with typed queries via GraphQL Code Generator
 - **Component Structure**:
-    - Organized by sections (hero, intro, news, program, gallery, about)
-    - Each component follows pattern: Component.tsx, Component.module.scss, component.transformer.tsx,
-      Component.types.ts
-    - Strict TypeScript usage (types over interfaces)
+  - Organized by sections (hero, intro, news, program, gallery, about)
+  - Each component follows pattern: Component.tsx, Component.module.scss, component.transformer.tsx,
+    Component.types.ts
+  - Strict TypeScript usage (types over interfaces)
 
 ### Backend
 
 - **CMS**: Sanity Studio (TypeScript)
 - **Schema Structure**:
-    - Documents: pages, news, program, gallery items
-    - Singleton documents: siteSettings, footer, navigation
-    - Components: reusable section schemas
-    - Fragments: shared schema elements
+  - Documents: pages, news, program, gallery items
+  - Singleton documents: siteSettings, footer, navigation
+  - Components: reusable section schemas
+  - Fragments: shared schema elements
 - **GraphQL API**: Sanity GraphQL API for data retrieval
 
 > **Note**: This project's architecture and structure are based on the Warba Bank project pattern, with adaptations for
@@ -58,9 +58,8 @@ component-name/
 ├── componentName.transformer.tsx   # Data transformation logic
 ├── ComponentName.types.ts          # TypeScript interfaces/types
 ├── ComponentName.query.ts          # GraphQL query definitions
-├── componentName.graphql           # Raw GraphQL query
 ├── ComponentName.stories.tsx       # Storybook stories
-├── ComponentName.template.tsx      # Template variations 
+├── ComponentName.template.tsx      # Template variations
 ├── ComponentName.animations.ts     # Animation definitions (if needed)
 └── ComponentName.hooks.ts          # Component-specific hooks (if needed)
 ```
@@ -139,13 +138,16 @@ npm run deploy-graphql  # Deploy GraphQL API schema
 - Use `createComponentDocument` utility for consistent schema structure
 - Ensure no duplicate schema definitions exist
 
+### GraphQL Usage
+
+- Components use typed GraphQL queries with the `graphql` tag from `gql.ts`
+- This provides full type safety and IDE autocompletion
+- Type safety is maintained via GraphQL Code Generator
+- Run `npm run codegen` after modifying queries to update types
+
 ### Component Transformers
 
 - Handle null/undefined values carefully
-- Use raw GraphQL query strings for server components instead of GraphQL document objects
-    - This is necessary for compatibility with Next.js App Router server components
-    - Direct Fetch API with raw queries works reliably in both server and client components
-    - Type safety is maintained via GraphQL Code Generator
 - Ensure proper sorting of items (news by date descending, programs by date ascending)
 
 ### Component Rendering

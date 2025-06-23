@@ -33,10 +33,18 @@ export default createComponentDocument('introSection', {
       type: 'string',
     },
     {
+      name: 'showButton',
+      title: 'Show Button',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Toggle to show or hide the call to action button',
+    },
+    {
       name: 'cta',
       title: 'Call to Action',
-      type: 'ctaButton',
+      type: 'buttonFragment',
       description: 'Button for the intro section',
+      hidden: ({ parent }) => !parent?.showButton,
     },
   ],
   preview: {

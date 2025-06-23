@@ -18,6 +18,7 @@ type AboutSectionProps = {
     width?: number;
     height?: number;
   };
+  showButton?: boolean;
   ctaLabel?: string;
   ctaUrl?: string;
 };
@@ -27,7 +28,7 @@ export type AboutSectionRefs = MutableRefs<{
 }>;
 
 export const AboutSection = ensuredForwardRef<HTMLDivElement, AboutSectionProps>(
-  ({ title, content, image, ctaLabel, ctaUrl }, ref): ReactElement => {
+  ({ title, content, image, showButton, ctaLabel, ctaUrl }, ref): ReactElement => {
     const refs = useRefs<AboutSectionRefs>({
       self: ref,
     });
@@ -61,7 +62,7 @@ export const AboutSection = ensuredForwardRef<HTMLDivElement, AboutSectionProps>
               </Copy>
             )}
 
-            {ctaLabel && ctaUrl && (
+            {showButton && ctaLabel && ctaUrl && (
               <div className={styles.ctaWrapper}>
                 <PrimaryButton href={ctaUrl}>{ctaLabel}</PrimaryButton>
               </div>

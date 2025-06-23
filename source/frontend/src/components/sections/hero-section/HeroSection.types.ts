@@ -15,6 +15,7 @@ export type HeroSectionProps = {
     height?: number;
   };
   contentBlocks?: Array<ReactNode>;
+  showButton?: boolean;
   ctaLabel?: string;
   ctaUrl?: string;
   className?: string;

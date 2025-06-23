@@ -3,6 +3,7 @@ import { type ReactElement, type ReactNode } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import type { SectionTypeName } from 'src/data/enum/SectionTypeName';
 import { TextBlock } from '../../blocks/text-block/TextBlock';
+import { processButtonLink } from '../../buttons/button/Button.utils';
 import { type HeroSectionProps } from './HeroSection.types';
 
 export type HeroSectionCms = {
@@ -33,8 +34,16 @@ export type HeroSectionCms = {
     align?: 'left' | 'center' | 'right';
     maxWidth?: number;
   }>;
+  showButton?: boolean;
   ctaButton?: {
+    text?: string;
     label?: string;
+    link?: {
+      linkType?: 'internal' | 'external' | 'email';
+      internalLink?: { slug?: { current?: string } };
+      externalUrl?: string;
+      emailAddress?: string;
+    };
     url?: string;
   };
   variant?: 'default' | 'centered' | 'large';
@@ -57,6 +66,7 @@ export const heroSectionTransformer = async (
     backgroundImage,
     contentBlocks = [],
     ctaButton,
+    showButton = true,
     variant = 'default',
   } = section;
 
@@ -100,8 +110,9 @@ export const heroSectionTransformer = async (
         }
       : undefined,
     contentBlocks: transformedBlocks,
-    ctaLabel: ctaButton?.label ?? '',
-    ctaUrl: ctaButton?.url ?? '',
+    ctaLabel: ctaButton?.text ?? ctaButton?.label ?? '',
+    ctaUrl: processButtonLink(ctaButton ?? {}),
+    showButton,
     variant,
   };
 };

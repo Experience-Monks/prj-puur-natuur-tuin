@@ -37,10 +37,18 @@ export default createComponentDocument('aboutSection', {
       description: 'Image for the about section',
     },
     {
+      name: 'showButton',
+      title: 'Show Button',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Toggle to show or hide the call to action button',
+    },
+    {
       name: 'ctaButton',
       title: 'Call to Action Button',
-      type: 'ctaButton',
+      type: 'buttonFragment',
       description: 'Button to learn more or take action',
+      hidden: ({ parent }) => !parent?.showButton,
     },
   ],
   preview: {
@@ -52,9 +60,7 @@ export default createComponentDocument('aboutSection', {
     prepare({ title, subtitle, media }) {
       return {
         title: title || 'About Section',
-        subtitle: subtitle
-          ? `${subtitle.substring(0, 50)}${subtitle.length > 50 ? '...' : ''}`
-          : 'No content',
+        subtitle: subtitle ? `${subtitle.substring(0, 50)}...` : 'No content',
         media,
       };
     },

@@ -3,17 +3,17 @@ import { defineType } from 'sanity';
 export default defineType({
   type: 'object',
   name: 'iconBlock',
-  title: 'Icoon Blok',
+  title: 'Icon Blok',
   fields: [
     {
       name: 'icon',
-      title: 'Icoon',
+      title: 'Icon',
       type: 'image',
       options: {
         hotspot: true,
       },
     },
-    { name: 'altText', title: 'Alt Tekst', type: 'string' },
+    { name: 'altText', title: 'Alt Text', type: 'string' },
   ],
   preview: {
     select: {
@@ -22,7 +22,7 @@ export default defineType({
     },
     prepare({ media, title }) {
       return {
-        title: title || 'Icoon Blok',
+        title: title || 'Icon Block',
         media,
       };
     },

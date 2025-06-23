@@ -152,6 +152,36 @@ export default async function Page(props: NextPageProps): Promise<ReactElement> 
     pageData,
   );
 
+  // Debug log for NewsSection and ProgramSection components
+  const newsSections = transformedComponents.filter((comp) => comp._type === 'newsSection');
+  const programSections = transformedComponents.filter((comp) => comp._type === 'programSection');
+
+  if (newsSections.length > 0) {
+    console.log(
+      '[Page] NewsSection components after transformation:',
+      newsSections.map((section) => ({
+        _type: section._type,
+        _key: section._key,
+        showButton: section.showButton,
+        ctaLabel: section.ctaLabel,
+        ctaUrl: section.ctaUrl,
+      })),
+    );
+  }
+
+  if (programSections.length > 0) {
+    console.log(
+      '[Page] ProgramSection components after transformation:',
+      programSections.map((section) => ({
+        _type: section._type,
+        _key: section._key,
+        showButton: section.showButton,
+        ctaLabel: section.ctaLabel,
+        ctaUrl: section.ctaUrl,
+      })),
+    );
+  }
+
   return (
     <CmsPageTemplate
       header={pageHeader}

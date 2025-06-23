@@ -57,14 +57,17 @@ export function SectionRenderer({
   pageData,
   params,
 }: SectionRendererProps): ReactElement | null {
-  const { _type, key, title } = component as {
+  const { _type, key, title, isTransformed } = component as {
     _type: string;
     key?: string;
     title?: string;
+    isTransformed?: boolean;
   };
 
-  const [transformedProps, setTransformedProps] = useState<Record<string, unknown> | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [transformedProps, setTransformedProps] = useState<Record<string, unknown> | null>(
+    isTransformed ? (component as Record<string, unknown>) : null,
+  );
+  const [isLoading, setIsLoading] = useState(!isTransformed);
   const [error, setError] = useState<Error | null>(null);
 
   const Component = sectionComponentMap[_type as keyof typeof sectionComponentMap];
@@ -75,6 +78,11 @@ export function SectionRenderer({
   const sectionId = generateSectionId(_type, title, index);
 
   useEffect(() => {
+    // If the component is already transformed, skip the transformer
+    if (isTransformed) {
+      return;
+    }
+
     if (!component || !_type) {
       setIsLoading(false);
       return;
@@ -122,6 +130,7 @@ export function SectionRenderer({
     params,
     landingPageSlug,
     pageData,
+    isTransformed,
   ]);
 
   if (!component || !_type) {
@@ -165,6 +174,20 @@ export function SectionRenderer({
         <div className={styles.fallbackMessage}>Component not found for: {_type}</div>
       </div>
     );
+  }
+
+  // Debug log for IntroSection props
+  if (_type === 'introSection') {
+    // eslint-disable-next-line no-console
+    console.log('[SectionRenderer] IntroSection transformedProps:', {
+      ...transformedProps,
+      _type,
+      hasShowButton: 'showButton' in transformedProps,
+      showButtonValue: transformedProps.showButton,
+      ctaLabelValue: transformedProps.ctaLabel,
+      ctaUrlValue: transformedProps.ctaUrl,
+      componentProps: { title: '', news: [], programs: [], links: [], ...transformedProps },
+    });
   }
 
   return (

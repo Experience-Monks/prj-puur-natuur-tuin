@@ -1,10 +1,20 @@
+'use client';
+
 import type { ReactElement } from 'react';
+import { PrimaryButton } from '../../buttons/primary-button/PrimaryButton';
 import Heading from '../../general/heading/Heading';
 import { NewsCard } from '../../news-card/NewsCard';
 import styles from './NewsSection.module.scss';
 import type { NewsSectionProps } from './NewsSection.types';
 
-export function NewsSectionTemplate({ title, news, refs }: NewsSectionProps): ReactElement {
+export function NewsSectionTemplate({
+  title,
+  news,
+  showButton,
+  ctaLabel,
+  ctaUrl,
+  refs,
+}: NewsSectionProps): ReactElement {
   return (
     <div className={styles.newsSection} ref={refs.self}>
       <Heading as="h2" className={styles.heading}>
@@ -17,6 +27,11 @@ export function NewsSectionTemplate({ title, news, refs }: NewsSectionProps): Re
           </li>
         ))}
       </ul>
+      {showButton && ctaLabel && ctaUrl && (
+        <div className={styles.ctaWrapper}>
+          <PrimaryButton href={ctaUrl}>{ctaLabel}</PrimaryButton>
+        </div>
+      )}
     </div>
   );
 }

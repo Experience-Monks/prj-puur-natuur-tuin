@@ -2,23 +2,15 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import type { SectionTypeName } from 'src/data/enum/SectionTypeName';
 import { graphqlRequest } from 'src/net/graphql/graphqlRequest';
+import type { NewsSectionDataQuery } from '../../../graphql/graphql';
+import { processButtonLink } from '../../buttons/button/Button.utils';
 import { newsSectionData } from './NewsSection.query';
 import type { NewsSectionProps } from './NewsSection.types';
 
-// Define the GraphQL response type
-type NewsSectionDataResponse = {
-  allNews?: Array<{
-    _id?: string;
-    title?: string;
-    date?: string;
-    icon?: {
-      asset?: {
-        url?: string;
-      };
-    };
-  }>;
-};
+// Define the GraphQL response type using the generated type
+type NewsSectionDataResponse = NewsSectionDataQuery;
 
+// Define the NewsSectionCms type
 export type NewsSectionCms = {
   _type: SectionTypeName.NewsSection;
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -38,13 +30,29 @@ export type NewsSectionCms = {
       };
     };
   }>;
+  header?: {
+    title?: string;
+  };
+  enabled?: boolean;
+  showButton?: boolean;
+  ctaButton?: {
+    text?: string;
+    label?: string;
+    link?: {
+      linkType?: 'internal' | 'external' | 'email';
+      internalLink?: { slug?: { current?: string } };
+      externalUrl?: string;
+      emailAddress?: string;
+    };
+    url?: string;
+  };
 };
 
 export async function newsSectionTransformer(
   section: NewsSectionCms,
 ): Promise<Omit<NewsSectionProps, 'refs'>> {
   try {
-    // Fetch the news items data
+    // Fetch the news items data using the typed document
     const newsResponse = (await graphqlRequest({
       query: newsSectionData,
     })) satisfies NewsSectionDataResponse;
@@ -94,12 +102,34 @@ export async function newsSectionTransformer(
       };
     });
 
+    // This allows our code to follow the pattern while working with the current schema
+    const ctaLabel = section.ctaButton?.text ?? section.ctaButton?.label;
+    const ctaUrl = processButtonLink(section.ctaButton ?? {});
+    const showButton = Boolean(ctaLabel && ctaUrl);
+
+    console.log('[NewsSectionTransformer] CTA props:', {
+      ctaLabel,
+      ctaUrl,
+      showButton,
+      hasCtaButton: Boolean(section.ctaButton),
+      ctaButtonText: section.ctaButton?.text,
+    });
+
     return {
       title: section.title ?? 'Nieuws',
       news,
+      ctaLabel,
+      ctaUrl,
+      showButton,
     };
   } catch (error) {
     console.error('Error transforming news section:', error);
-    return { title: section.title ?? 'Nieuws', news: [] };
+    return {
+      title: section.title ?? 'Nieuws',
+      news: [],
+      showButton: true,
+      ctaLabel: '',
+      ctaUrl: '',
+    };
   }
 }

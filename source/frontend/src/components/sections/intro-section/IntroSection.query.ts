@@ -1,26 +1,48 @@
-// Using raw GraphQL string to avoid codegen issues
+import { graphql } from '../../../graphql/gql';
 
-export const introSectionIdentifier = `
-  fragment IntroSectionIdentifier on IntroSection {
+export const introSectionFragment = graphql(`
+  fragment IntroSectionFragment on IntroSection {
     __typename
     _key
     _type
-  }
-`;
-
-export const introSectionData = `
-  query IntroSectionData {
-    allIntroSection {
-      _type
-      _key
-      title
-      enabled
-      content
-      image {
-        asset {
-          url
+    _id
+    title
+    subtitle
+    enabled
+    content
+    blocks {
+      ... on IntroTextBlock {
+        _key
+        _type
+        text
+      }
+      ... on IntroIconBlock {
+        _key
+        _type
+        iconType
+      }
+    }
+    cta {
+      text
+      link {
+        linkType
+        internalLink {
+          slug {
+            current
+          }
         }
+        externalUrl
+        emailAddress
       }
     }
   }
-`;
+`);
+
+export const introSectionQuery = graphql(`
+  query IntroSectionData {
+    allIntroSection {
+      _id
+      ...IntroSectionFragment
+    }
+  }
+`);

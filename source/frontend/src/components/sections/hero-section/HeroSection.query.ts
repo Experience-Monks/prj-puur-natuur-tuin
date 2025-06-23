@@ -1,14 +1,16 @@
-// Using raw GraphQL string to avoid codegen issues
+import { graphql } from '../../../graphql/gql';
 
-export const heroSectionIdentifier = `
+// Using typed graphql tag approach to avoid codegen issues
+
+export const heroSectionIdentifier = graphql(`
   fragment HeroSectionIdentifier on HeroSection {
     __typename
     _key
     _type
   }
-`;
+`);
 
-export const heroSectionFragment = `
+export const heroSectionFragment = graphql(`
   fragment HeroSectionFragment on HeroSection {
     _type
     _key
@@ -35,48 +37,30 @@ export const heroSectionFragment = `
       align
       maxWidth
     }
+    showButton
     ctaButton {
-      label
-      url
+      text
+      link {
+        linkType
+        internalLink {
+          _id
+          slug {
+            current
+          }
+        }
+        externalUrl
+        emailAddress
+      }
     }
     variant
   }
-`;
+`);
 
-export const heroSectionData = `
+export const heroSectionQuery = graphql(`
   query HeroSectionData {
     allHeroSection {
       _id
-      _type
-      _key
-      title
-      subtitle
-      enabled
-      backgroundImage {
-        asset {
-          url
-          metadata {
-            dimensions {
-              width
-              height
-            }
-          }
-        }
-      }
-      contentBlocks {
-        _key
-        _type
-        text
-        richText
-        variant
-        align
-        maxWidth
-      }
-      ctaButton {
-        label
-        url
-      }
-      variant
+      ...HeroSectionFragment
     }
   }
-`;
+`);

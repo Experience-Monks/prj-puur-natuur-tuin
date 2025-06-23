@@ -19,6 +19,12 @@
   margin: 0 auto;
 }
 
+.ctaWrapper {
+  display: flex;
+  justify-content: center;
+  margin-block-start: fluid-size(40, 90);
+}
+
 @include respond-to(MEDIUM) {
   .newsSection {
     padding-inline: 0;

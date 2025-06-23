@@ -1,4 +1,5 @@
 import type { SectionTypeName } from 'src/data/enum/SectionTypeName';
+import { processButtonLink } from '../../buttons/button/Button.utils';
 
 export type AboutSectionCms = {
   _type: SectionTypeName.AboutSection;
@@ -17,8 +18,16 @@ export type AboutSectionCms = {
       };
     };
   };
+  showButton?: boolean;
   ctaButton?: {
+    text?: string;
     label?: string;
+    link?: {
+      linkType?: 'internal' | 'external' | 'email';
+      internalLink?: { slug?: { current?: string } };
+      externalUrl?: string;
+      emailAddress?: string;
+    };
     url?: string;
   };
 };
@@ -32,6 +41,7 @@ export type AboutSectionProps = {
     width?: number;
     height?: number;
   };
+  showButton?: boolean;
   ctaLabel?: string;
   ctaUrl?: string;
   refs?: {
@@ -48,13 +58,14 @@ export async function aboutSectionTransformer(
       title: '',
       content: '',
       image: undefined,
+      showButton: true,
       ctaLabel: '',
       ctaUrl: '',
     };
   }
 
   // Destructure and provide defaults
-  const { title = '', content = '', image, ctaButton } = section;
+  const { title = '', content = '', image, ctaButton, showButton = true } = section;
 
   // Transform the data into the component props format
   return {
@@ -70,8 +81,9 @@ export async function aboutSectionTransformer(
           height: image.asset.metadata?.dimensions?.height,
         }
       : undefined,
+    showButton,
     // Transform CTA button
-    ctaLabel: ctaButton?.label ?? '',
-    ctaUrl: ctaButton?.url ?? '',
+    ctaLabel: ctaButton?.text ?? ctaButton?.label ?? '',
+    ctaUrl: processButtonLink(ctaButton ?? {}),
   };
 }

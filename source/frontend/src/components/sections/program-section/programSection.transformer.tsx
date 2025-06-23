@@ -3,22 +3,12 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import type { SectionTypeName } from 'src/data/enum/SectionTypeName';
 import { graphqlRequest } from 'src/net/graphql/graphqlRequest';
+import type { ProgramSectionDataQuery } from '../../../graphql/graphql';
+import { processButtonLink } from '../../buttons/button/Button.utils';
 import { programSectionData } from './ProgramSection.query';
 
 // Define the GraphQL response type
-type ProgramSectionDataResponse = {
-  allProgram?: Array<{
-    _id?: string;
-    title?: string;
-    datetime?: string;
-    description?: string;
-    image?: {
-      asset?: {
-        url?: string;
-      };
-    };
-  }>;
-};
+type ProgramSectionDataResponse = ProgramSectionDataQuery;
 
 export type ProgramSectionCms = {
   _type: SectionTypeName.ProgramSection;
@@ -34,7 +24,14 @@ export type ProgramSectionCms = {
     _ref: string;
   }>;
   ctaButton?: {
+    text?: string;
     label?: string;
+    link?: {
+      linkType?: 'internal' | 'external' | 'email';
+      internalLink?: { slug?: { current?: string } };
+      externalUrl?: string;
+      emailAddress?: string;
+    };
     url?: string;
   };
 };
@@ -53,6 +50,7 @@ export type ProgramSectionProps = {
   programs: Array<ProgramItem>;
   ctaLabel?: string;
   ctaUrl?: string;
+  showButton?: boolean;
   refs?: {
     container?: React.RefObject<HTMLDivElement>;
   };
@@ -63,37 +61,30 @@ export async function programSectionTransformer(
 ): Promise<Omit<ProgramSectionProps, 'refs'>> {
   // If enabled is explicitly set to false, don't render this section
   if (section.enabled === false) {
+    console.log('[ProgramSectionTransformer] Section disabled, returning empty title');
     return { title: '', programs: [] };
   }
 
-  // Fetch all programs from Sanity
+  // Fetch all programs from the CMS
   const response = (await graphqlRequest({
     query: programSectionData,
   })) satisfies ProgramSectionDataResponse;
-
-  // Get all available programs
   const allPrograms = response.allProgram ?? [];
-  console.log('Total programs available in CMS:', allPrograms.length);
 
-  // Determine which programs to display based on selection type
-  const selectionType = section.selectionType ?? 'automatic';
-  console.log('ProgramSection CMS settings:', {
-    selectionType: section.selectionType,
-    maxItems: section.maxItems,
-    enabled: section.enabled,
-    programItemsCount: section.programItems?.length ?? 0,
-  });
+  if (allPrograms.length === 0) {
+    console.log('[ProgramSectionTransformer] No programs found');
+    return { title: section.header?.title ?? 'Program', programs: [] };
+  }
+
+  console.log('[ProgramSectionTransformer] Found', allPrograms.length, 'programs');
+
+  // Determine the maximum number of items to display
   const maxItems = section.maxItems ?? 5;
-
   let filteredPrograms = [];
 
-  if (selectionType === 'automatic') {
-    // For automatic selection, use the latest programs up to maxItems
-    filteredPrograms = allPrograms.slice(0, maxItems);
-    console.log('Using automatic program selection with', maxItems, 'items');
-  } else if (
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    selectionType === 'manual' &&
+  // Handle manual selection if specified
+  if (
+    section.selectionType === 'manual' &&
     section.programItems &&
     section.programItems.length > 0
   ) {
@@ -136,11 +127,23 @@ export async function programSectionTransformer(
     };
   });
 
-  // This allows our code to follow the pattern while working with the current schema
+  const ctaLabel = section.ctaButton?.text ?? section.ctaButton?.label;
+  const ctaUrl = processButtonLink(section.ctaButton ?? {});
+  const showButton = Boolean(ctaLabel && ctaUrl);
+
+  console.log('[ProgramSectionTransformer] CTA props:', {
+    ctaLabel,
+    ctaUrl,
+    showButton,
+    hasCtaButton: Boolean(section.ctaButton),
+    ctaButtonText: section.ctaButton?.text,
+  });
+
   return {
     title: section.header?.title ?? 'Program',
     programs,
-    ctaLabel: section.ctaButton?.label,
-    ctaUrl: section.ctaButton?.url,
+    ctaLabel,
+    ctaUrl,
+    showButton,
   };
 }

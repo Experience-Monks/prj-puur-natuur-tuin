@@ -13,7 +13,6 @@ import carousel from './objects/carousel';
 import socialLink from './objects/socialLink';
 import blockContent from './objects/blockContent';
 import seo from './objects/seo';
-import newsSection from './objects/newsSection';
 // Component-based imports
 import introSection from './objects/components/introSection';
 import introTextBlock from './objects/fragments/introTextBlock';
@@ -25,7 +24,6 @@ import footerNavigationItem from './objects/footerNavigationItem';
 import pageLink from './objects/pageLink';
 import stickyNavigation from './objects/navigation';
 import navigationLink from './objects/navigationLink';
-import ctaButton from './objects/ctaButton';
 import textBlock from './objects/textBlock';
 import iconBlock from './objects/iconBlock';
 
@@ -37,6 +35,7 @@ import buttonFragment from './objects/fragments/button';
 import linkFragment from './objects/fragments/link';
 import sectionHeader from './objects/fragments/sectionHeader';
 import heroSection from './objects/components/heroSection';
+import newsSection from './objects/components/newsSection';
 
 export const schemaTypes = [
   // Documents
@@ -67,7 +66,6 @@ export const schemaTypes = [
   pageLink,
   stickyNavigation,
   navigationLink,
-  ctaButton,
   textBlock,
   iconBlock,
 

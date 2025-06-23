@@ -12,6 +12,7 @@ export function HeroSectionTemplate({
   subtitle,
   backgroundImage,
   contentBlocks = [],
+  showButton,
   ctaLabel,
   ctaUrl,
   className,
@@ -62,7 +63,7 @@ export function HeroSectionTemplate({
             </div>
           )}
 
-          {ctaLabel && ctaUrl && (
+          {showButton && ctaLabel && ctaUrl && (
             <div className={styles.ctaWrapper}>
               <PrimaryButton href={ctaUrl}>{ctaLabel}</PrimaryButton>
             </div>

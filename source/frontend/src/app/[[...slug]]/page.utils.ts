@@ -1,277 +1,9 @@
 import { type Maybe } from '@graphql-tools/utils';
+import { getPageBySlugQuery } from '../../data/graphql/queries/getPageBySlug.query';
+import { getSettingsQuery } from '../../data/graphql/queries/getSettings.query';
 import type { NextPageProps } from '../../definitions';
-// Import types for GraphQL responses
-import type { GetPageBySlugQuery } from '../../graphql/graphql';
+import type { GetPageBySlugQuery, GetSettingsQuery } from '../../graphql/graphql';
 import { graphqlRequest } from '../../net/graphql/graphqlRequest';
-
-// Define types for GraphQL responses - keeping for reference but using generated types now
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type PageSlug = {
-  current?: string;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type PageParent = {
-  slug?: PageSlug;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type PageType = {
-  slug?: PageSlug;
-  parent?: PageParent;
-  landing?: boolean;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type PageResponse = {
-  pages: Array<{
-    _id?: string;
-    title?: string;
-    openGraph?: {
-      title?: string;
-      description?: string;
-      image?: {
-        asset?: {
-          url?: string;
-        };
-      };
-    };
-    headerVariant?: string;
-    content?: Array<{
-      [key: string]: unknown;
-      _type: string;
-      _key?: string;
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      __typename?: string;
-    }>;
-    overwrittenMainNavigation?: Record<string, unknown>;
-    overwrittenFooter?: Record<string, unknown>;
-  }>;
-};
-
-// Keeping this for reference, but using the generated types now
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type LandingPageResponse = {
-  landingPage: Array<{
-    slug?: {
-      current?: string;
-    };
-  }>;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type SettingsResponse = {
-  settings: {
-    openGraphTitle?: string;
-    openGraphDescription?: string;
-    openGraphImage?: {
-      asset?: {
-        url?: string;
-      };
-    };
-    fallbackImage?: {
-      asset?: {
-        url?: string;
-      };
-    };
-    mainNavigation?: Record<string, unknown>;
-    mainFooter?: Record<string, unknown>;
-    nextPage?: string;
-    previousPage?: string;
-  };
-};
-
-const pageBySlugQueryString = `
-  query getPageBySlug($slug: String!) {
-    pages: allPage(where: { slug: { current: { eq: $slug } } }) {
-      _id
-      title
-      openGraph {
-        title
-        description
-        image {
-          asset {
-            url
-          }
-        }
-      }
-      headerVariant
-      content {
-        __typename
-        ... on NewsSection {
-          _type
-          _key
-          title
-          enabled
-        }
-        ... on ProgramSection {
-          _type
-          _key
-          header {
-            title
-          }
-          enabled
-        }
-        ... on IntroSection {
-          _type
-          _key
-          title
-          blocks {
-            ... on IntroTextBlock {
-              _key
-              _type
-              text
-            }
-            ... on IntroIconBlock {
-              _key
-              _type
-              iconType
-            }
-          }
-          content
-          subtitle
-          cta {
-            label
-            url
-          }
-          enabled
-        }
-        ... on HeroSection {
-          _type
-          _key
-          title
-          subtitle
-          enabled
-          backgroundImage {
-            asset {
-              url
-              metadata {
-                dimensions {
-                  width
-                  height
-                }
-              }
-            }
-          }
-          contentBlocks {
-            _key
-            _type
-            text
-            richText
-            variant
-            align
-            maxWidth
-          }
-          ctaButton {
-            label
-            url
-          }
-          variant
-        }
-        ... on GallerySection {
-          _type
-          _key
-          images {
-            asset {
-              url
-            }
-          }
-          enabled
-        }
-        ... on AboutSection {
-          _type
-          _key
-          title
-          content
-          image {
-            asset {
-              url
-              metadata {
-                dimensions {
-                  width
-                  height
-                }
-              }
-            }
-          }
-          ctaButton {
-            label
-            url
-          }
-        }
-        ... on HeroSection {
-          _type
-          _key
-          enabled
-          title
-          subtitle
-          backgroundImage {
-            asset {
-              url
-              metadata {
-                dimensions {
-                  width
-                  height
-                }
-              }
-            }
-          }
-          contentBlocks {
-            _key
-            _type
-            text
-            richText
-            variant
-            align
-            maxWidth
-          }
-          ctaButton {
-            label
-            url
-          }
-          variant
-        }
-      }
-      overwrittenMainNavigation {
-        _id
-        _type
-      }
-      overwrittenFooter {
-        _id
-        _type
-      }
-    }
-  }
-`;
-
-const settingsQueryString = `
-  query getSettings {
-    settings: allSiteSettings(limit: 1) {
-      openGraphTitle
-      openGraphDescription
-      openGraphImage {
-        asset {
-          url
-        }
-      }
-      fallbackImage {
-        asset {
-          url
-        }
-      }
-      mainNavigation {
-        _id
-        _type
-      }
-      mainFooter {
-        _id
-        _type
-      }
-      nextPage
-      previousPage
-    }
-  }
-`;
 
 // Define TransformerPageData type
 export type TransformerPageData = {
@@ -288,10 +20,16 @@ export type TransformerPageData = {
  *
  * @param pages
  */
-export function getFullPageSegments(pages: Array<PageType>): Array<Array<string>> {
+export function getFullPageSegments<
+  T extends Array<{
+    slug?: { current?: string };
+    parent?: { slug?: { current?: string } };
+    landing?: boolean;
+  }>,
+>(pages: T): Array<Array<string>> {
   const paths: Array<Array<string>> = [];
 
-  function buildPathSegments(page: PageType): Array<string> {
+  function buildPathSegments(page: T[number]): Array<string> {
     const segments: Array<string> = [page.slug?.current ?? ''];
 
     if (page.parent) {
@@ -330,7 +68,7 @@ export async function getLandingPageSlug(): Promise<string> {
  */
 export async function getPageData({
   params: { slug = [''] },
-}: NextPageProps): Promise<PageResponse['pages'][number] | undefined> {
+}: NextPageProps): Promise<GetPageBySlugQuery['pages'][number] | undefined> {
   // If we don't have a slug, we need to get the landing page slug
   // Try both 'homepage' and 'puurnatuurtuin' as fallbacks
   let pageSlug = slug[0] ?? '';
@@ -339,32 +77,24 @@ export async function getPageData({
     // Try to get the landing page first
     const landingPageSlug = await getLandingPageSlug();
     // Use fallback if landingPageSlug is null or undefined
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     pageSlug = landingPageSlug ?? 'puurnatuurtuin';
   }
 
   // Retrieve the page data for the given slug
-  const { pages } = await graphqlRequest<GetPageBySlugQuery>({
-    query: pageBySlugQueryString,
-    variables: { slug: pageSlug },
-  });
+  const { pages } = await getPageBySlug(pageSlug);
 
   // If we couldn't find the page with the current slug, try the fallback
   if (pages.length === 0) {
     if (pageSlug === 'homepage') {
       // Try 'puurnatuurtuin' as a fallback
-      const { pages: fallbackPages } = await graphqlRequest<GetPageBySlugQuery>({
-        query: pageBySlugQueryString,
-        variables: { slug: 'puurnatuurtuin' },
-      });
+      const { pages: fallbackPages } = await getPageBySlug('puurnatuurtuin');
       return fallbackPages.length > 0 ? fallbackPages[0] : undefined;
     }
 
     if (pageSlug === 'puurnatuurtuin') {
       // Try 'homepage' as a fallback
-      const { pages: fallbackPages } = await graphqlRequest<GetPageBySlugQuery>({
-        query: pageBySlugQueryString,
-        variables: { slug: 'homepage' },
-      });
+      const { pages: fallbackPages } = await getPageBySlug('homepage');
       return fallbackPages.length > 0 ? fallbackPages[0] : undefined;
     }
   }
@@ -384,20 +114,7 @@ export async function getGlobalPageData(
   footer: Record<string, unknown>;
 }> {
   // Use a more specific type for the settings response that matches the actual schema
-  const response = await graphqlRequest<{
-    settings: Array<{
-      openGraphTitle?: string | null;
-      openGraphDescription?: string | null;
-      openGraphImage?: { asset?: { url?: string | null } | null } | null;
-      fallbackImage?: { asset?: { url?: string | null } | null } | null;
-      mainNavigation?: Record<string, unknown> | null;
-      mainFooter?: Record<string, unknown> | null;
-      nextPage?: string | null;
-      previousPage?: string | null;
-    }>;
-  }>({
-    query: settingsQueryString,
-  });
+  const response = await getSettings();
 
   // Get the first settings object (there should only be one)
   const settingsItem = response.settings[0] ?? {};
@@ -418,4 +135,17 @@ export async function getGlobalPageData(
     header: settingsItem.mainNavigation ?? {},
     footer: settingsItem.mainFooter ?? {},
   };
+}
+
+export async function getPageBySlug(slug: string): Promise<GetPageBySlugQuery> {
+  return graphqlRequest<GetPageBySlugQuery, { slug: string }>({
+    query: getPageBySlugQuery,
+    variables: { slug },
+  });
+}
+
+export async function getSettings(): Promise<GetSettingsQuery> {
+  return graphqlRequest<GetSettingsQuery>({
+    query: getSettingsQuery,
+  });
 }

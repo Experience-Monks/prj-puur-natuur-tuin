@@ -1,41 +1,44 @@
-// Using raw GraphQL string to avoid codegen issues until backend is deployed
+// Using graphql tag approach
 
-export const programSectionIdentifier = `
+import { graphql } from '../../../graphql/gql';
+
+export const programSectionIdentifier = graphql(`
   fragment ProgramSectionIdentifier on ProgramSection {
     __typename
     _key
     _type
   }
-`;
+`);
 
-export const programSection = `
-  query ProgramSection($key: String!) {
-    # Query for the program section by key
-    # This now needs to be part of the page content query
-    # as standalone section queries are no longer supported
-    allPage {
-      content {
-        ... on ProgramSection {
-          _type
-          _key
-          title
-          enabled
-          selectionType
-          maxItems
-          programItems {
-            ... on Reference {
-              _ref
-            }
+export const programSectionFragment = graphql(`
+  fragment ProgramSectionFragment on ProgramSection {
+    _type
+    _key
+    header {
+      title
+    }
+    enabled
+    showButton
+    ctaButton {
+      text
+      link {
+        linkType
+        internalLink {
+          _id
+          slug {
+            current
           }
         }
+        externalUrl
+        emailAddress
       }
     }
   }
-`;
+`);
 
-export const programSectionData = `
+export const programSectionData = graphql(`
   query ProgramSectionData {
-    allProgram(sort: [{datetime: DESC}]) {
+    allProgram(sort: { datetime: DESC }) {
       _id
       title
       datetime
@@ -47,4 +50,4 @@ export const programSectionData = `
       }
     }
   }
-`;
+`);

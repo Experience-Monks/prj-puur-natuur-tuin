@@ -1,32 +1,44 @@
-// Using raw GraphQL string to avoid codegen issues until backend is deployed
+// Using graphql tag approach
 
-export const newsSectionIdentifier = `
+import { graphql } from '../../../graphql/gql';
+
+export const newsSectionIdentifier = graphql(`
   fragment NewsSectionIdentifier on NewsSection {
     __typename
     _key
     _type
   }
-`;
+`);
 
-export const newsSectionFragment = `
+export const newsSectionFragment = graphql(`
   fragment NewsSectionFragment on NewsSection {
     _type
     _key
-    title
+    header {
+      title
+    }
     enabled
-    selectionType
-    maxItems
-    newsItems {
-      ... on Reference {
-        _ref
+    showButton
+    ctaButton {
+      text
+      link {
+        linkType
+        internalLink {
+          _id
+          slug {
+            current
+          }
+        }
+        externalUrl
+        emailAddress
       }
     }
   }
-`;
+`);
 
-export const newsSectionData = `
+export const newsSectionData = graphql(`
   query NewsSectionData {
-    allNews(sort: [{_createdAt: DESC}]) {
+    allNews(sort: { date: DESC }) {
       _id
       title
       date
@@ -37,4 +49,4 @@ export const newsSectionData = `
       }
     }
   }
-`;
+`);

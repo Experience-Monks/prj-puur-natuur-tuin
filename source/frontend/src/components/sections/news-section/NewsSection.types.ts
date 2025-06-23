@@ -15,5 +15,8 @@ export type NewsSectionProps = {
   title: string;
   subtitle?: string;
   news: Array<News>;
+  showButton?: boolean;
+  ctaLabel?: string;
+  ctaUrl?: string;
   refs: NewsSectionRefs;
 };

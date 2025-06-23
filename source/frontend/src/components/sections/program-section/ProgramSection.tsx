@@ -21,6 +21,7 @@ type Program = {
 type ProgramSectionProps = {
   title: string;
   programs: Array<Program>;
+  showButton?: boolean;
   ctaLabel?: string;
   ctaUrl?: string;
 };
@@ -30,7 +31,7 @@ export type ProgramSectionRefs = MutableRefs<{
 }>;
 
 export const ProgramSection = ensuredForwardRef<HTMLDivElement, ProgramSectionProps>(
-  ({ title, programs, ctaLabel, ctaUrl }, ref): ReactElement => {
+  ({ title, programs, showButton, ctaLabel, ctaUrl }, ref): ReactElement => {
     const refs = useRefs<ProgramSectionRefs>({
       self: ref,
     });
@@ -50,7 +51,7 @@ export const ProgramSection = ensuredForwardRef<HTMLDivElement, ProgramSectionPr
             </li>
           ))}
         </ul>
-        {ctaLabel && ctaUrl && (
+        {showButton && ctaLabel && ctaUrl && (
           <div className={styles.ctaWrapper}>
             <PrimaryButton href={ctaUrl}>{ctaLabel}</PrimaryButton>
           </div>

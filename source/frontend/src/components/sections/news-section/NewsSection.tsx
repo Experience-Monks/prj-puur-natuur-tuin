@@ -13,6 +13,6 @@ export const NewsSection = ensuredForwardRef<HTMLDivElement, Omit<NewsSectionPro
     useEnabledAnimation(() => createInAnimation(refs), [refs]);
     useEnabledBeforeUnmount(async () => createOutAnimation(refs));
 
-    return <NewsSectionTemplate title={props.title} news={props.news} refs={refs} />;
+    return <NewsSectionTemplate {...props} refs={refs} />;
   },
 );

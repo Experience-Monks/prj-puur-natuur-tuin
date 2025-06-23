@@ -35,6 +35,7 @@ type IconType = IntroIconType;
 type IntroSectionProps = {
   content?: string;
   subtitle?: string;
+  showButton?: boolean;
   ctaLabel?: string;
   ctaUrl?: string;
   blocks?: Array<IntroBlock>;
@@ -45,7 +46,7 @@ export type IntroSectionRefs = MutableRefs<{
 }>;
 
 export const IntroSection = ensuredForwardRef<HTMLDivElement, IntroSectionProps>(
-  ({ content, subtitle, ctaLabel, ctaUrl, blocks = [] }, ref): ReactElement => {
+  ({ content, subtitle, showButton, ctaLabel, ctaUrl, blocks = [] }, ref): ReactElement => {
     const refs = useRefs<IntroSectionRefs>({
       self: ref,
     });
@@ -107,7 +108,7 @@ export const IntroSection = ensuredForwardRef<HTMLDivElement, IntroSectionProps>
               </Copy>
             )}
 
-            {ctaLabel && ctaUrl && (
+            {showButton && ctaLabel && ctaUrl && (
               <div className={styles.ctaWrapper}>
                 <PrimaryButton href={ctaUrl}>{ctaLabel}</PrimaryButton>
               </div>

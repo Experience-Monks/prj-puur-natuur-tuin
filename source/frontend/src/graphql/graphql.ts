@@ -1,6 +1,5 @@
 /* eslint-disable */
 import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
-
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -40,7 +39,7 @@ export type AboutSection = Document & {
   _updatedAt?: Maybe<Scalars['DateTime']['output']>;
   /** Main text content for the about section */
   content?: Maybe<Scalars['String']['output']>;
-  ctaButton?: Maybe<CtaButton>;
+  ctaButton?: Maybe<ButtonFragment>;
   /** Controls whether this section is displayed */
   enabled?: Maybe<Scalars['Boolean']['output']>;
   image?: Maybe<Image>;
@@ -48,6 +47,8 @@ export type AboutSection = Document & {
   marginBottom?: Maybe<Scalars['String']['output']>;
   /** Space above the component */
   marginTop?: Maybe<Scalars['String']['output']>;
+  /** Toggle to show or hide the call to action button */
+  showButton?: Maybe<Scalars['Boolean']['output']>;
   /** Main heading for the about section */
   title?: Maybe<Scalars['String']['output']>;
 };
@@ -62,11 +63,12 @@ export type AboutSectionFilter = {
   _type?: InputMaybe<StringFilter>;
   _updatedAt?: InputMaybe<DatetimeFilter>;
   content?: InputMaybe<StringFilter>;
-  ctaButton?: InputMaybe<CtaButtonFilter>;
+  ctaButton?: InputMaybe<ButtonFragmentFilter>;
   enabled?: InputMaybe<BooleanFilter>;
   image?: InputMaybe<ImageFilter>;
   marginBottom?: InputMaybe<StringFilter>;
   marginTop?: InputMaybe<StringFilter>;
+  showButton?: InputMaybe<BooleanFilter>;
   title?: InputMaybe<StringFilter>;
 };
 
@@ -96,11 +98,12 @@ export type AboutSectionSorting = {
   _type?: InputMaybe<SortOrder>;
   _updatedAt?: InputMaybe<SortOrder>;
   content?: InputMaybe<SortOrder>;
-  ctaButton?: InputMaybe<CtaButtonSorting>;
+  ctaButton?: InputMaybe<ButtonFragmentSorting>;
   enabled?: InputMaybe<SortOrder>;
   image?: InputMaybe<ImageSorting>;
   marginBottom?: InputMaybe<SortOrder>;
   marginTop?: InputMaybe<SortOrder>;
+  showButton?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
 };
 
@@ -130,7 +133,6 @@ export type ButtonFragment = {
   _key?: Maybe<Scalars['String']['output']>;
   _type?: Maybe<Scalars['String']['output']>;
   link?: Maybe<LinkFragment>;
-  style?: Maybe<Scalars['String']['output']>;
   text?: Maybe<Scalars['String']['output']>;
 };
 
@@ -138,7 +140,6 @@ export type ButtonFragmentFilter = {
   _key?: InputMaybe<StringFilter>;
   _type?: InputMaybe<StringFilter>;
   link?: InputMaybe<LinkFragmentFilter>;
-  style?: InputMaybe<StringFilter>;
   text?: InputMaybe<StringFilter>;
 };
 
@@ -146,7 +147,6 @@ export type ButtonFragmentSorting = {
   _key?: InputMaybe<SortOrder>;
   _type?: InputMaybe<SortOrder>;
   link?: InputMaybe<LinkFragmentSorting>;
-  style?: InputMaybe<SortOrder>;
   text?: InputMaybe<SortOrder>;
 };
 
@@ -193,28 +193,6 @@ export type CrossDatasetReferenceSorting = {
   _ref?: InputMaybe<SortOrder>;
   _type?: InputMaybe<SortOrder>;
   _weak?: InputMaybe<SortOrder>;
-};
-
-export type CtaButton = {
-  __typename?: 'CtaButton';
-  _key?: Maybe<Scalars['String']['output']>;
-  _type?: Maybe<Scalars['String']['output']>;
-  label?: Maybe<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
-};
-
-export type CtaButtonFilter = {
-  _key?: InputMaybe<StringFilter>;
-  _type?: InputMaybe<StringFilter>;
-  label?: InputMaybe<StringFilter>;
-  url?: InputMaybe<StringFilter>;
-};
-
-export type CtaButtonSorting = {
-  _key?: InputMaybe<SortOrder>;
-  _type?: InputMaybe<SortOrder>;
-  label?: InputMaybe<SortOrder>;
-  url?: InputMaybe<SortOrder>;
 };
 
 export type DateFilter = {
@@ -504,13 +482,15 @@ export type HeroSection = Document & {
   _updatedAt?: Maybe<Scalars['DateTime']['output']>;
   backgroundImage?: Maybe<Image>;
   contentBlocks?: Maybe<Array<Maybe<TextBlock>>>;
-  ctaButton?: Maybe<CtaButton>;
+  ctaButton?: Maybe<ButtonFragment>;
   /** Controls whether this section is displayed */
   enabled?: Maybe<Scalars['Boolean']['output']>;
   /** Space below the component */
   marginBottom?: Maybe<Scalars['String']['output']>;
   /** Space above the component */
   marginTop?: Maybe<Scalars['String']['output']>;
+  /** Toggle to show or hide the call to action button */
+  showButton?: Maybe<Scalars['Boolean']['output']>;
   /** Secondary heading for the hero section */
   subtitle?: Maybe<Scalars['String']['output']>;
   /** Main heading for the hero section */
@@ -529,10 +509,11 @@ export type HeroSectionFilter = {
   _type?: InputMaybe<StringFilter>;
   _updatedAt?: InputMaybe<DatetimeFilter>;
   backgroundImage?: InputMaybe<ImageFilter>;
-  ctaButton?: InputMaybe<CtaButtonFilter>;
+  ctaButton?: InputMaybe<ButtonFragmentFilter>;
   enabled?: InputMaybe<BooleanFilter>;
   marginBottom?: InputMaybe<StringFilter>;
   marginTop?: InputMaybe<StringFilter>;
+  showButton?: InputMaybe<BooleanFilter>;
   subtitle?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
   variant?: InputMaybe<StringFilter>;
@@ -546,10 +527,11 @@ export type HeroSectionSorting = {
   _type?: InputMaybe<SortOrder>;
   _updatedAt?: InputMaybe<SortOrder>;
   backgroundImage?: InputMaybe<ImageSorting>;
-  ctaButton?: InputMaybe<CtaButtonSorting>;
+  ctaButton?: InputMaybe<ButtonFragmentSorting>;
   enabled?: InputMaybe<SortOrder>;
   marginBottom?: InputMaybe<SortOrder>;
   marginTop?: InputMaybe<SortOrder>;
+  showButton?: InputMaybe<SortOrder>;
   subtitle?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
   variant?: InputMaybe<SortOrder>;
@@ -718,13 +700,15 @@ export type IntroSection = Document & {
   _updatedAt?: Maybe<Scalars['DateTime']['output']>;
   blocks?: Maybe<Array<Maybe<IntroIconBlockOrIntroTextBlock>>>;
   content?: Maybe<Scalars['String']['output']>;
-  cta?: Maybe<CtaButton>;
+  cta?: Maybe<ButtonFragment>;
   /** Controls whether this section is displayed */
   enabled?: Maybe<Scalars['Boolean']['output']>;
   /** Space below the component */
   marginBottom?: Maybe<Scalars['String']['output']>;
   /** Space above the component */
   marginTop?: Maybe<Scalars['String']['output']>;
+  /** Toggle to show or hide the call to action button */
+  showButton?: Maybe<Scalars['Boolean']['output']>;
   subtitle?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
 };
@@ -739,10 +723,11 @@ export type IntroSectionFilter = {
   _type?: InputMaybe<StringFilter>;
   _updatedAt?: InputMaybe<DatetimeFilter>;
   content?: InputMaybe<StringFilter>;
-  cta?: InputMaybe<CtaButtonFilter>;
+  cta?: InputMaybe<ButtonFragmentFilter>;
   enabled?: InputMaybe<BooleanFilter>;
   marginBottom?: InputMaybe<StringFilter>;
   marginTop?: InputMaybe<StringFilter>;
+  showButton?: InputMaybe<BooleanFilter>;
   subtitle?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
 };
@@ -755,10 +740,11 @@ export type IntroSectionSorting = {
   _type?: InputMaybe<SortOrder>;
   _updatedAt?: InputMaybe<SortOrder>;
   content?: InputMaybe<SortOrder>;
-  cta?: InputMaybe<CtaButtonSorting>;
+  cta?: InputMaybe<ButtonFragmentSorting>;
   enabled?: InputMaybe<SortOrder>;
   marginBottom?: InputMaybe<SortOrder>;
   marginTop?: InputMaybe<SortOrder>;
+  showButton?: InputMaybe<SortOrder>;
   subtitle?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
 };
@@ -786,21 +772,27 @@ export type LinkFragment = {
   __typename?: 'LinkFragment';
   _key?: Maybe<Scalars['String']['output']>;
   _type?: Maybe<Scalars['String']['output']>;
+  /** Enter email address without "mailto:" prefix (e.g., contact@example.com) */
+  emailAddress?: Maybe<Scalars['String']['output']>;
+  /** Include the full URL with protocol (e.g., https://example.com) */
   externalUrl?: Maybe<Scalars['String']['output']>;
-  internalLink?: Maybe<NewsOrPageOrProgram>;
+  internalLink?: Maybe<Page>;
   linkType?: Maybe<Scalars['String']['output']>;
 };
 
 export type LinkFragmentFilter = {
   _key?: InputMaybe<StringFilter>;
   _type?: InputMaybe<StringFilter>;
+  emailAddress?: InputMaybe<StringFilter>;
   externalUrl?: InputMaybe<StringFilter>;
+  internalLink?: InputMaybe<PageFilter>;
   linkType?: InputMaybe<StringFilter>;
 };
 
 export type LinkFragmentSorting = {
   _key?: InputMaybe<SortOrder>;
   _type?: InputMaybe<SortOrder>;
+  emailAddress?: InputMaybe<SortOrder>;
   externalUrl?: InputMaybe<SortOrder>;
   linkType?: InputMaybe<SortOrder>;
 };
@@ -913,36 +905,68 @@ export type NewsFilter = {
   title?: InputMaybe<StringFilter>;
 };
 
-export type NewsOrPageOrProgram = News | Page | Program;
-
-export type NewsSection = {
+export type NewsSection = Document & {
   __typename?: 'NewsSection';
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']['output']>;
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']['output']>;
   _key?: Maybe<Scalars['String']['output']>;
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']['output']>;
+  /** Document type */
   _type?: Maybe<Scalars['String']['output']>;
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  ctaButton?: Maybe<ButtonFragment>;
+  displayMode?: Maybe<Scalars['String']['output']>;
+  /** Controls whether this section is displayed */
   enabled?: Maybe<Scalars['Boolean']['output']>;
-  /** Maximum aantal nieuws items om weer te geven */
+  header?: Maybe<SectionHeader>;
+  manualItems?: Maybe<Array<Maybe<News>>>;
+  /** Space below the component */
+  marginBottom?: Maybe<Scalars['String']['output']>;
+  /** Space above the component */
+  marginTop?: Maybe<Scalars['String']['output']>;
   maxItems?: Maybe<Scalars['Float']['output']>;
-  newsItems?: Maybe<Array<Maybe<News>>>;
-  selectionType?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
+  /** Toggle to show or hide the call to action button */
+  showButton?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type NewsSectionFilter = {
+  /** Apply filters on document level */
+  _?: InputMaybe<SanityDocumentFilter>;
+  _createdAt?: InputMaybe<DatetimeFilter>;
+  _id?: InputMaybe<IdFilter>;
   _key?: InputMaybe<StringFilter>;
+  _rev?: InputMaybe<StringFilter>;
   _type?: InputMaybe<StringFilter>;
+  _updatedAt?: InputMaybe<DatetimeFilter>;
+  ctaButton?: InputMaybe<ButtonFragmentFilter>;
+  displayMode?: InputMaybe<StringFilter>;
   enabled?: InputMaybe<BooleanFilter>;
+  header?: InputMaybe<SectionHeaderFilter>;
+  marginBottom?: InputMaybe<StringFilter>;
+  marginTop?: InputMaybe<StringFilter>;
   maxItems?: InputMaybe<FloatFilter>;
-  selectionType?: InputMaybe<StringFilter>;
-  title?: InputMaybe<StringFilter>;
+  showButton?: InputMaybe<BooleanFilter>;
 };
 
 export type NewsSectionSorting = {
+  _createdAt?: InputMaybe<SortOrder>;
+  _id?: InputMaybe<SortOrder>;
   _key?: InputMaybe<SortOrder>;
+  _rev?: InputMaybe<SortOrder>;
   _type?: InputMaybe<SortOrder>;
+  _updatedAt?: InputMaybe<SortOrder>;
+  ctaButton?: InputMaybe<ButtonFragmentSorting>;
+  displayMode?: InputMaybe<SortOrder>;
   enabled?: InputMaybe<SortOrder>;
+  header?: InputMaybe<SectionHeaderSorting>;
+  marginBottom?: InputMaybe<SortOrder>;
+  marginTop?: InputMaybe<SortOrder>;
   maxItems?: InputMaybe<SortOrder>;
-  selectionType?: InputMaybe<SortOrder>;
-  title?: InputMaybe<SortOrder>;
+  showButton?: InputMaybe<SortOrder>;
 };
 
 export type NewsSorting = {
@@ -1135,6 +1159,8 @@ export type ProgramSection = Document & {
   /** Space above the component */
   marginTop?: Maybe<Scalars['String']['output']>;
   maxItems?: Maybe<Scalars['Float']['output']>;
+  /** Toggle to show or hide the call to action button */
+  showButton?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ProgramSectionFilter = {
@@ -1153,6 +1179,7 @@ export type ProgramSectionFilter = {
   marginBottom?: InputMaybe<StringFilter>;
   marginTop?: InputMaybe<StringFilter>;
   maxItems?: InputMaybe<FloatFilter>;
+  showButton?: InputMaybe<BooleanFilter>;
 };
 
 export type ProgramSectionSorting = {
@@ -1169,6 +1196,7 @@ export type ProgramSectionSorting = {
   marginBottom?: InputMaybe<SortOrder>;
   marginTop?: InputMaybe<SortOrder>;
   maxItems?: InputMaybe<SortOrder>;
+  showButton?: InputMaybe<SortOrder>;
 };
 
 export type ProgramSorting = {
@@ -1197,6 +1225,7 @@ export type RootQuery = {
   IntroSection?: Maybe<IntroSection>;
   Navigation?: Maybe<Navigation>;
   News?: Maybe<News>;
+  NewsSection?: Maybe<NewsSection>;
   Page?: Maybe<Page>;
   Program?: Maybe<Program>;
   ProgramSection?: Maybe<ProgramSection>;
@@ -1212,6 +1241,7 @@ export type RootQuery = {
   allIntroSection: Array<IntroSection>;
   allNavigation: Array<Navigation>;
   allNews: Array<News>;
+  allNewsSection: Array<NewsSection>;
   allPage: Array<Page>;
   allProgram: Array<Program>;
   allProgramSection: Array<ProgramSection>;
@@ -1253,6 +1283,10 @@ export type RootQueryNavigationArgs = {
 };
 
 export type RootQueryNewsArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type RootQueryNewsSectionArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -1341,6 +1375,13 @@ export type RootQueryAllNewsArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   sort?: InputMaybe<Array<NewsSorting>>;
   where?: InputMaybe<NewsFilter>;
+};
+
+export type RootQueryAllNewsSectionArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Array<NewsSectionSorting>>;
+  where?: InputMaybe<NewsSectionFilter>;
 };
 
 export type RootQueryAllPageArgs = {
@@ -2005,6 +2046,298 @@ export type TextBlockSorting = {
   variant?: InputMaybe<SortOrder>;
 };
 
+export type HeroSectionIdentifierFragment = {
+  __typename: 'HeroSection';
+  _key?: string | null;
+  _type?: string | null;
+};
+
+export type HeroSectionFragmentFragment = {
+  __typename?: 'HeroSection';
+  _type?: string | null;
+  _key?: string | null;
+  title?: string | null;
+  subtitle?: string | null;
+  enabled?: boolean | null;
+  showButton?: boolean | null;
+  variant?: string | null;
+  backgroundImage?: {
+    __typename?: 'Image';
+    asset?: {
+      __typename?: 'SanityImageAsset';
+      url?: string | null;
+      metadata?: {
+        __typename?: 'SanityImageMetadata';
+        dimensions?: {
+          __typename?: 'SanityImageDimensions';
+          width?: number | null;
+          height?: number | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+  contentBlocks?: Array<{
+    __typename?: 'TextBlock';
+    _key?: string | null;
+    _type?: string | null;
+    text?: string | null;
+    richText?: boolean | null;
+    variant?: string | null;
+    align?: string | null;
+    maxWidth?: number | null;
+  } | null> | null;
+  ctaButton?: {
+    __typename?: 'ButtonFragment';
+    text?: string | null;
+    link?: {
+      __typename?: 'LinkFragment';
+      linkType?: string | null;
+      externalUrl?: string | null;
+      emailAddress?: string | null;
+      internalLink?: {
+        __typename?: 'Page';
+        _id?: string | null;
+        slug?: { __typename?: 'Slug'; current?: string | null } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type HeroSectionDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type HeroSectionDataQuery = {
+  __typename?: 'RootQuery';
+  allHeroSection: Array<{
+    __typename?: 'HeroSection';
+    _id?: string | null;
+    _type?: string | null;
+    _key?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    enabled?: boolean | null;
+    showButton?: boolean | null;
+    variant?: string | null;
+    backgroundImage?: {
+      __typename?: 'Image';
+      asset?: {
+        __typename?: 'SanityImageAsset';
+        url?: string | null;
+        metadata?: {
+          __typename?: 'SanityImageMetadata';
+          dimensions?: {
+            __typename?: 'SanityImageDimensions';
+            width?: number | null;
+            height?: number | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+    contentBlocks?: Array<{
+      __typename?: 'TextBlock';
+      _key?: string | null;
+      _type?: string | null;
+      text?: string | null;
+      richText?: boolean | null;
+      variant?: string | null;
+      align?: string | null;
+      maxWidth?: number | null;
+    } | null> | null;
+    ctaButton?: {
+      __typename?: 'ButtonFragment';
+      text?: string | null;
+      link?: {
+        __typename?: 'LinkFragment';
+        linkType?: string | null;
+        externalUrl?: string | null;
+        emailAddress?: string | null;
+        internalLink?: {
+          __typename?: 'Page';
+          _id?: string | null;
+          slug?: { __typename?: 'Slug'; current?: string | null } | null;
+        } | null;
+      } | null;
+    } | null;
+  }>;
+};
+
+export type IntroSectionFragmentFragment = {
+  __typename: 'IntroSection';
+  _key?: string | null;
+  _type?: string | null;
+  _id?: string | null;
+  title?: string | null;
+  subtitle?: string | null;
+  enabled?: boolean | null;
+  content?: string | null;
+  blocks?: Array<
+    | {
+        __typename?: 'IntroIconBlock';
+        _key?: string | null;
+        _type?: string | null;
+        iconType?: string | null;
+      }
+    | {
+        __typename?: 'IntroTextBlock';
+        _key?: string | null;
+        _type?: string | null;
+        text?: string | null;
+      }
+    | null
+  > | null;
+  cta?: {
+    __typename?: 'ButtonFragment';
+    text?: string | null;
+    link?: {
+      __typename?: 'LinkFragment';
+      linkType?: string | null;
+      externalUrl?: string | null;
+      emailAddress?: string | null;
+      internalLink?: {
+        __typename?: 'Page';
+        slug?: { __typename?: 'Slug'; current?: string | null } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type IntroSectionDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type IntroSectionDataQuery = {
+  __typename?: 'RootQuery';
+  allIntroSection: Array<{
+    __typename: 'IntroSection';
+    _id?: string | null;
+    _key?: string | null;
+    _type?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    enabled?: boolean | null;
+    content?: string | null;
+    blocks?: Array<
+      | {
+          __typename?: 'IntroIconBlock';
+          _key?: string | null;
+          _type?: string | null;
+          iconType?: string | null;
+        }
+      | {
+          __typename?: 'IntroTextBlock';
+          _key?: string | null;
+          _type?: string | null;
+          text?: string | null;
+        }
+      | null
+    > | null;
+    cta?: {
+      __typename?: 'ButtonFragment';
+      text?: string | null;
+      link?: {
+        __typename?: 'LinkFragment';
+        linkType?: string | null;
+        externalUrl?: string | null;
+        emailAddress?: string | null;
+        internalLink?: {
+          __typename?: 'Page';
+          slug?: { __typename?: 'Slug'; current?: string | null } | null;
+        } | null;
+      } | null;
+    } | null;
+  }>;
+};
+
+export type NewsSectionIdentifierFragment = {
+  __typename: 'NewsSection';
+  _key?: string | null;
+  _type?: string | null;
+};
+
+export type NewsSectionFragmentFragment = {
+  __typename?: 'NewsSection';
+  _type?: string | null;
+  _key?: string | null;
+  enabled?: boolean | null;
+  showButton?: boolean | null;
+  header?: { __typename?: 'SectionHeader'; title?: string | null } | null;
+  ctaButton?: {
+    __typename?: 'ButtonFragment';
+    text?: string | null;
+    link?: {
+      __typename?: 'LinkFragment';
+      linkType?: string | null;
+      externalUrl?: string | null;
+      emailAddress?: string | null;
+      internalLink?: {
+        __typename?: 'Page';
+        _id?: string | null;
+        slug?: { __typename?: 'Slug'; current?: string | null } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type NewsSectionDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type NewsSectionDataQuery = {
+  __typename?: 'RootQuery';
+  allNews: Array<{
+    __typename?: 'News';
+    _id?: string | null;
+    title?: string | null;
+    date?: string | null;
+    icon?: {
+      __typename?: 'Image';
+      asset?: { __typename?: 'SanityImageAsset'; url?: string | null } | null;
+    } | null;
+  }>;
+};
+
+export type ProgramSectionIdentifierFragment = {
+  __typename: 'ProgramSection';
+  _key?: string | null;
+  _type?: string | null;
+};
+
+export type ProgramSectionFragmentFragment = {
+  __typename?: 'ProgramSection';
+  _type?: string | null;
+  _key?: string | null;
+  enabled?: boolean | null;
+  showButton?: boolean | null;
+  header?: { __typename?: 'SectionHeader'; title?: string | null } | null;
+  ctaButton?: {
+    __typename?: 'ButtonFragment';
+    text?: string | null;
+    link?: {
+      __typename?: 'LinkFragment';
+      linkType?: string | null;
+      externalUrl?: string | null;
+      emailAddress?: string | null;
+      internalLink?: {
+        __typename?: 'Page';
+        _id?: string | null;
+        slug?: { __typename?: 'Slug'; current?: string | null } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type ProgramSectionDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ProgramSectionDataQuery = {
+  __typename?: 'RootQuery';
+  allProgram: Array<{
+    __typename?: 'Program';
+    _id?: string | null;
+    title?: string | null;
+    datetime?: string | null;
+    description?: string | null;
+    image?: {
+      __typename?: 'Image';
+      asset?: { __typename?: 'SanityImageAsset'; url?: string | null } | null;
+    } | null;
+  }>;
+};
+
 export type AboutSectionIdentifierFragment = {
   __typename: 'AboutSection';
   _key?: string | null;
@@ -2019,18 +2352,6 @@ export type GallerySectionIdentifierFragment = {
 
 export type IntroSectionIdentifierFragment = {
   __typename: 'IntroSection';
-  _key?: string | null;
-  _type?: string | null;
-};
-
-export type NewsSectionIdentifierFragment = {
-  __typename: 'NewsSection';
-  _key?: string | null;
-  _type?: string | null;
-};
-
-export type ProgramSectionIdentifierFragment = {
-  __typename: 'ProgramSection';
   _key?: string | null;
   _type?: string | null;
 };
@@ -2096,28 +2417,179 @@ export type GetPageBySlugQuery = {
           content?: string | null;
           image?: {
             __typename?: 'Image';
-            asset?: { __typename?: 'SanityImageAsset'; url?: string | null } | null;
+            asset?: {
+              __typename?: 'SanityImageAsset';
+              url?: string | null;
+              metadata?: {
+                __typename?: 'SanityImageMetadata';
+                dimensions?: {
+                  __typename?: 'SanityImageDimensions';
+                  width?: number | null;
+                  height?: number | null;
+                } | null;
+              } | null;
+            } | null;
           } | null;
           ctaButton?: {
-            __typename?: 'CtaButton';
-            label?: string | null;
-            url?: string | null;
+            __typename?: 'ButtonFragment';
+            text?: string | null;
+            link?: {
+              __typename?: 'LinkFragment';
+              linkType?: string | null;
+              externalUrl?: string | null;
+              emailAddress?: string | null;
+              internalLink?: {
+                __typename?: 'Page';
+                _id?: string | null;
+                slug?: { __typename?: 'Slug'; current?: string | null } | null;
+              } | null;
+            } | null;
           } | null;
         }
-      | { __typename: 'GallerySection' }
-      | { __typename: 'HeroSection' }
-      | { __typename: 'IntroSection' }
+      | {
+          __typename: 'GallerySection';
+          _type?: string | null;
+          _key?: string | null;
+          enabled?: boolean | null;
+          images?: Array<{
+            __typename?: 'Image';
+            asset?: { __typename?: 'SanityImageAsset'; url?: string | null } | null;
+          } | null> | null;
+        }
+      | {
+          __typename: 'HeroSection';
+          _type?: string | null;
+          _key?: string | null;
+          title?: string | null;
+          subtitle?: string | null;
+          enabled?: boolean | null;
+          variant?: string | null;
+          backgroundImage?: {
+            __typename?: 'Image';
+            asset?: {
+              __typename?: 'SanityImageAsset';
+              url?: string | null;
+              metadata?: {
+                __typename?: 'SanityImageMetadata';
+                dimensions?: {
+                  __typename?: 'SanityImageDimensions';
+                  width?: number | null;
+                  height?: number | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+          contentBlocks?: Array<{
+            __typename?: 'TextBlock';
+            _key?: string | null;
+            _type?: string | null;
+            text?: string | null;
+            richText?: boolean | null;
+            variant?: string | null;
+            align?: string | null;
+            maxWidth?: number | null;
+          } | null> | null;
+          ctaButton?: {
+            __typename?: 'ButtonFragment';
+            text?: string | null;
+            link?: {
+              __typename?: 'LinkFragment';
+              linkType?: string | null;
+              externalUrl?: string | null;
+              emailAddress?: string | null;
+              internalLink?: {
+                __typename?: 'Page';
+                _id?: string | null;
+                slug?: { __typename?: 'Slug'; current?: string | null } | null;
+              } | null;
+            } | null;
+          } | null;
+        }
+      | {
+          __typename: 'IntroSection';
+          _type?: string | null;
+          _key?: string | null;
+          title?: string | null;
+          content?: string | null;
+          subtitle?: string | null;
+          showButton?: boolean | null;
+          enabled?: boolean | null;
+          blocks?: Array<
+            | {
+                __typename?: 'IntroIconBlock';
+                _key?: string | null;
+                _type?: string | null;
+                iconType?: string | null;
+              }
+            | {
+                __typename?: 'IntroTextBlock';
+                _key?: string | null;
+                _type?: string | null;
+                text?: string | null;
+              }
+            | null
+          > | null;
+          cta?: {
+            __typename?: 'ButtonFragment';
+            text?: string | null;
+            link?: {
+              __typename?: 'LinkFragment';
+              linkType?: string | null;
+              externalUrl?: string | null;
+              emailAddress?: string | null;
+              internalLink?: {
+                __typename?: 'Page';
+                _id?: string | null;
+                slug?: { __typename?: 'Slug'; current?: string | null } | null;
+              } | null;
+            } | null;
+          } | null;
+        }
       | {
           __typename: 'NewsSection';
           _type?: string | null;
           _key?: string | null;
-          title?: string | null;
+          enabled?: boolean | null;
+          showButton?: boolean | null;
+          header?: { __typename?: 'SectionHeader'; title?: string | null } | null;
+          ctaButton?: {
+            __typename?: 'ButtonFragment';
+            text?: string | null;
+            link?: {
+              __typename?: 'LinkFragment';
+              linkType?: string | null;
+              externalUrl?: string | null;
+              emailAddress?: string | null;
+              internalLink?: {
+                __typename?: 'Page';
+                _id?: string | null;
+                slug?: { __typename?: 'Slug'; current?: string | null } | null;
+              } | null;
+            } | null;
+          } | null;
         }
       | {
           __typename: 'ProgramSection';
           _type?: string | null;
           _key?: string | null;
+          enabled?: boolean | null;
+          showButton?: boolean | null;
           header?: { __typename?: 'SectionHeader'; title?: string | null } | null;
+          ctaButton?: {
+            __typename?: 'ButtonFragment';
+            text?: string | null;
+            link?: {
+              __typename?: 'LinkFragment';
+              linkType?: string | null;
+              externalUrl?: string | null;
+              emailAddress?: string | null;
+              internalLink?: {
+                __typename?: 'Page';
+                _id?: string | null;
+                slug?: { __typename?: 'Slug'; current?: string | null } | null;
+              } | null;
+            } | null;
+          } | null;
         }
       | { __typename: 'StickyNavigation' }
       | null
@@ -2162,6 +2634,420 @@ export type GetSettingsQuery = {
   }>;
 };
 
+export const HeroSectionIdentifierFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'HeroSectionIdentifier' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'HeroSection' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<HeroSectionIdentifierFragment, unknown>;
+export const HeroSectionFragmentFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'HeroSectionFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'HeroSection' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'enabled' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'backgroundImage' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'asset' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadata' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'dimensions' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'height' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'contentBlocks' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'richText' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'align' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'maxWidth' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'showButton' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ctaButton' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'link' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'linkType' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'internalLink' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: '_id' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'slug' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'current' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'externalUrl' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<HeroSectionFragmentFragment, unknown>;
+export const IntroSectionFragmentFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'IntroSectionFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'IntroSection' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'enabled' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'content' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'blocks' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: {
+                    kind: 'NamedType',
+                    name: { kind: 'Name', value: 'IntroTextBlock' },
+                  },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                      { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: {
+                    kind: 'NamedType',
+                    name: { kind: 'Name', value: 'IntroIconBlock' },
+                  },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                      { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'iconType' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'cta' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'link' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'linkType' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'internalLink' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'slug' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'current' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'externalUrl' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<IntroSectionFragmentFragment, unknown>;
+export const NewsSectionIdentifierFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'NewsSectionIdentifier' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NewsSection' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<NewsSectionIdentifierFragment, unknown>;
+export const NewsSectionFragmentFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'NewsSectionFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NewsSection' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'header' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'title' } }],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'enabled' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'showButton' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ctaButton' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'link' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'linkType' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'internalLink' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: '_id' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'slug' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'current' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'externalUrl' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<NewsSectionFragmentFragment, unknown>;
+export const ProgramSectionIdentifierFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ProgramSectionIdentifier' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ProgramSection' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ProgramSectionIdentifierFragment, unknown>;
+export const ProgramSectionFragmentFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ProgramSectionFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ProgramSection' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'header' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'title' } }],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'enabled' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'showButton' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ctaButton' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'link' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'linkType' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'internalLink' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: '_id' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'slug' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'current' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'externalUrl' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ProgramSectionFragmentFragment, unknown>;
 export const AboutSectionIdentifierFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -2216,42 +3102,6 @@ export const IntroSectionIdentifierFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<IntroSectionIdentifierFragment, unknown>;
-export const NewsSectionIdentifierFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'NewsSectionIdentifier' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NewsSection' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-          { kind: 'Field', name: { kind: 'Name', value: '_key' } },
-          { kind: 'Field', name: { kind: 'Name', value: '_type' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<NewsSectionIdentifierFragment, unknown>;
-export const ProgramSectionIdentifierFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ProgramSectionIdentifier' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ProgramSection' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-          { kind: 'Field', name: { kind: 'Name', value: '_key' } },
-          { kind: 'Field', name: { kind: 'Name', value: '_type' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<ProgramSectionIdentifierFragment, unknown>;
 export const StickyNavigationIdentifierFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -2270,6 +3120,391 @@ export const StickyNavigationIdentifierFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<StickyNavigationIdentifierFragment, unknown>;
+export const HeroSectionDataDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'HeroSectionData' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allHeroSection' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '_id' } },
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'HeroSectionFragment' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'HeroSectionFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'HeroSection' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'enabled' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'backgroundImage' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'asset' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadata' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'dimensions' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'height' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'contentBlocks' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'richText' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'align' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'maxWidth' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'showButton' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ctaButton' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'link' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'linkType' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'internalLink' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: '_id' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'slug' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'current' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'externalUrl' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<HeroSectionDataQuery, HeroSectionDataQueryVariables>;
+export const IntroSectionDataDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'IntroSectionData' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allIntroSection' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '_id' } },
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'IntroSectionFragment' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'IntroSectionFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'IntroSection' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+          { kind: 'Field', name: { kind: 'Name', value: '_id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'enabled' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'content' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'blocks' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: {
+                    kind: 'NamedType',
+                    name: { kind: 'Name', value: 'IntroTextBlock' },
+                  },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                      { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: {
+                    kind: 'NamedType',
+                    name: { kind: 'Name', value: 'IntroIconBlock' },
+                  },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                      { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'iconType' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'cta' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'link' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'linkType' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'internalLink' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'slug' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'current' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'externalUrl' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<IntroSectionDataQuery, IntroSectionDataQueryVariables>;
+export const NewsSectionDataDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'NewsSectionData' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allNews' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sort' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'date' },
+                      value: { kind: 'EnumValue', value: 'DESC' },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '_id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'icon' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'asset' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'url' } }],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<NewsSectionDataQuery, NewsSectionDataQueryVariables>;
+export const ProgramSectionDataDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ProgramSectionData' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allProgram' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sort' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'datetime' },
+                      value: { kind: 'EnumValue', value: 'DESC' },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '_id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'datetime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'image' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'asset' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'url' } }],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ProgramSectionDataQuery, ProgramSectionDataQueryVariables>;
 export const GetAllPagesDocument = {
   kind: 'Document',
   definitions: [
@@ -2385,7 +3620,7 @@ export const GetPageBySlugDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'GetPageBySlug' },
+      name: { kind: 'Name', value: 'getPageBySlug' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -2494,7 +3729,75 @@ export const GetPageBySlugDocument = {
                           selections: [
                             { kind: 'Field', name: { kind: 'Name', value: '_type' } },
                             { kind: 'Field', name: { kind: 'Name', value: '_key' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'header' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                ],
+                              },
+                            },
+                            { kind: 'Field', name: { kind: 'Name', value: 'enabled' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'showButton' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'ctaButton' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'link' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'linkType' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'internalLink' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: '_id' },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'slug' },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: { kind: 'Name', value: 'current' },
+                                                    },
+                                                  ],
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'externalUrl' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'emailAddress' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
                           ],
                         },
                       },
@@ -2519,6 +3822,353 @@ export const GetPageBySlugDocument = {
                                 ],
                               },
                             },
+                            { kind: 'Field', name: { kind: 'Name', value: 'enabled' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'showButton' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'ctaButton' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'link' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'linkType' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'internalLink' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: '_id' },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'slug' },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: { kind: 'Name', value: 'current' },
+                                                    },
+                                                  ],
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'externalUrl' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'emailAddress' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: { kind: 'Name', value: 'IntroSection' },
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+                            { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'blocks' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                      kind: 'NamedType',
+                                      name: { kind: 'Name', value: 'IntroTextBlock' },
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                                        { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+                                        { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                      kind: 'NamedType',
+                                      name: { kind: 'Name', value: 'IntroIconBlock' },
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                                        { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'iconType' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            { kind: 'Field', name: { kind: 'Name', value: 'content' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'cta' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'link' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'linkType' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'internalLink' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: '_id' },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'slug' },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: { kind: 'Name', value: 'current' },
+                                                    },
+                                                  ],
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'externalUrl' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'emailAddress' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            { kind: 'Field', name: { kind: 'Name', value: 'showButton' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'enabled' } },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: { kind: 'Name', value: 'HeroSection' },
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+                            { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'enabled' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'backgroundImage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'asset' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'metadata' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'dimensions' },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: { kind: 'Name', value: 'width' },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: { kind: 'Name', value: 'height' },
+                                                    },
+                                                  ],
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contentBlocks' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'richText' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'align' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'maxWidth' } },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'ctaButton' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'link' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'linkType' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'internalLink' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: '_id' },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'slug' },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: { kind: 'Name', value: 'current' },
+                                                    },
+                                                  ],
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'externalUrl' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'emailAddress' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: { kind: 'Name', value: 'GallerySection' },
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+                            { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'images' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'asset' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            { kind: 'Field', name: { kind: 'Name', value: 'enabled' } },
                           ],
                         },
                       },
@@ -2548,6 +4198,32 @@ export const GetPageBySlugDocument = {
                                       kind: 'SelectionSet',
                                       selections: [
                                         { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'metadata' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'dimensions' },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: { kind: 'Name', value: 'width' },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: { kind: 'Name', value: 'height' },
+                                                    },
+                                                  ],
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
                                       ],
                                     },
                                   },
@@ -2560,8 +4236,54 @@ export const GetPageBySlugDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
-                                  { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                                  { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'link' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'linkType' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'internalLink' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: '_id' },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'slug' },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: { kind: 'Name', value: 'current' },
+                                                    },
+                                                  ],
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'externalUrl' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'emailAddress' },
+                                        },
+                                      ],
+                                    },
+                                  },
                                 ],
                               },
                             },

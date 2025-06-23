@@ -2,6 +2,7 @@
 
 import { type ReactElement } from 'react';
 import { ComponentRenderer } from '../../layout/ComponentRenderer/ComponentRenderer';
+import { PageTransition } from '../../layout/page-transition/PageTransition';
 
 // Extended type to support dynamic routing and navigation
 export type CmsPageTemplateProps = {
@@ -36,7 +37,7 @@ export function CmsPageTemplate({
   ...props
 }: CmsPageTemplateProps): ReactElement {
   return (
-    <>
+    <PageTransition {...props}>
       {/* Render header with navigation */}
       {header && (
         <header>
@@ -76,6 +77,6 @@ export function CmsPageTemplate({
           />
         </footer>
       )}
-    </>
+    </PageTransition>
   );
 }
