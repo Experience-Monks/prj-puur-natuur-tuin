@@ -1,9 +1,8 @@
 import { type Maybe } from '@graphql-tools/utils';
-import { getPageBySlugQuery } from '../../data/graphql/queries/getPageBySlug.query';
-import { getSettingsQuery } from '../../data/graphql/queries/getSettings.query';
 import type { NextPageProps } from '../../definitions';
-import type { GetPageBySlugQuery, GetSettingsQuery } from '../../graphql/graphql';
+import type { GetSettingsQueryQuery, PageQueryQuery } from '../../graphql/graphql';
 import { graphqlRequest } from '../../net/graphql/graphqlRequest';
+import { getSettingsQuery, pageQuery } from './page.queries';
 
 // Define TransformerPageData type
 export type TransformerPageData = {
@@ -68,7 +67,8 @@ export async function getLandingPageSlug(): Promise<string> {
  */
 export async function getPageData({
   params: { slug = [''] },
-}: NextPageProps): Promise<GetPageBySlugQuery['pages'][number] | undefined> {
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+}: NextPageProps): Promise<PageQueryQuery['pages'][number] | undefined> {
   // If we don't have a slug, we need to get the landing page slug
   // Try both 'homepage' and 'puurnatuurtuin' as fallbacks
   let pageSlug = slug[0] ?? '';
@@ -110,8 +110,10 @@ export async function getGlobalPageData(
   options: Partial<{ headerVariant: Maybe<string> }> = {},
 ): Promise<{
   pageData: TransformerPageData;
-  header: Record<string, unknown>;
-  footer: Record<string, unknown>;
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+  header: GetSettingsQueryQuery['settings'][number]['mainNavigation'] | NonNullable<unknown>;
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+  footer: GetSettingsQueryQuery['settings'][number]['mainFooter'] | NonNullable<unknown>;
 }> {
   // Use a more specific type for the settings response that matches the actual schema
   const response = await getSettings();
@@ -137,15 +139,15 @@ export async function getGlobalPageData(
   };
 }
 
-export async function getPageBySlug(slug: string): Promise<GetPageBySlugQuery> {
-  return graphqlRequest<GetPageBySlugQuery, { slug: string }>({
-    query: getPageBySlugQuery,
+export async function getPageBySlug(slug: string): Promise<PageQueryQuery> {
+  return graphqlRequest({
+    query: pageQuery,
     variables: { slug },
   });
 }
 
-export async function getSettings(): Promise<GetSettingsQuery> {
-  return graphqlRequest<GetSettingsQuery>({
+export async function getSettings(): Promise<GetSettingsQueryQuery> {
+  return graphqlRequest({
     query: getSettingsQuery,
   });
 }

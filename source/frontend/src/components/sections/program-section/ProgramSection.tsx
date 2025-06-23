@@ -1,4 +1,4 @@
-import { ensuredForwardRef, type MutableRefs, useRefs } from '@mediamonks/react-kit';
+import { ensuredForwardRef, useRefs } from '@mediamonks/react-kit';
 import { type ReactElement } from 'react';
 import { useEnabledAnimation } from '../../../hooks/useEnabledAnimation';
 import { useEnabledBeforeUnmount } from '../../../hooks/useEnabledBeforeUnmount';
@@ -7,28 +7,7 @@ import Heading, { HeadingSize } from '../../general/heading/Heading';
 import { ProgramCard } from '../../program-card/ProgramCard';
 import { createInAnimation, createOutAnimation } from './ProgramSection.animations';
 import styles from './ProgramSection.module.scss';
-
-type Program = {
-  id: string;
-  title: string;
-  date: string;
-  month: string;
-  time: string;
-  image: string;
-  description: string;
-};
-
-type ProgramSectionProps = {
-  title: string;
-  programs: Array<Program>;
-  showButton?: boolean;
-  ctaLabel?: string;
-  ctaUrl?: string;
-};
-
-export type ProgramSectionRefs = MutableRefs<{
-  self: HTMLDivElement;
-}>;
+import { type ProgramSectionProps, type ProgramSectionRefs } from './ProgramSection.types';
 
 export const ProgramSection = ensuredForwardRef<HTMLDivElement, ProgramSectionProps>(
   ({ title, programs, showButton, ctaLabel, ctaUrl }, ref): ReactElement => {

@@ -8,24 +8,7 @@ import Copy, { CopySize } from '../../general/copy/Copy';
 import Heading from '../../general/heading/Heading';
 import { createInAnimation, createOutAnimation } from './AboutSection.animations';
 import styles from './AboutSection.module.scss';
-
-type AboutSectionProps = {
-  title?: string;
-  content?: string;
-  image?: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-  };
-  showButton?: boolean;
-  ctaLabel?: string;
-  ctaUrl?: string;
-};
-
-export type AboutSectionRefs = MutableRefs<{
-  self: HTMLDivElement;
-}>;
+import { type AboutSectionProps, type AboutSectionRefs } from './AboutSection.types';
 
 export const AboutSection = ensuredForwardRef<HTMLDivElement, AboutSectionProps>(
   ({ title, content, image, showButton, ctaLabel, ctaUrl }, ref): ReactElement => {

@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-console */
+import { draftMode } from 'next/headers';
 import { type ReactElement } from 'react';
 import { sectionTransformerMap } from '../../components/layout/ComponentRenderer/ComponentRenderer.transformerMap';
-import { CmsPageTemplate } from '../../components/templates/CmsPageTemplate/CmsPageTemplate';
+import { ComponentRenderer } from '../../components/layout/component-renderer/ComponentRenderer';
+import { DraftMode } from '../../components/utils/DraftMode/DraftMode';
 import { type NextPageProps } from '../../definitions';
+import { extend } from '../../utils/debug';
 import { getNavigationSlugs } from '../../utils/route.utils';
+import { type PageData, pageTransformer } from './page.transformers';
 import { getGlobalPageData, getLandingPageSlug, getPageData } from './page.utils';
 
+const debug = extend('PageGeneration');
 /**
  * Helper method to transform components with their respective transformers
  */
@@ -37,7 +41,7 @@ async function transformComponents(
   const transformPromises = components.map(async (component) => {
     // Skip undefined or null components
     if (!component) {
-      console.error('Component is undefined or null');
+      debug.error('Component is undefined or null');
       return { _type: 'unknown', transformError: true };
     }
 
@@ -45,7 +49,7 @@ async function transformComponents(
 
     // Skip components without a key or type
     if (!_key || !_type) {
-      console.error(`Component ${_type || 'undefined'} is missing a _key or _type`);
+      debug.error(`Component ${_type || 'undefined'} is missing a _key or _type`);
       return {
         ...component,
         _type: _type ?? 'unknown',
@@ -74,7 +78,7 @@ async function transformComponents(
           isTransformed: true,
         };
       } catch (error) {
-        console.error(`Error transforming component ${_type}:`, error);
+        debug.error(`Error transforming component ${_type}:`, error);
         // Add the original component with an error flag
         return {
           ...component,
@@ -83,7 +87,7 @@ async function transformComponents(
       }
     } else {
       // If no transformer exists, pass through the original component
-      console.warn(`No transformer found for component type: ${_type}`);
+      debug.warn(`No transformer found for component type: ${_type}`);
       return component;
     }
   });
@@ -92,8 +96,17 @@ async function transformComponents(
   return Promise.all(transformPromises);
 }
 
+export const revalidate = 600;
+
 export default async function Page(props: NextPageProps): Promise<ReactElement> {
-  // Make sure we retrieve all navigation slugs so we can dynamically build up cms navigation links
+  const { isEnabled } = await draftMode();
+  const includeDrafts = isEnabled || false;
+
+  debug.info(`Start fetching page data`, {
+    props,
+  });
+
+  // Make sure we retrieve all navigation slugs, so we can dynamically build up cms navigation links
   const navigationSlugs = await getNavigationSlugs();
 
   const landingPageSlug = await getLandingPageSlug();
@@ -122,75 +135,22 @@ export default async function Page(props: NextPageProps): Promise<ReactElement> 
     ? { ...page.overwrittenFooter, _type: 'footer' }
     : { ...footer, _type: 'footer' };
 
-  // Filter out any undefined or invalid components before transformation
-  const validComponents = (page.content ?? []).filter((component) => {
-    if (!component) {
-      console.error('Found undefined component in page content');
-      return false;
-    }
+  const context = {
+    defaults: {
+      navigation: pageHeader,
+      footer: pageFooter,
+    },
+    includeDrafts,
+  };
 
-    if (!component._type) {
-      console.error('Found component without _type in page content');
-      return false;
-    }
-
-    if (!component._key) {
-      console.error(`Component of type ${component._type} is missing a _key`);
-      // We'll keep it and add a key in transformComponents
-      return true;
-    }
-
-    return true;
+  const transformedPageData = await pageTransformer(pageData as PageData, context, {
+    skipMetadata: false,
   });
 
-  // Transform components server-side to handle async transformers
-  const transformedComponents = await transformComponents(
-    validComponents,
-    navigationSlugs,
-    landingPageSlug,
-    props.params,
-    pageData,
-  );
-
-  // Debug log for NewsSection and ProgramSection components
-  const newsSections = transformedComponents.filter((comp) => comp._type === 'newsSection');
-  const programSections = transformedComponents.filter((comp) => comp._type === 'programSection');
-
-  if (newsSections.length > 0) {
-    console.log(
-      '[Page] NewsSection components after transformation:',
-      newsSections.map((section) => ({
-        _type: section._type,
-        _key: section._key,
-        showButton: section.showButton,
-        ctaLabel: section.ctaLabel,
-        ctaUrl: section.ctaUrl,
-      })),
-    );
-  }
-
-  if (programSections.length > 0) {
-    console.log(
-      '[Page] ProgramSection components after transformation:',
-      programSections.map((section) => ({
-        _type: section._type,
-        _key: section._key,
-        showButton: section.showButton,
-        ctaLabel: section.ctaLabel,
-        ctaUrl: section.ctaUrl,
-      })),
-    );
-  }
-
   return (
-    <CmsPageTemplate
-      header={pageHeader}
-      components={transformedComponents}
-      footer={pageFooter}
-      navigationSlugs={navigationSlugs}
-      landingPageSlug={landingPageSlug}
-      params={props.params}
-      pageData={pageData}
-    />
+    <>
+      {isEnabled && <DraftMode />}
+      <ComponentRenderer {...transformedPageData} />
+    </>
   );
 }

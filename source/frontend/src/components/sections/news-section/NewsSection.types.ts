@@ -18,5 +18,4 @@ export type NewsSectionProps = {
   showButton?: boolean;
   ctaLabel?: string;
   ctaUrl?: string;
-  refs: NewsSectionRefs;
 };

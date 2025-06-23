@@ -20,5 +20,8 @@ export type HeroSectionProps = {
   ctaUrl?: string;
   className?: string;
   variant?: 'default' | 'centered' | 'large';
+};
+
+export type HeroSectionTemplateProps = HeroSectionProps & {
   refs: HeroSectionRefs;
 };

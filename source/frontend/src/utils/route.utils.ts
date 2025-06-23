@@ -1,3 +1,4 @@
+import { getAllPagesQuery } from '../app/[[...slug]]/page.queries';
 import { getFullPageSegments } from '../app/[[...slug]]/page.utils';
 import { type Route } from '../data/enums/Route';
 import { graphqlRequest } from '../net/graphql/graphqlRequest';
@@ -16,23 +17,6 @@ type PagesResponse = {
   }>;
 };
 
-// Raw GraphQL query for all pages
-const allPagesQueryString = `
-  query getAllPages {
-    pages: allPage {
-      slug {
-        current
-      }
-      parent {
-        slug {
-          current
-        }
-      }
-      landing
-    }
-  }
-`;
-
 export function getDynamicRoutePath(route: Route, parameters: Record<string, string> = {}): string {
   let result = route.toString();
 
@@ -49,8 +33,8 @@ export function getDynamicRoutePath(route: Route, parameters: Record<string, str
  */
 export async function getNavigationSlugs(): Promise<Array<Array<string>>> {
   try {
-    const { pages } = await graphqlRequest<PagesResponse>({
-      query: allPagesQueryString,
+    const { pages }: PagesResponse = await graphqlRequest({
+      query: getAllPagesQuery,
     });
 
     return getFullPageSegments(pages);

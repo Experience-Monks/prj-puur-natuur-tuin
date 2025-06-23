@@ -7,30 +7,33 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: '.env' });
 dotenv.config({ path: '.env.local' });
 
-const apiUrl = process.env.CMS_API_URL;
+const apiUrl = `https://${process.env.SANITY_API_PROJECT_ID}.api.sanity.io/${process.env.SANITY_API_VERSION}/graphql/${process.env.SANITY_API_DATASET}/${process.env.SANITY_API_TAG}`;
 
 if (!apiUrl) {
   throw new Error('Error: process.env.CMS_API_URL not set');
 }
 
 const config: CodegenConfig = {
+  overwrite: true,
   schema: [
     {
       [apiUrl]: {
         headers: {
-          authorization: `Bearer ${process.env.CMS_API_TOKEN}`,
+          authorization: `Bearer ${process.env.SANITY_API_TOKEN}`,
         },
       },
     },
   ],
-  documents: ['src/data/graphql/**/*.ts', 'src/**/*.query.ts'],
-  ignoreNoDocuments: true,
-  hooks: { afterAllFileWrite: ['prettier --write'] },
+  documents: ['src/data/graphql/**/*.ts', '**/*.fragment.ts', '**/*.query.ts', '**/*.queries.ts'],
+  hooks: {
+    afterAllFileWrite: ['prettier --ignore-path "" --write src/graphql/**/*'],
+  },
   generates: {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     './src/graphql/': {
       preset: 'client',
       config: {
+        nonOptionalTypename: true,
         useTypeImports: true,
         scalars: {
           BooleanType: 'boolean',

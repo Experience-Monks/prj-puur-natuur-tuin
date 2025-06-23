@@ -1,3 +1,5 @@
+import type { RefObject } from 'react';
+
 /**
  * Enum for intro section block types
  */
@@ -31,3 +33,13 @@ export type IntroBlock = {
   | { _type: IntroBlockType.Text; text: string }
   | { _type: IntroBlockType.Icon; iconType: IntroIconType }
 );
+
+export type IntroSectionProps = {
+  title: string;
+  subtitle?: string;
+  content?: string;
+  ctaLabel?: string;
+  ctaUrl?: string;
+  showButton?: boolean;
+  blocks?: Array<IntroBlock>;
+};

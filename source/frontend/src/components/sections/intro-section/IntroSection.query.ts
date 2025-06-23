@@ -1,48 +1,48 @@
-import { graphql } from '../../../graphql/gql';
+import { graphql } from '../../../graphql';
 
-export const introSectionFragment = graphql(`
-  fragment IntroSectionFragment on IntroSection {
+export const introSectionIdentifierFragment = graphql(`
+  fragment IntroSectionIdentifier on IntroSection {
     __typename
-    _key
-    _type
-    _id
-    title
-    subtitle
-    enabled
-    content
-    blocks {
-      ... on IntroTextBlock {
-        _key
-        _type
-        text
-      }
-      ... on IntroIconBlock {
-        _key
-        _type
-        iconType
-      }
-    }
-    cta {
-      text
-      link {
-        linkType
-        internalLink {
-          slug {
-            current
-          }
-        }
-        externalUrl
-        emailAddress
-      }
-    }
+    id: _id
   }
 `);
 
 export const introSectionQuery = graphql(`
-  query IntroSectionData {
-    allIntroSection {
-      _id
-      ...IntroSectionFragment
+  query IntroSectionData($id: ID!) {
+    data: IntroSection(id: $id) {
+      _type
+      _key
+      title
+      blocks {
+        ... on IntroTextBlock {
+          _key
+          _type
+          text
+        }
+        ... on IntroIconBlock {
+          _key
+          _type
+          iconType
+        }
+      }
+      content
+      subtitle
+      cta {
+        text
+        link {
+          linkType
+          internalLink {
+            _id
+            slug {
+              current
+            }
+          }
+          externalUrl
+          emailAddress
+        }
+      }
+      showButton
+      enabled
     }
   }
 `);

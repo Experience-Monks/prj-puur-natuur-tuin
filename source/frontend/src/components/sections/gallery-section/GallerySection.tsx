@@ -1,18 +1,11 @@
-import { ensuredForwardRef, type MutableRefs, useRefs } from '@mediamonks/react-kit';
+import { ensuredForwardRef, useRefs } from '@mediamonks/react-kit';
 import { type ReactElement } from 'react';
 import { useEnabledAnimation } from '../../../hooks/useEnabledAnimation';
 import { useEnabledBeforeUnmount } from '../../../hooks/useEnabledBeforeUnmount';
 import { Carousel } from '../../general/carousel/Carousel';
 import { createInAnimation, createOutAnimation } from './GallerySection.animations';
 import styles from './GallerySection.module.scss';
-
-type GallerySectionProps = {
-  images?: Array<string>;
-};
-
-export type GallerySectionRefs = MutableRefs<{
-  self: HTMLDivElement;
-}>;
+import { type GallerySectionProps, type GallerySectionRefs } from './GallerySection.types';
 
 export const GallerySection = ensuredForwardRef<HTMLDivElement, GallerySectionProps>(
   ({ images = [] }, ref): ReactElement => {

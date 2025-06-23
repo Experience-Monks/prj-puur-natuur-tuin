@@ -1,19 +1,17 @@
-// Using raw GraphQL string to avoid codegen issues
+import { graphql } from '../../../graphql';
 
-export const gallerySectionIdentifier = `
+export const gallerySectionIdentifierFragment = graphql(`
   fragment GallerySectionIdentifier on GallerySection {
     __typename
-    _key
-    _type
+    id: _key
   }
-`;
+`);
 
-export const gallerySectionData = `
-  query GallerySectionData {
-    allGallerySection {
+export const gallerySectionQuery = graphql(`
+  query GallerySectionData($id: ID!) {
+    data: Gallery(id: $id) {
       _type
       _key
-      enabled
       images {
         asset {
           url
@@ -21,4 +19,4 @@ export const gallerySectionData = `
       }
     }
   }
-`;
+`);

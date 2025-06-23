@@ -11,12 +11,50 @@ export const sharedRules = [
   {
     test: /\.svg$/i,
     issuer: /\.[jt]sx?$/,
-    use: [{ loader: '@svgr/webpack', options: { ref: true } }],
+    use: [
+      {
+        loader: '@svgr/webpack',
+        options: {
+          ref: true,
+          svgoConfig: {
+            plugins: [
+              {
+                name: 'preset-default',
+                params: {
+                  overrides: {
+                    removeTitle: false,
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+    ],
   },
   {
     test: /\.svg$/i,
     resourceQuery: /svgr/,
-    use: [{ loader: '@svgr/webpack', options: { ref: true } }],
+    use: [
+      {
+        loader: '@svgr/webpack',
+        options: {
+          ref: true,
+          svgoConfig: {
+            plugins: [
+              {
+                name: 'preset-default',
+                params: {
+                  overrides: {
+                    removeTitle: false,
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+    ],
   },
   {
     test: /\.json$/i,

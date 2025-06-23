@@ -5,7 +5,7 @@ import { type ReactElement } from 'react';
 import { PrimaryButton } from '../../buttons/primary-button/PrimaryButton';
 import Heading, { HeadingSize } from '../../general/heading/Heading';
 import styles from './HeroSection.module.scss';
-import { type HeroSectionProps } from './HeroSection.types';
+import { type HeroSectionTemplateProps } from './HeroSection.types';
 
 export function HeroSectionTemplate({
   title,
@@ -18,7 +18,7 @@ export function HeroSectionTemplate({
   className,
   variant = 'default',
   refs,
-}: HeroSectionProps): ReactElement {
+}: HeroSectionTemplateProps): ReactElement {
   return (
     <section
       ref={refs.self}

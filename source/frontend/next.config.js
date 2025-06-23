@@ -13,8 +13,6 @@ const withBundleAnalyzer = bundleAnalyzer({
 function getWebpackConfig(config) {
   config.resolve.modules.push(path.resolve('./src'));
 
-  config.module.rules.push(...sharedRules);
-
   config.resolve.alias = {
     ...config.resolve.alias,
     'mediamonks-webgl': path.resolve('./src/webgl/lib/'),
@@ -30,6 +28,8 @@ function getWebpackConfig(config) {
   //     options.modules.exportLocalsConvention = 'camelCase';
   //   }
   // }
+
+  config.module.rules.push(...sharedRules);
 
   return config;
 }

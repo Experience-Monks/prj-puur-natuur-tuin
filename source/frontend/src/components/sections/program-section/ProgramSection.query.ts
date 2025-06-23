@@ -1,51 +1,35 @@
-// Using graphql tag approach
+import { graphql } from '../../../graphql';
 
-import { graphql } from '../../../graphql/gql';
-
-export const programSectionIdentifier = graphql(`
+export const programSectionIdentifierFragment = graphql(`
   fragment ProgramSectionIdentifier on ProgramSection {
     __typename
-    _key
-    _type
+    id: _id
   }
 `);
 
-export const programSectionFragment = graphql(`
-  fragment ProgramSectionFragment on ProgramSection {
-    _type
-    _key
-    header {
-      title
-    }
-    enabled
-    showButton
-    ctaButton {
-      text
-      link {
-        linkType
-        internalLink {
-          _id
-          slug {
-            current
-          }
-        }
-        externalUrl
-        emailAddress
+export const programSectionQuery = graphql(`
+  query ProgramSectionData($id: ID!) {
+    data: ProgramSection(id: $id) {
+      _type
+      _key
+      header {
+        title
       }
-    }
-  }
-`);
-
-export const programSectionData = graphql(`
-  query ProgramSectionData {
-    allProgram(sort: { datetime: DESC }) {
-      _id
-      title
-      datetime
-      description
-      image {
-        asset {
-          url
+      maxItems
+      enabled
+      showButton
+      ctaButton {
+        text
+        link {
+          linkType
+          internalLink {
+            _id
+            slug {
+              current
+            }
+          }
+          externalUrl
+          emailAddress
         }
       }
     }

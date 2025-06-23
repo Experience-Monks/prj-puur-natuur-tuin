@@ -1,50 +1,34 @@
-// Using graphql tag approach
+import { graphql } from '../../../graphql';
 
-import { graphql } from '../../../graphql/gql';
-
-export const newsSectionIdentifier = graphql(`
+export const newsSectionIdentifierFragment = graphql(`
   fragment NewsSectionIdentifier on NewsSection {
     __typename
-    _key
-    _type
+    id: _id
   }
 `);
 
-export const newsSectionFragment = graphql(`
-  fragment NewsSectionFragment on NewsSection {
-    _type
-    _key
-    header {
-      title
-    }
-    enabled
-    showButton
-    ctaButton {
-      text
-      link {
-        linkType
-        internalLink {
-          _id
-          slug {
-            current
-          }
-        }
-        externalUrl
-        emailAddress
+export const newsSectionQuery = graphql(`
+  query NewsSectionData($id: ID!) {
+    data: NewsSection(id: $id) {
+      _type
+      _key
+      header {
+        title
       }
-    }
-  }
-`);
-
-export const newsSectionData = graphql(`
-  query NewsSectionData {
-    allNews(sort: { date: DESC }) {
-      _id
-      title
-      date
-      icon {
-        asset {
-          url
+      enabled
+      showButton
+      ctaButton {
+        text
+        link {
+          linkType
+          internalLink {
+            _id
+            slug {
+              current
+            }
+          }
+          externalUrl
+          emailAddress
         }
       }
     }
