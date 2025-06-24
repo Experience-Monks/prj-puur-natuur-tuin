@@ -2,6 +2,8 @@ import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
 import { schemaTypes } from './schemaTypes';
+import { structure } from './structure';
+import { media } from 'sanity-plugin-media';
 
 // Define the actions that should be available for singleton documents
 const singletonActions = new Set(['publish', 'discardChanges', 'restore']);
@@ -15,42 +17,10 @@ export default defineConfig({
 
   plugins: [
     structureTool({
-      structure: (S) =>
-        S.list()
-          .title('Content')
-          .items([
-            S.documentTypeListItem('page').title('Pages'),
-
-            S.listItem()
-              .title('Content Items')
-              .child(
-                S.list()
-                  .title('Content Items')
-                  .items([
-                    S.documentTypeListItem('news').title('News Items'),
-                    S.documentTypeListItem('program').title('Program Items'),
-                  ]),
-              ),
-
-            S.listItem()
-              .title('Global Components')
-              .child(
-                S.list()
-                  .title('Global Components')
-                  .items([
-                    S.documentTypeListItem('navigation').title('Navigation'),
-                    S.documentTypeListItem('footer').title('Footer'),
-                  ]),
-              ),
-
-            S.divider(),
-
-            S.listItem()
-              .title('Settings')
-              .child(S.document().schemaType('siteSettings').documentId('siteSettings')),
-          ]),
+      structure,
     }),
     visionTool(),
+    media(),
   ],
 
   schema: {

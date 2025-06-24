@@ -7,9 +7,8 @@ import { ComponentRenderer } from '../../components/layout/component-renderer/Co
 import { DraftMode } from '../../components/utils/DraftMode/DraftMode';
 import { type NextPageProps } from '../../definitions';
 import { extend } from '../../utils/debug';
-import { getNavigationSlugs } from '../../utils/route.utils';
 import { type PageData, pageTransformer } from './page.transformers';
-import { getGlobalPageData, getLandingPageSlug, getPageData } from './page.utils';
+import { getGlobalPageData, getPageData } from './page.utils';
 
 const debug = extend('PageGeneration');
 
@@ -21,14 +20,12 @@ export default async function Page(props: NextPageProps): Promise<ReactElement |
 
   debug.info(`Start fetching page data`);
 
-  // Make sure we retrieve all navigation slugs, so we can dynamically build up cms navigation links
-  const navigationSlugs = await getNavigationSlugs();
-
-  const landingPageSlug = await getLandingPageSlug();
   const page = await getPageData(props);
   const { pageData, footer, header } = await getGlobalPageData({
     headerVariant: page?.headerVariant,
   });
+
+  console.log({ pageData }, 'CONTENT', page?.content);
 
   if (!page?.content) {
     // Return an error or fallback component instead of using Next.js notFound()

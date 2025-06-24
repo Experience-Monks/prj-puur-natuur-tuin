@@ -7,16 +7,6 @@ export const pageContentFragment = graphql(`
   }
 `);
 
-export const getLandingPageQuery = graphql(`
-  query getLandingPage {
-    landingPage: allPage(where: { landing: { eq: true } }) {
-      slug {
-        current
-      }
-    }
-  }
-`);
-
 export const getAllPagesQuery = graphql(`
   query getAllPages {
     pages: allPage {
@@ -63,51 +53,50 @@ export const getSettingsQuery = graphql(`
   }
 `);
 
-export const landingPageQuery = graphql(`
-  query LandingPageQuery {
-    landingPage: allPage(where: { landing: { eq: true } }) {
-      id: _id
+export const pageFragment = graphql(`
+  fragment PageData on Page {
+    id: _id
+    __typename
+    slug {
+      current
+    }
+    title
+    openGraph {
       title
-      slug {
-        current
+      description
+      image {
+        asset {
+          url
+        }
       }
-      content {
-        ...PageContent
-      }
+    }
+    headerVariant
+    content {
+      ...PageContent
+    }
+    overwrittenMainNavigation {
+      id: _id
+      _type
+    }
+    overwrittenFooter {
+      id: _id
+      _type
     }
   }
 `);
 
-export const pageQuery = graphql(`
-  query PageQuery($slug: String!) {
+export const getPageBySlugQuery = graphql(`
+  query GetPageBySlug($slug: String!) {
     pages: allPage(where: { slug: { current: { eq: $slug } } }) {
-      id: _id
-      __typename
-      slug {
-        current
-      }
-      title
-      openGraph {
-        title
-        description
-        image {
-          asset {
-            url
-          }
-        }
-      }
-      headerVariant
-      content {
-        ...PageContent
-      }
-      overwrittenMainNavigation {
-        id: _id
-        _type
-      }
-      overwrittenFooter {
-        id: _id
-        _type
-      }
+      ...PageData
+    }
+  }
+`);
+
+export const getLandingPageQuery = graphql(`
+  query GetLandingPage {
+    pages: allPage(where: { landing: { eq: true } }) {
+      ...PageData
     }
   }
 `);

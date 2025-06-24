@@ -137,7 +137,6 @@ export async function transformContentProps(
       };
     }
 
-    console.log(propsTransformMap, { type, identifier });
     const transformerImportFunction = propsTransformMap[type as keyof typeof propsTransformMap];
 
     try {
@@ -180,16 +179,3 @@ export type ComponentPropsTransformer<Type extends string, Props> = {
     | React.ComponentType<Props>;
   transform: ComponentPropsTransform<Type, Props>;
 };
-
-export function createPropsTransformer<Type extends string, Props>(
-  component:
-    | FunctionComponent<Props>
-    | ForwardRefExoticComponent<Props>
-    | React.ComponentType<Props>,
-  transform: ComponentPropsTransform<Type, Props>,
-): ComponentPropsTransformer<Type, Props> {
-  return {
-    component,
-    transform,
-  };
-}

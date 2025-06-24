@@ -1,9 +1,7 @@
-import { defineField, defineType } from 'sanity';
+import { defineField } from 'sanity';
+import { createComponentDocument } from '../../../util/document-utils/createComponentDocument';
 
-export default defineType({
-  name: 'footer',
-  title: 'Footer',
-  type: 'document',
+export default createComponentDocument('footer', {
   fields: [
     defineField({
       name: 'title',

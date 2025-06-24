@@ -33,7 +33,7 @@ export function getDynamicRoutePath(route: Route, parameters: Record<string, str
  */
 export async function getNavigationSlugs(): Promise<Array<Array<string>>> {
   try {
-    const { pages }: PagesResponse = await graphqlRequest({
+    const { pages } = await graphqlRequest({
       query: getAllPagesQuery,
     });
 

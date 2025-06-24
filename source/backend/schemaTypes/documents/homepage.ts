@@ -31,12 +31,18 @@ export default defineType({
       description: 'Add, remove, or reorder sections by dragging',
       type: 'array',
       of: [
-        { type: 'heroSection' },
-        { type: 'newsSection' },
-        { type: 'programSection' },
-        { type: 'aboutSection' },
-        { type: 'introSection' },
-        { type: 'gallerySection' },
+        {
+          type: 'reference',
+          to: [
+            { type: 'heroSection' },
+            { type: 'newsSection' },
+            { type: 'programSection' },
+            { type: 'introSection' },
+            { type: 'gallerySection' },
+            { type: 'aboutSection' },
+            // Add more component types as needed
+          ],
+        },
       ],
       options: {
         sortable: true,

@@ -1,8 +1,14 @@
 import { type Maybe } from '@graphql-tools/utils';
+import { notFound } from 'next/navigation';
 import type { NextPageProps } from '../../definitions';
-import type { GetSettingsQueryQuery, PageQueryQuery } from '../../graphql/graphql';
+import type {
+  GetLandingPageQuery,
+  GetPageBySlugQuery,
+  GetSettingsQueryQuery,
+  PageDataFragment,
+} from '../../graphql/graphql';
 import { graphqlRequest } from '../../net/graphql/graphqlRequest';
-import { getSettingsQuery, pageQuery } from './page.queries';
+import { getLandingPageQuery, getPageBySlugQuery, getSettingsQuery } from './page.queries';
 
 // Define TransformerPageData type
 export type TransformerPageData = {
@@ -55,10 +61,6 @@ export function getFullPageSegments<
   return paths;
 }
 
-export async function getLandingPageSlug(): Promise<string> {
-  return 'homepage';
-}
-
 /**
  * Helper method to retrieve the page data for a next page
  *
@@ -66,37 +68,18 @@ export async function getLandingPageSlug(): Promise<string> {
  * @param includeDrafts
  */
 export async function getPageData({
-  params: { slug = [''] },
+  params,
   // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-}: NextPageProps): Promise<PageQueryQuery['pages'][number] | undefined> {
-  // If we don't have a slug, we need to get the landing page slug
-  // Try both 'homepage' and 'puurnatuurtuin' as fallbacks
-  let pageSlug = slug[0] ?? '';
-
-  if (!pageSlug) {
-    // Try to get the landing page first
-    const landingPageSlug = await getLandingPageSlug();
-    // Use fallback if landingPageSlug is null or undefined
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    pageSlug = landingPageSlug ?? 'puurnatuurtuin';
-  }
+}: NextPageProps): Promise<PageDataFragment | undefined> {
+  const pageSlug = params.slug?.[0] ?? '';
 
   // Retrieve the page data for the given slug
-  const { pages } = await getPageBySlug(pageSlug);
+  const { pages } =
+    !pageSlug || pageSlug === '' ? await getLandingPage() : await getPageBySlug(pageSlug);
 
   // If we couldn't find the page with the current slug, try the fallback
   if (pages.length === 0) {
-    if (pageSlug === 'homepage') {
-      // Try 'puurnatuurtuin' as a fallback
-      const { pages: fallbackPages } = await getPageBySlug('puurnatuurtuin');
-      return fallbackPages.length > 0 ? fallbackPages[0] : undefined;
-    }
-
-    if (pageSlug === 'puurnatuurtuin') {
-      // Try 'homepage' as a fallback
-      const { pages: fallbackPages } = await getPageBySlug('homepage');
-      return fallbackPages.length > 0 ? fallbackPages[0] : undefined;
-    }
+    notFound();
   }
 
   return pages[0];
@@ -139,9 +122,15 @@ export async function getGlobalPageData(
   };
 }
 
-export async function getPageBySlug(slug: string): Promise<PageQueryQuery> {
+export async function getLandingPage(): Promise<GetLandingPageQuery> {
   return graphqlRequest({
-    query: pageQuery,
+    query: getLandingPageQuery,
+  });
+}
+
+export async function getPageBySlug(slug: string): Promise<GetPageBySlugQuery> {
+  return graphqlRequest({
+    query: getPageBySlugQuery,
     variables: { slug },
   });
 }

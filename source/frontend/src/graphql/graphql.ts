@@ -2093,16 +2093,6 @@ export type PageContentFragment =
   | PageContentSanityImageAssetFragment
   | PageContentSiteSettingsFragment;
 
-export type GetLandingPageQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetLandingPageQuery = {
-  __typename: 'RootQuery';
-  landingPage: Array<{
-    __typename: 'Page';
-    slug?: { __typename: 'Slug'; current?: string | null } | null;
-  }>;
-};
-
 export type GetAllPagesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAllPagesQuery = {
@@ -2142,33 +2132,44 @@ export type GetSettingsQueryQuery = {
   }>;
 };
 
-export type LandingPageQueryQueryVariables = Exact<{ [key: string]: never }>;
-
-export type LandingPageQueryQuery = {
-  __typename: 'RootQuery';
-  landingPage: Array<{
-    __typename: 'Page';
+export type PageDataFragment = {
+  __typename: 'Page';
+  title?: string | null;
+  headerVariant?: string | null;
+  id?: string | null;
+  slug?: { __typename: 'Slug'; current?: string | null } | null;
+  openGraph?: {
+    __typename: 'OpenGraph';
     title?: string | null;
+    description?: string | null;
+    image?: {
+      __typename: 'Image';
+      asset?: { __typename: 'SanityImageAsset'; url?: string | null } | null;
+    } | null;
+  } | null;
+  content?: Array<
+    | { __typename: 'AboutSection'; id?: string | null }
+    | { __typename: 'GallerySection' }
+    | { __typename: 'HeroSection'; id?: string | null }
+    | { __typename: 'IntroSection'; id?: string | null }
+    | { __typename: 'NewsSection'; id?: string | null }
+    | { __typename: 'ProgramSection'; id?: string | null }
+    | { __typename: 'StickyNavigation' }
+    | null
+  > | null;
+  overwrittenMainNavigation?: {
+    __typename: 'Navigation';
+    _type?: string | null;
     id?: string | null;
-    slug?: { __typename: 'Slug'; current?: string | null } | null;
-    content?: Array<
-      | { __typename: 'AboutSection'; id?: string | null }
-      | { __typename: 'GallerySection' }
-      | { __typename: 'HeroSection'; id?: string | null }
-      | { __typename: 'IntroSection'; id?: string | null }
-      | { __typename: 'NewsSection'; id?: string | null }
-      | { __typename: 'ProgramSection'; id?: string | null }
-      | { __typename: 'StickyNavigation' }
-      | null
-    > | null;
-  }>;
+  } | null;
+  overwrittenFooter?: { __typename: 'Footer'; _type?: string | null; id?: string | null } | null;
 };
 
-export type PageQueryQueryVariables = Exact<{
+export type GetPageBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
-export type PageQueryQuery = {
+export type GetPageBySlugQuery = {
   __typename: 'RootQuery';
   pages: Array<{
     __typename: 'Page';
@@ -2204,44 +2205,42 @@ export type PageQueryQuery = {
   }>;
 };
 
-export type FooterIdentifierFragment = {
-  __typename: 'Footer';
-  _type?: string | null;
-  id?: string | null;
-};
+export type GetLandingPageQueryVariables = Exact<{ [key: string]: never }>;
 
-export type FooterDataQueryVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-export type FooterDataQuery = {
+export type GetLandingPageQuery = {
   __typename: 'RootQuery';
-  data?: {
-    __typename: 'Footer';
-    _id?: string | null;
-    _type?: string | null;
+  pages: Array<{
+    __typename: 'Page';
     title?: string | null;
-    copyright?: string | null;
-    navigationItems?: Array<{
-      __typename: 'FooterNavigationItem';
-      _key?: string | null;
+    headerVariant?: string | null;
+    id?: string | null;
+    slug?: { __typename: 'Slug'; current?: string | null } | null;
+    openGraph?: {
+      __typename: 'OpenGraph';
       title?: string | null;
-      link?: {
-        __typename: 'PageLink';
-        externalUrl?: string | null;
-        page?: {
-          __typename: 'Page';
-          slug?: { __typename: 'Slug'; current?: string | null } | null;
-        } | null;
+      description?: string | null;
+      image?: {
+        __typename: 'Image';
+        asset?: { __typename: 'SanityImageAsset'; url?: string | null } | null;
       } | null;
-    } | null> | null;
-    socialLinks?: Array<{
-      __typename: 'SocialLink';
-      _key?: string | null;
-      label?: string | null;
-      url?: string | null;
-    } | null> | null;
-  } | null;
+    } | null;
+    content?: Array<
+      | { __typename: 'AboutSection'; id?: string | null }
+      | { __typename: 'GallerySection' }
+      | { __typename: 'HeroSection'; id?: string | null }
+      | { __typename: 'IntroSection'; id?: string | null }
+      | { __typename: 'NewsSection'; id?: string | null }
+      | { __typename: 'ProgramSection'; id?: string | null }
+      | { __typename: 'StickyNavigation' }
+      | null
+    > | null;
+    overwrittenMainNavigation?: {
+      __typename: 'Navigation';
+      _type?: string | null;
+      id?: string | null;
+    } | null;
+    overwrittenFooter?: { __typename: 'Footer'; _type?: string | null; id?: string | null } | null;
+  }>;
 };
 
 export type AboutSectionIdentifierFragment = { __typename: 'AboutSection'; id?: string | null };
@@ -2288,6 +2287,46 @@ export type AboutSectionDataQuery = {
         } | null;
       } | null;
     } | null;
+  } | null;
+};
+
+export type FooterIdentifierFragment = {
+  __typename: 'Footer';
+  _type?: string | null;
+  id?: string | null;
+};
+
+export type FooterDataQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type FooterDataQuery = {
+  __typename: 'RootQuery';
+  data?: {
+    __typename: 'Footer';
+    _id?: string | null;
+    _type?: string | null;
+    title?: string | null;
+    copyright?: string | null;
+    navigationItems?: Array<{
+      __typename: 'FooterNavigationItem';
+      _key?: string | null;
+      title?: string | null;
+      link?: {
+        __typename: 'PageLink';
+        externalUrl?: string | null;
+        page?: {
+          __typename: 'Page';
+          slug?: { __typename: 'Slug'; current?: string | null } | null;
+        } | null;
+      } | null;
+    } | null> | null;
+    socialLinks?: Array<{
+      __typename: 'SocialLink';
+      _key?: string | null;
+      label?: string | null;
+      url?: string | null;
+    } | null> | null;
   } | null;
 };
 
@@ -2507,6 +2546,142 @@ export const PageContentFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<PageContentFragment, unknown>;
+export const PageDataFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PageData' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Page' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'id' },
+            name: { kind: 'Name', value: '_id' },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'slug' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'current' } }],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'openGraph' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'image' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'asset' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'url' } }],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'headerVariant' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'content' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'PageContent' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'overwrittenMainNavigation' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'id' },
+                  name: { kind: 'Name', value: '_id' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'overwrittenFooter' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'id' },
+                  name: { kind: 'Name', value: '_id' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PageContent' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'id' },
+            name: { kind: 'Name', value: '_id' },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<PageDataFragment, unknown>;
+export const AboutSectionIdentifierFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AboutSectionIdentifier' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AboutSection' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'id' },
+            name: { kind: 'Name', value: '_id' },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AboutSectionIdentifierFragment, unknown>;
 export const FooterIdentifierFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -2529,27 +2704,6 @@ export const FooterIdentifierFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<FooterIdentifierFragment, unknown>;
-export const AboutSectionIdentifierFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AboutSectionIdentifier' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AboutSection' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'id' },
-            name: { kind: 'Name', value: '_id' },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<AboutSectionIdentifierFragment, unknown>;
 export const GallerySectionIdentifierFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -2655,64 +2809,6 @@ export const ProgramSectionIdentifierFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<ProgramSectionIdentifierFragment, unknown>;
-export const GetLandingPageDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'getLandingPage' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'landingPage' },
-            name: { kind: 'Name', value: 'allPage' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'landing' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'eq' },
-                            value: { kind: 'BooleanValue', value: true },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'slug' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'current' } }],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<GetLandingPageQuery, GetLandingPageQueryVariables>;
 export const GetAllPagesDocument = {
   kind: 'Document',
   definitions: [
@@ -2865,103 +2961,13 @@ export const GetSettingsQueryDocument = {
     },
   ],
 } as unknown as DocumentNode<GetSettingsQueryQuery, GetSettingsQueryQueryVariables>;
-export const LandingPageQueryDocument = {
+export const GetPageBySlugDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'LandingPageQuery' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'landingPage' },
-            name: { kind: 'Name', value: 'allPage' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'landing' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'eq' },
-                            value: { kind: 'BooleanValue', value: true },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  alias: { kind: 'Name', value: 'id' },
-                  name: { kind: 'Name', value: '_id' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'slug' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'current' } }],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'content' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'PageContent' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PageContent' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'id' },
-            name: { kind: 'Name', value: '_id' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<LandingPageQueryQuery, LandingPageQueryQueryVariables>;
-export const PageQueryDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'PageQuery' },
+      name: { kind: 'Name', value: 'GetPageBySlug' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -3018,94 +3024,7 @@ export const PageQueryDocument = {
             ],
             selectionSet: {
               kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  alias: { kind: 'Name', value: 'id' },
-                  name: { kind: 'Name', value: '_id' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'slug' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'current' } }],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'openGraph' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'asset' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'headerVariant' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'content' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'PageContent' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'overwrittenMainNavigation' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        alias: { kind: 'Name', value: 'id' },
-                        name: { kind: 'Name', value: '_id' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: '_type' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'overwrittenFooter' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        alias: { kind: 'Name', value: 'id' },
-                        name: { kind: 'Name', value: '_id' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: '_type' } },
-                    ],
-                  },
-                },
-              ],
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'PageData' } }],
             },
           },
         ],
@@ -3127,98 +3046,94 @@ export const PageQueryDocument = {
         ],
       },
     },
-  ],
-} as unknown as DocumentNode<PageQueryQuery, PageQueryQueryVariables>;
-export const FooterDataDocument = {
-  kind: 'Document',
-  definitions: [
     {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'FooterData' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-        },
-      ],
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PageData' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Page' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
-            alias: { kind: 'Name', value: 'data' },
-            name: { kind: 'Name', value: 'Footer' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-              },
-            ],
+            alias: { kind: 'Name', value: 'id' },
+            name: { kind: 'Name', value: '_id' },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'slug' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'current' } }],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'openGraph' },
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: '_id' } },
-                { kind: 'Field', name: { kind: 'Name', value: '_type' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'navigationItems' },
+                  name: { kind: 'Name', value: 'image' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: '_key' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'link' },
+                        name: { kind: 'Name', value: 'asset' },
                         selectionSet: {
                           kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'externalUrl' } },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'page' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'slug' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        { kind: 'Field', name: { kind: 'Name', value: 'current' } },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'url' } }],
                         },
                       },
                     ],
                   },
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'copyright' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'headerVariant' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'content' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'PageContent' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'overwrittenMainNavigation' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'socialLinks' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: '_key' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-                    ],
-                  },
+                  alias: { kind: 'Name', value: 'id' },
+                  name: { kind: 'Name', value: '_id' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'overwrittenFooter' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'id' },
+                  name: { kind: 'Name', value: '_id' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: '_type' } },
               ],
             },
           },
@@ -3226,7 +3141,166 @@ export const FooterDataDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<FooterDataQuery, FooterDataQueryVariables>;
+} as unknown as DocumentNode<GetPageBySlugQuery, GetPageBySlugQueryVariables>;
+export const GetLandingPageDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetLandingPage' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'pages' },
+            name: { kind: 'Name', value: 'allPage' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'landing' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: { kind: 'BooleanValue', value: true },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'PageData' } }],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PageContent' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'id' },
+            name: { kind: 'Name', value: '_id' },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PageData' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Page' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'id' },
+            name: { kind: 'Name', value: '_id' },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'slug' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'current' } }],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'openGraph' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'image' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'asset' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'url' } }],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'headerVariant' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'content' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'PageContent' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'overwrittenMainNavigation' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'id' },
+                  name: { kind: 'Name', value: '_id' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'overwrittenFooter' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'id' },
+                  name: { kind: 'Name', value: '_id' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetLandingPageQuery, GetLandingPageQueryVariables>;
 export const AboutSectionDataDocument = {
   kind: 'Document',
   definitions: [
@@ -3354,6 +3428,104 @@ export const AboutSectionDataDocument = {
     },
   ],
 } as unknown as DocumentNode<AboutSectionDataQuery, AboutSectionDataQueryVariables>;
+export const FooterDataDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'FooterData' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'data' },
+            name: { kind: 'Name', value: 'Footer' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '_id' } },
+                { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'navigationItems' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'link' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'externalUrl' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'page' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'slug' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        { kind: 'Field', name: { kind: 'Name', value: 'current' } },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'copyright' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'socialLinks' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<FooterDataQuery, FooterDataQueryVariables>;
 export const GallerySectionDataDocument = {
   kind: 'Document',
   definitions: [

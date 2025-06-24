@@ -37,6 +37,7 @@ function getWebpackConfig(config) {
 const sassOptions = {
   prependData: `@import "src/styles/utils.scss";`,
   importer: jsonImporter(),
+  silenceDeprecations: ['legacy-js-api'],
 };
 
 /**

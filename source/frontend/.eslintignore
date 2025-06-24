@@ -6,6 +6,8 @@ next-env.d.ts
 src/definitions.d.ts
 
 src/webgl/**/*
+vendor
+public
 
 # Generated GraphQL files
 src/graphql/gql.ts
