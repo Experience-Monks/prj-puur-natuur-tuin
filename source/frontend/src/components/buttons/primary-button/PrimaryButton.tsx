@@ -3,7 +3,7 @@ import { type ReactElement } from 'react';
 import { useEnabledAnimation } from '../../../hooks/useEnabledAnimation';
 import { useEnabledBeforeUnmount } from '../../../hooks/useEnabledBeforeUnmount';
 import Copy, { CopySize } from '../../general/copy/Copy';
-import ArrowRightIcon from '../../icons/arrow-right.svg';
+import ArrowRightIcon from '../../icons/arrow-right.svg?component';
 import Button, { type ButtonProps } from '../button/Button';
 import { createInAnimation, createOutAnimation } from './PrimaryButton.animations';
 import styles from './PrimaryButton.module.scss';

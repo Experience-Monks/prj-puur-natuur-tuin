@@ -137,6 +137,7 @@ export async function transformContentProps(
       };
     }
 
+    console.log(propsTransformMap, { type, identifier });
     const transformerImportFunction = propsTransformMap[type as keyof typeof propsTransformMap];
 
     try {

@@ -50,11 +50,11 @@ export const getSettingsQuery = graphql(`
         }
       }
       mainNavigation {
-        _id
+        id: _id
         _type
       }
       mainFooter {
-        _id
+        id: _id
         _type
       }
       nextPage
@@ -66,7 +66,7 @@ export const getSettingsQuery = graphql(`
 export const landingPageQuery = graphql(`
   query LandingPageQuery {
     landingPage: allPage(where: { landing: { eq: true } }) {
-      _id
+      id: _id
       title
       slug {
         current
@@ -101,11 +101,11 @@ export const pageQuery = graphql(`
         ...PageContent
       }
       overwrittenMainNavigation {
-        _id
+        id: _id
         _type
       }
       overwrittenFooter {
-        _id
+        id: _id
         _type
       }
     }

@@ -1,5 +1,6 @@
 'use client';
 
+import { TransitionPresence } from '@mediamonks/react-kit';
 import { type ReactElement } from 'react';
 import { WebVitals } from '../utils/WebVitals/WebVitals';
 
@@ -12,7 +13,10 @@ export function ClientLayout({ children }: ClientLayoutProps): ReactElement {
     <html lang="nl">
       <body suppressHydrationWarning style={{ margin: 0 }}>
         <WebVitals />
-        {children}
+        <TransitionPresence>
+          {/* eslint-disable-next-line react/jsx-no-useless-fragment */}
+          <>{children}</>
+        </TransitionPresence>
       </body>
     </html>
   );

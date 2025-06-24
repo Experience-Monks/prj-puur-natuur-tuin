@@ -11,34 +11,34 @@ export type UnknownPropsTransformMap = Record<
 export type PageContentPropsTransformMap = typeof pageContentPropsTransformMap;
 
 export const pageContentPropsTransformMap = {
-    NewsSection: () =>
-      import('../../components/sections/news-section/NewsSection.transformer').then(
-        (module) => module.newsSectionTransformer,
-      ),
-
-    ProgramSection: () =>
-      import('../../components/sections/program-section/ProgramSection.transformer').then(
-        (module) => module.programSectionTransformer,
-      ),
-
-    IntroSection: () =>
-      import('../../components/sections/intro-section/IntroSection.transformer').then(
-        (module) => module.introSectionTransformer,
-      ),
-
-    GallerySection: () =>
-      import('../../components/sections/gallery-section/GallerySection.transformer').then(
-        (module) => module.gallerySectionTransformer,
-      ),
-
-    AboutSection: () =>
-      import('../../components/sections/about-section/AboutSection.transformer').then(
-        (module) => module.aboutSectionTransformer,
-      ),
-
-    HeroSection: () => import('../../components/sections/hero-section/HeroSection.transformer').then(
-        (module) => module.heroSectionTransformer,
-      ),
+  NewsSection: () =>
+    import('../../components/cms-components/news-section/NewsSection.transformer').then(
+      (module) => module.newsSectionTransformer,
+    ),
+  ProgramSection: () =>
+    import('../../components/cms-components/program-section/ProgramSection.transformer').then(
+      (module) => module.programSectionTransformer,
+    ),
+  IntroSection: () =>
+    import('../../components/cms-components/intro-section/IntroSection.transformer').then(
+      (module) => module.introSectionTransformer,
+    ),
+  GallerySection: () =>
+    import('../../components/cms-components/gallery-section/GallerySection.transformer').then(
+      (module) => module.gallerySectionTransformer,
+    ),
+  AboutSection: () =>
+    import('../../components/cms-components/about-section/AboutSection.transformer').then(
+      (module) => module.aboutSectionTransformer,
+    ),
+  HeroSection: () =>
+    import('../../components/cms-components/hero-section/HeroSection.transformer').then(
+      (module) => module.heroSectionTransformer,
+    ),
+  Footer: () =>
+    import('../../components/cms-components/footer/Footer.transformer').then(
+      (module) => module.footerTransformer,
+    ),
 } as const satisfies UnknownPropsTransformMap;
 
 /* eslint-disable @typescript-eslint/naming-convention */

@@ -7,7 +7,6 @@ export type NextPageProps = {
   searchParams?: Record<string, string | Array<string>>;
 };
 
-
 declare global {
   type DebugLogger = {
     readonly log: Debugger;
