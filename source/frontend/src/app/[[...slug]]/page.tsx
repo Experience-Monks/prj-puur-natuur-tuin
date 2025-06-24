@@ -80,7 +80,7 @@ export default async function Page(props: NextPageProps): Promise<ReactElement |
     includeDrafts,
   };
 
-  const transformedPageData = await pageTransformer(pageData as PageData, context, {
+  const transformedPageData = await pageTransformer(page as PageData, context, {
     skipMetadata: false,
   });
 
