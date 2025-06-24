@@ -1,7 +1,7 @@
 import { type Metadata } from 'next';
-import { type ReactElement } from 'react';
+import { type ReactElement, type ReactNode } from 'react';
 import { ClientLayout } from '../components/layout/ClientLayout';
-import { Providers } from './providers';
+import { Providers } from '../utils/providers';
 
 export const metadata: Metadata = {
   title: 'Puur Natuur Tuin',
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 type RootLayoutProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export default function RootLayout({ children }: RootLayoutProps): ReactElement {

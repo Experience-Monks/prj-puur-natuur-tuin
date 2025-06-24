@@ -1,14 +1,14 @@
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents, @typescript-eslint/naming-convention */
 import { type Maybe, type Serializable, type Some } from 'isntnt';
 import type React from 'react';
 import { type ForwardRefExoticComponent, type FunctionComponent } from 'react';
-import { type PageQueryQuery } from '../../graphql/graphql';
+import { type PageDataFragment } from '../../graphql/graphql';
 import { type EntryIdentifier } from '../../types/EntryIdentifier';
 import { deepOmitUndefined } from '../../utils/transformer/deepOmitUndefined';
 import { propsTransformMap } from './page.componentTransformersMap';
 import { type PageContentProps, type TransformedPageProps } from './page.types';
 
 type MaybeEntryIdentifier<Type extends string = string> = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   __typename?: Type;
   id?: string | null;
 };
@@ -19,7 +19,6 @@ export type ContentIdentifierItem = MaybeEntryIdentifier<any> | null | undefined
 type ContentIdentifierItems = Array<ContentIdentifierItem>;
 
 export function getContentIdentifierItems(data: {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   __typename: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   content?: Maybe<Array<any>>;
@@ -34,7 +33,6 @@ export function getContentIdentifierItems(data: {
       return data.content;
     }
     default: {
-      // eslint-disable-next-line no-underscore-dangle
       cnsl.error('Unknown content type', data.__typename);
       return [];
     }
@@ -42,9 +40,9 @@ export function getContentIdentifierItems(data: {
   /* eslint-enable no-underscore-dangle */
 }
 
-export type PageData = Some<Some<PageQueryQuery['pages'][number]>> & {
+export type PageData = Some<Some<PageDataFragment>> & {
   metadata:
-    | (Some<Some<PageQueryQuery['pages'][number]>>['openGraph'] & {
+    | (Some<Some<PageDataFragment>>['openGraph'] & {
         index: boolean;
         pageId: string;
         title: string;
@@ -75,7 +73,6 @@ export async function pageTransformer(
   },
 ): Promise<TransformedPageProps> {
   const defaultPageData: {
-    // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
     metadata: PageData['metadata'] | undefined;
   } = {
     metadata: {
@@ -89,7 +86,6 @@ export async function pageTransformer(
             index: isPage(data),
             pageId: data.id,
           }),
-      // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
     } as PageData['metadata'] | undefined,
   };
 
@@ -100,18 +96,23 @@ export async function pageTransformer(
   const navigationTransform = transformContentProps([context.defaults?.navigation], context);
   const footerTransform = transformContentProps([context.defaults?.footer], context);
 
-  // eslint-disable-next-line no-inline-comments
   const [navigation, content, footer] = await Promise.all([
     navigationTransform,
-    transformContentProps(contentIdentifierItems, context),
+    await transformContentProps(contentIdentifierItems, context),
     footerTransform,
   ] as const);
 
   return {
     ...defaultPageData,
-    navigation: navigation.filter((navigationContent) => navigationContent !== null),
-    content: content.filter((componentContent) => componentContent !== null),
-    footer: footer.filter((footerContent) => footerContent !== null),
+    navigation: navigation.filter((navigationContent) => navigationContent !== null) as
+      | Array<PageContentProps>
+      | undefined,
+    content: content.filter(
+      (componentContent) => componentContent !== null,
+    ) as Array<PageContentProps>,
+    footer: footer.filter((footerContent) => footerContent !== null) as
+      | Array<PageContentProps>
+      | undefined,
   };
 }
 /* eslint-enable no-underscore-dangle */

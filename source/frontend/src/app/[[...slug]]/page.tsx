@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 /* eslint-disable no-underscore-dangle */
+import { type Metadata } from 'next';
 import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { type ReactElement } from 'react';
 import { ComponentRenderer } from '../../components/layout/component-renderer/ComponentRenderer';
 import { DraftMode } from '../../components/utils/DraftMode/DraftMode';
+import { baseMetadata } from '../../data/metadata';
 import { type NextPageProps } from '../../definitions';
 import { extend } from '../../utils/debug';
 import { type PageData, pageTransformer } from './page.transformers';
@@ -12,7 +14,37 @@ import { getGlobalPageData, getPageData } from './page.utils';
 
 const debug = extend('PageGeneration');
 
+export async function generateMetadata(props: NextPageProps): Promise<Metadata> {
+  const page = await getPageData(props);
+
+  if (!page?.openGraph) {
+    return {};
+  }
+
+  return baseMetadata(page.openGraph);
+}
+
 export const revalidate = 600;
+
+// We'll prerender only the params from `generateStaticParams` at build time.
+// If a request comes in for a path that hasn't been generated,
+// Next.js will server-render the page on-demand.
+
+// eslint-disable-next-line unicorn/prevent-abbreviations
+export const dynamicParams = true;
+
+// eslint-disable-next-line unicorn/prevent-abbreviations
+export async function generateStaticParams(): Promise<
+  Array<{
+    page: ReadonlyArray<string>;
+  }>
+> {
+  return [
+    {
+      page: [''],
+    },
+  ];
+}
 
 export default async function Page(props: NextPageProps): Promise<ReactElement | undefined> {
   const { isEnabled } = await draftMode();
@@ -24,8 +56,6 @@ export default async function Page(props: NextPageProps): Promise<ReactElement |
   const { pageData, footer, header } = await getGlobalPageData({
     headerVariant: page?.headerVariant,
   });
-
-  console.log({ pageData }, 'CONTENT', page?.content);
 
   if (!page?.content) {
     // Return an error or fallback component instead of using Next.js notFound()
