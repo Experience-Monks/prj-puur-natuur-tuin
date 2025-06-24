@@ -9,7 +9,7 @@ export const gallerySectionIdentifierFragment = graphql(`
 
 export const gallerySectionQuery = graphql(`
   query GallerySectionData($id: ID!) {
-    data: Gallery(id: $id) {
+    data: GallerySection(id: $id) {
       _type
       _key
       images {

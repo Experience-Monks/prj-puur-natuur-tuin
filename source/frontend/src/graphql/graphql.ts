@@ -80,16 +80,6 @@ export type AboutSectionOrGallerySectionOrHeroSectionOrIntroSectionOrNewsSection
   | NewsSection
   | ProgramSection;
 
-export type AboutSectionOrGallerySectionOrHeroSectionOrIntroSectionOrNewsSectionOrProgramSectionOrStickyNavigation =
-
-    | AboutSection
-    | GallerySection
-    | HeroSection
-    | IntroSection
-    | NewsSection
-    | ProgramSection
-    | StickyNavigation;
-
 export type AboutSectionSorting = {
   _createdAt?: InputMaybe<SortOrder>;
   _id?: InputMaybe<SortOrder>;
@@ -313,6 +303,10 @@ export type Footer = Document & {
   /** Date the document was last modified */
   _updatedAt?: Maybe<Scalars['DateTime']['output']>;
   copyright?: Maybe<Scalars['String']['output']>;
+  /** Space below the component */
+  marginBottom?: Maybe<Scalars['String']['output']>;
+  /** Space above the component */
+  marginTop?: Maybe<Scalars['String']['output']>;
   navigationItems?: Maybe<Array<Maybe<FooterNavigationItem>>>;
   socialLinks?: Maybe<Array<Maybe<SocialLink>>>;
   title?: Maybe<Scalars['String']['output']>;
@@ -328,6 +322,8 @@ export type FooterFilter = {
   _type?: InputMaybe<StringFilter>;
   _updatedAt?: InputMaybe<DatetimeFilter>;
   copyright?: InputMaybe<StringFilter>;
+  marginBottom?: InputMaybe<StringFilter>;
+  marginTop?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
 };
 
@@ -361,11 +357,13 @@ export type FooterSorting = {
   _type?: InputMaybe<SortOrder>;
   _updatedAt?: InputMaybe<SortOrder>;
   copyright?: InputMaybe<SortOrder>;
+  marginBottom?: InputMaybe<SortOrder>;
+  marginTop?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
 };
 
-export type Gallery = Document & {
-  __typename: 'Gallery';
+export type GallerySection = Document & {
+  __typename: 'GallerySection';
   /** Date the document was created */
   _createdAt?: Maybe<Scalars['DateTime']['output']>;
   /** Document ID */
@@ -378,9 +376,13 @@ export type Gallery = Document & {
   /** Date the document was last modified */
   _updatedAt?: Maybe<Scalars['DateTime']['output']>;
   images?: Maybe<Array<Maybe<Image>>>;
+  /** Space below the component */
+  marginBottom?: Maybe<Scalars['String']['output']>;
+  /** Space above the component */
+  marginTop?: Maybe<Scalars['String']['output']>;
 };
 
-export type GalleryFilter = {
+export type GallerySectionFilter = {
   /** Apply filters on document level */
   _?: InputMaybe<SanityDocumentFilter>;
   _createdAt?: InputMaybe<DatetimeFilter>;
@@ -389,35 +391,19 @@ export type GalleryFilter = {
   _rev?: InputMaybe<StringFilter>;
   _type?: InputMaybe<StringFilter>;
   _updatedAt?: InputMaybe<DatetimeFilter>;
-};
-
-export type GallerySection = {
-  __typename: 'GallerySection';
-  _key?: Maybe<Scalars['String']['output']>;
-  _type?: Maybe<Scalars['String']['output']>;
-  enabled?: Maybe<Scalars['Boolean']['output']>;
-  images?: Maybe<Array<Maybe<Image>>>;
-};
-
-export type GallerySectionFilter = {
-  _key?: InputMaybe<StringFilter>;
-  _type?: InputMaybe<StringFilter>;
-  enabled?: InputMaybe<BooleanFilter>;
+  marginBottom?: InputMaybe<StringFilter>;
+  marginTop?: InputMaybe<StringFilter>;
 };
 
 export type GallerySectionSorting = {
-  _key?: InputMaybe<SortOrder>;
-  _type?: InputMaybe<SortOrder>;
-  enabled?: InputMaybe<SortOrder>;
-};
-
-export type GallerySorting = {
   _createdAt?: InputMaybe<SortOrder>;
   _id?: InputMaybe<SortOrder>;
   _key?: InputMaybe<SortOrder>;
   _rev?: InputMaybe<SortOrder>;
   _type?: InputMaybe<SortOrder>;
   _updatedAt?: InputMaybe<SortOrder>;
+  marginBottom?: InputMaybe<SortOrder>;
+  marginTop?: InputMaybe<SortOrder>;
 };
 
 export type Geopoint = {
@@ -797,6 +783,44 @@ export type LinkFragmentSorting = {
   linkType?: InputMaybe<SortOrder>;
 };
 
+export type MediaTag = Document & {
+  __typename: 'MediaTag';
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']['output']>;
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']['output']>;
+  _key?: Maybe<Scalars['String']['output']>;
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']['output']>;
+  /** Document type */
+  _type?: Maybe<Scalars['String']['output']>;
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  name?: Maybe<Slug>;
+};
+
+export type MediaTagFilter = {
+  /** Apply filters on document level */
+  _?: InputMaybe<SanityDocumentFilter>;
+  _createdAt?: InputMaybe<DatetimeFilter>;
+  _id?: InputMaybe<IdFilter>;
+  _key?: InputMaybe<StringFilter>;
+  _rev?: InputMaybe<StringFilter>;
+  _type?: InputMaybe<StringFilter>;
+  _updatedAt?: InputMaybe<DatetimeFilter>;
+  name?: InputMaybe<SlugFilter>;
+};
+
+export type MediaTagSorting = {
+  _createdAt?: InputMaybe<SortOrder>;
+  _id?: InputMaybe<SortOrder>;
+  _key?: InputMaybe<SortOrder>;
+  _rev?: InputMaybe<SortOrder>;
+  _type?: InputMaybe<SortOrder>;
+  _updatedAt?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SlugSorting>;
+};
+
 export type Navigation = Document & {
   __typename: 'Navigation';
   /** Date the document was created */
@@ -810,10 +834,12 @@ export type Navigation = Document & {
   _type?: Maybe<Scalars['String']['output']>;
   /** Date the document was last modified */
   _updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  order?: Maybe<Scalars['Float']['output']>;
-  showInFooter?: Maybe<Scalars['Boolean']['output']>;
-  showInHeader?: Maybe<Scalars['Boolean']['output']>;
-  slug?: Maybe<Slug>;
+  links?: Maybe<Array<Maybe<NavigationLink>>>;
+  logo?: Maybe<Image>;
+  /** Space below the component */
+  marginBottom?: Maybe<Scalars['String']['output']>;
+  /** Space above the component */
+  marginTop?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   url?: Maybe<Scalars['String']['output']>;
 };
@@ -827,10 +853,9 @@ export type NavigationFilter = {
   _rev?: InputMaybe<StringFilter>;
   _type?: InputMaybe<StringFilter>;
   _updatedAt?: InputMaybe<DatetimeFilter>;
-  order?: InputMaybe<FloatFilter>;
-  showInFooter?: InputMaybe<BooleanFilter>;
-  showInHeader?: InputMaybe<BooleanFilter>;
-  slug?: InputMaybe<SlugFilter>;
+  logo?: InputMaybe<ImageFilter>;
+  marginBottom?: InputMaybe<StringFilter>;
+  marginTop?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
   url?: InputMaybe<StringFilter>;
 };
@@ -865,10 +890,9 @@ export type NavigationSorting = {
   _rev?: InputMaybe<SortOrder>;
   _type?: InputMaybe<SortOrder>;
   _updatedAt?: InputMaybe<SortOrder>;
-  order?: InputMaybe<SortOrder>;
-  showInFooter?: InputMaybe<SortOrder>;
-  showInHeader?: InputMaybe<SortOrder>;
-  slug?: InputMaybe<SlugSorting>;
+  logo?: InputMaybe<ImageSorting>;
+  marginBottom?: InputMaybe<SortOrder>;
+  marginTop?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
   url?: InputMaybe<SortOrder>;
 };
@@ -1023,7 +1047,7 @@ export type Page = Document & {
   _updatedAt?: Maybe<Scalars['DateTime']['output']>;
   content?: Maybe<
     Array<
-      Maybe<AboutSectionOrGallerySectionOrHeroSectionOrIntroSectionOrNewsSectionOrProgramSectionOrStickyNavigation>
+      Maybe<AboutSectionOrGallerySectionOrHeroSectionOrIntroSectionOrNewsSectionOrProgramSection>
     >
   >;
   /** Optional variant for the header */
@@ -1219,10 +1243,11 @@ export type RootQuery = {
   AboutSection?: Maybe<AboutSection>;
   Document?: Maybe<Document>;
   Footer?: Maybe<Footer>;
-  Gallery?: Maybe<Gallery>;
+  GallerySection?: Maybe<GallerySection>;
   HeroSection?: Maybe<HeroSection>;
   Homepage?: Maybe<Homepage>;
   IntroSection?: Maybe<IntroSection>;
+  MediaTag?: Maybe<MediaTag>;
   Navigation?: Maybe<Navigation>;
   News?: Maybe<News>;
   NewsSection?: Maybe<NewsSection>;
@@ -1235,10 +1260,11 @@ export type RootQuery = {
   allAboutSection: Array<AboutSection>;
   allDocument: Array<Document>;
   allFooter: Array<Footer>;
-  allGallery: Array<Gallery>;
+  allGallerySection: Array<GallerySection>;
   allHeroSection: Array<HeroSection>;
   allHomepage: Array<Homepage>;
   allIntroSection: Array<IntroSection>;
+  allMediaTag: Array<MediaTag>;
   allNavigation: Array<Navigation>;
   allNews: Array<News>;
   allNewsSection: Array<NewsSection>;
@@ -1262,7 +1288,7 @@ export type RootQueryFooterArgs = {
   id: Scalars['ID']['input'];
 };
 
-export type RootQueryGalleryArgs = {
+export type RootQueryGallerySectionArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -1275,6 +1301,10 @@ export type RootQueryHomepageArgs = {
 };
 
 export type RootQueryIntroSectionArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type RootQueryMediaTagArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -1335,11 +1365,11 @@ export type RootQueryAllFooterArgs = {
   where?: InputMaybe<FooterFilter>;
 };
 
-export type RootQueryAllGalleryArgs = {
+export type RootQueryAllGallerySectionArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  sort?: InputMaybe<Array<GallerySorting>>;
-  where?: InputMaybe<GalleryFilter>;
+  sort?: InputMaybe<Array<GallerySectionSorting>>;
+  where?: InputMaybe<GallerySectionFilter>;
 };
 
 export type RootQueryAllHeroSectionArgs = {
@@ -1361,6 +1391,13 @@ export type RootQueryAllIntroSectionArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   sort?: InputMaybe<Array<IntroSectionSorting>>;
   where?: InputMaybe<IntroSectionFilter>;
+};
+
+export type RootQueryAllMediaTagArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Array<MediaTagSorting>>;
+  where?: InputMaybe<MediaTagFilter>;
 };
 
 export type RootQueryAllNavigationArgs = {
@@ -1977,30 +2014,6 @@ export type Span = {
   text?: Maybe<Scalars['String']['output']>;
 };
 
-export type StickyNavigation = {
-  __typename: 'StickyNavigation';
-  _key?: Maybe<Scalars['String']['output']>;
-  _type?: Maybe<Scalars['String']['output']>;
-  links?: Maybe<Array<Maybe<NavigationLink>>>;
-  logo?: Maybe<Image>;
-  /** Navigation title (for internal reference only) */
-  title?: Maybe<Scalars['String']['output']>;
-};
-
-export type StickyNavigationFilter = {
-  _key?: InputMaybe<StringFilter>;
-  _type?: InputMaybe<StringFilter>;
-  logo?: InputMaybe<ImageFilter>;
-  title?: InputMaybe<StringFilter>;
-};
-
-export type StickyNavigationSorting = {
-  _key?: InputMaybe<SortOrder>;
-  _type?: InputMaybe<SortOrder>;
-  logo?: InputMaybe<ImageSorting>;
-  title?: InputMaybe<SortOrder>;
-};
-
 export type StringFilter = {
   /** Checks if the value is equal to the given input. */
   eq?: InputMaybe<Scalars['String']['input']>;
@@ -2050,13 +2063,15 @@ type PageContentAboutSectionFragment = { __typename: 'AboutSection'; id?: string
 
 type PageContentFooterFragment = { __typename: 'Footer'; id?: string | null };
 
-type PageContentGalleryFragment = { __typename: 'Gallery'; id?: string | null };
+type PageContentGallerySectionFragment = { __typename: 'GallerySection'; id?: string | null };
 
 type PageContentHeroSectionFragment = { __typename: 'HeroSection'; id?: string | null };
 
 type PageContentHomepageFragment = { __typename: 'Homepage'; id?: string | null };
 
 type PageContentIntroSectionFragment = { __typename: 'IntroSection'; id?: string | null };
+
+type PageContentMediaTagFragment = { __typename: 'MediaTag'; id?: string | null };
 
 type PageContentNavigationFragment = { __typename: 'Navigation'; id?: string | null };
 
@@ -2079,10 +2094,11 @@ type PageContentSiteSettingsFragment = { __typename: 'SiteSettings'; id?: string
 export type PageContentFragment =
   | PageContentAboutSectionFragment
   | PageContentFooterFragment
-  | PageContentGalleryFragment
+  | PageContentGallerySectionFragment
   | PageContentHeroSectionFragment
   | PageContentHomepageFragment
   | PageContentIntroSectionFragment
+  | PageContentMediaTagFragment
   | PageContentNavigationFragment
   | PageContentNewsFragment
   | PageContentNewsSectionFragment
@@ -2149,12 +2165,11 @@ export type PageDataFragment = {
   } | null;
   content?: Array<
     | { __typename: 'AboutSection'; id?: string | null }
-    | { __typename: 'GallerySection' }
+    | { __typename: 'GallerySection'; id?: string | null }
     | { __typename: 'HeroSection'; id?: string | null }
     | { __typename: 'IntroSection'; id?: string | null }
     | { __typename: 'NewsSection'; id?: string | null }
     | { __typename: 'ProgramSection'; id?: string | null }
-    | { __typename: 'StickyNavigation' }
     | null
   > | null;
   overwrittenMainNavigation?: {
@@ -2188,12 +2203,11 @@ export type GetPageBySlugQuery = {
     } | null;
     content?: Array<
       | { __typename: 'AboutSection'; id?: string | null }
-      | { __typename: 'GallerySection' }
+      | { __typename: 'GallerySection'; id?: string | null }
       | { __typename: 'HeroSection'; id?: string | null }
       | { __typename: 'IntroSection'; id?: string | null }
       | { __typename: 'NewsSection'; id?: string | null }
       | { __typename: 'ProgramSection'; id?: string | null }
-      | { __typename: 'StickyNavigation' }
       | null
     > | null;
     overwrittenMainNavigation?: {
@@ -2226,12 +2240,11 @@ export type GetLandingPageQuery = {
     } | null;
     content?: Array<
       | { __typename: 'AboutSection'; id?: string | null }
-      | { __typename: 'GallerySection' }
+      | { __typename: 'GallerySection'; id?: string | null }
       | { __typename: 'HeroSection'; id?: string | null }
       | { __typename: 'IntroSection'; id?: string | null }
       | { __typename: 'NewsSection'; id?: string | null }
       | { __typename: 'ProgramSection'; id?: string | null }
-      | { __typename: 'StickyNavigation' }
       | null
     > | null;
     overwrittenMainNavigation?: {
@@ -2339,7 +2352,7 @@ export type GallerySectionDataQueryVariables = Exact<{
 export type GallerySectionDataQuery = {
   __typename: 'RootQuery';
   data?: {
-    __typename: 'Gallery';
+    __typename: 'GallerySection';
     _type?: string | null;
     _key?: string | null;
     images?: Array<{
@@ -3549,7 +3562,7 @@ export const GallerySectionDataDocument = {
           {
             kind: 'Field',
             alias: { kind: 'Name', value: 'data' },
-            name: { kind: 'Name', value: 'Gallery' },
+            name: { kind: 'Name', value: 'GallerySection' },
             arguments: [
               {
                 kind: 'Argument',
