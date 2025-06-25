@@ -16,9 +16,7 @@ const apolloClientInstances: {
   preview: null,
 };
 
-export const apolloClient = (
-  includeDrafts = false,
-): ApolloClient<NormalizedCacheObject> => {
+export const apolloClient = (includeDrafts = false): ApolloClient<NormalizedCacheObject> => {
   if (includeDrafts) {
     apolloClientInstances.preview ??= new ApolloClient({
       cache: new InMemoryCache(),
