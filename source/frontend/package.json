@@ -43,7 +43,6 @@
     "@mediamonks/channels": "^1.0.3",
     "@mediamonks/react-kit": "^2.0.4",
     "@mediamonks/scss-utils": "^4.0.0",
-    "@mediamonks/task-loader": "^0.2.1",
     "@next/bundle-analyzer": "^13.0.0",
     "@psimk/typed-object": "^1.0.4",
     "@rive-app/canvas": "^2.7.4",
