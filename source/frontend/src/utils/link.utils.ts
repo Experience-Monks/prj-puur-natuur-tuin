@@ -27,7 +27,7 @@ export function parseLink(link: ExternalLink | NavigationLink | SocialLink): str
     return link.url ?? '';
   }
 
-  return link.page?.slug?.current ?? '';
+  return `/${link.page?.slug?.current ? `${link.page?.slug?.current}/` : ''}`;
 }
 
 /**

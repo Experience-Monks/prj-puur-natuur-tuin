@@ -1,4 +1,4 @@
-import type { RefObject } from 'react';
+import type { CmsLinkProps } from '../../../utils/link.utils';
 
 /**
  * Enum for intro section block types
@@ -38,8 +38,6 @@ export type IntroSectionProps = {
   title: string;
   subtitle?: string;
   content?: string;
-  ctaLabel?: string;
-  ctaUrl?: string;
-  showButton?: boolean;
+  link?: CmsLinkProps;
   blocks?: Array<IntroBlock>;
 };

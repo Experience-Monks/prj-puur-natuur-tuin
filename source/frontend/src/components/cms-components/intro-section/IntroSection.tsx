@@ -1,7 +1,7 @@
 'use client';
 
 import { ensuredForwardRef, type MutableRefs, useRefs } from '@mediamonks/react-kit';
-import { type ReactElement, type ReactNode } from 'react';
+import { type ReactElement, useMemo } from 'react';
 import { useEnabledAnimation } from '../../../hooks/useEnabledAnimation';
 import { useEnabledBeforeUnmount } from '../../../hooks/useEnabledBeforeUnmount';
 import { PrimaryButton } from '../../buttons/primary-button/PrimaryButton';
@@ -18,7 +18,7 @@ import PersonReadingIcon from '../../icons/person-reading.svg?component';
 import SunIcon from '../../icons/sun.svg?component';
 import { createInAnimation, createOutAnimation } from './IntroSection.animations';
 import styles from './IntroSection.module.scss';
-import { type IntroBlock, IntroBlockType, IntroIconType } from './IntroSection.types';
+import { IntroBlockType, IntroIconType, type IntroSectionProps } from './IntroSection.types';
 
 const iconComponents = {
   [IntroIconType.Sun]: SunIcon,
@@ -32,23 +32,12 @@ const iconComponents = {
   [IntroIconType.PersonEating]: PersonEatingIcon,
 };
 
-type IconType = IntroIconType;
-
-type IntroSectionProps = {
-  content?: string;
-  subtitle?: string;
-  showButton?: boolean;
-  ctaLabel?: string;
-  ctaUrl?: string;
-  blocks?: Array<IntroBlock>;
-};
-
 export type IntroSectionRefs = MutableRefs<{
   self: HTMLDivElement;
 }>;
 
 export const IntroSection = ensuredForwardRef<HTMLDivElement, IntroSectionProps>(
-  ({ content, subtitle, showButton, ctaLabel, ctaUrl, blocks = [] }, ref): ReactElement => {
+  ({ content, subtitle, link, blocks = [] }, ref): ReactElement => {
     const refs = useRefs<IntroSectionRefs>({
       self: ref,
     });
@@ -56,22 +45,36 @@ export const IntroSection = ensuredForwardRef<HTMLDivElement, IntroSectionProps>
     useEnabledAnimation(() => createInAnimation(refs), [refs]);
     useEnabledBeforeUnmount(async () => createOutAnimation(refs));
 
-    // Render an icon based on its type
-    const renderIcon = (iconType: IconType, key?: string): ReactNode => {
-      const IconComponent = iconComponents[iconType];
-      if (!IconComponent) {
-        return null;
-      }
+    const formattedBlocks = useMemo(
+      () =>
+        blocks.map((block) => {
+          /* eslint-disable no-underscore-dangle */
+          if (block._type === IntroBlockType.Text && 'text' in block) {
+            return (
+              <span
+                // eslint-disable-next-line no-underscore-dangle
+                key={block._key}
+                className={styles.titleFragment}
+              >
+                {block.text}
+              </span>
+            );
+          }
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+          if (block._type === IntroBlockType.Icon && 'iconType' in block) {
+            const IconComponent = iconComponents[block.iconType];
+            if (!IconComponent) {
+              return null;
+            }
 
-      const className = styles[`${iconType}Icon`] || styles.icon;
+            const className = styles[`${block.iconType}Icon`] || styles.icon;
 
-      return <IconComponent key={key} className={className} aria-hidden="true" />;
-    };
-
-    const renderText = (text: string, key?: string): ReactNode => (
-      <Heading key={key} as="h2" size={HeadingSize.Heading2} className={styles.titleFragment}>
-        {text}
-      </Heading>
+            return <IconComponent key={block._key} className={className} aria-hidden="true" />;
+            /* eslint-enable no-underscore-dangle */
+          }
+          return null;
+        }),
+      [blocks],
     );
 
     return (
@@ -79,21 +82,9 @@ export const IntroSection = ensuredForwardRef<HTMLDivElement, IntroSectionProps>
         <div className={styles.container}>
           {/* Title with decorative elements */}
           <div className={styles.titleWrapper}>
-            <div className={styles.titleContent}>
-              {blocks.map((block) => {
-                // eslint-disable-next-line no-underscore-dangle
-                if (block._type === IntroBlockType.Text && 'text' in block) {
-                  // eslint-disable-next-line no-underscore-dangle
-                  return renderText(block.text, block._key);
-                }
-                // eslint-disable-next-line no-underscore-dangle, @typescript-eslint/no-unnecessary-condition
-                if (block._type === IntroBlockType.Icon && 'iconType' in block) {
-                  // eslint-disable-next-line no-underscore-dangle
-                  return renderIcon(block.iconType, block._key);
-                }
-                return null;
-              })}
-            </div>
+            <Heading as="h2" size={HeadingSize.Heading2} className={styles.titleContent}>
+              {formattedBlocks.map((block) => block)}
+            </Heading>
           </div>
 
           {/* Main content */}
@@ -110,9 +101,9 @@ export const IntroSection = ensuredForwardRef<HTMLDivElement, IntroSectionProps>
               </Copy>
             )}
 
-            {showButton && ctaLabel && ctaUrl && (
+            {link && (
               <div className={styles.ctaWrapper}>
-                <PrimaryButton href={ctaUrl}>{ctaLabel}</PrimaryButton>
+                <PrimaryButton {...link}>{link.children}</PrimaryButton>
               </div>
             )}
           </div>

@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  max-inline-size: 80vw;
+  max-inline-size: $maxInlineSize;
   margin-block-end: remify(89);
 }
 
@@ -27,21 +27,17 @@
   margin-block-end: remify(89);
 
   .titleContent {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
   }
-}
-
-// Common styles for title fragments
-.titleFragment {
-  display: inline-flex;
 }
 
 // Icon styles
 .icon {
+  position: relative;
+  inset-block-start: 2.5rem;
+  display: inline;
   aspect-ratio: 1/1;
+  margin-inline: 1rem;
 }
 
 .contentWrapper {
