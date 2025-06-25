@@ -27,22 +27,10 @@ export const introSectionQuery = graphql(`
       }
       content
       subtitle
-      cta {
-        text
-        link {
-          linkType
-          internalLink {
-            _id
-            slug {
-              current
-            }
-          }
-          externalUrl
-          emailAddress
-        }
+      link {
+        ...ExternalLink
+        ...NavigationLink
       }
-      showButton
-      enabled
     }
   }
 `);

@@ -18,12 +18,8 @@ export const footerQuery = graphql(`
         _key
         title
         link {
-          externalUrl
-          page {
-            slug {
-              current
-            }
-          }
+          ...ExternalLink
+          ...NavigationLink
         }
       }
       copyright

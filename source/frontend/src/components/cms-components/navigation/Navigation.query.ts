@@ -20,8 +20,7 @@ export const navigationQuery = graphql(`
         }
       }
       links {
-        label
-        sectionId
+        ...NavigationLink
       }
     }
   }

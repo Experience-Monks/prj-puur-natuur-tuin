@@ -35,19 +35,9 @@ export const heroSectionQuery = graphql(`
         align
         maxWidth
       }
-      ctaButton {
-        text
-        link {
-          linkType
-          internalLink {
-            _id
-            slug {
-              current
-            }
-          }
-          externalUrl
-          emailAddress
-        }
+      link {
+        ...ExternalLink
+        ...NavigationLink
       }
       variant
     }

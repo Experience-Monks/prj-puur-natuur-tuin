@@ -16,20 +16,9 @@ export const newsSectionQuery = graphql(`
         title
       }
       enabled
-      showButton
-      ctaButton {
-        text
-        link {
-          linkType
-          internalLink {
-            _id
-            slug {
-              current
-            }
-          }
-          externalUrl
-          emailAddress
-        }
+      link {
+        ...ExternalLink
+        ...NavigationLink
       }
     }
   }
