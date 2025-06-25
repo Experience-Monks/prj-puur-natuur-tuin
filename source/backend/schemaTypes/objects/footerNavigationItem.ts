@@ -11,11 +11,11 @@ export default defineType({
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
+    {
       name: 'link',
-      title: 'Link',
-      type: 'pageLink',
-    }),
+      type: 'reference',
+      to: [{ type: 'navigationLink' }, { type: 'externalLink' }],
+    },
   ],
   preview: {
     select: {

@@ -1,4 +1,13 @@
 import type { StructureResolver } from 'sanity/structure';
+import {
+  ArrowRightIcon,
+  ArrowTopRightIcon,
+  CogIcon,
+  ComponentIcon,
+  EarthGlobeIcon,
+  LinkIcon,
+  ProjectsIcon,
+} from '@sanity/icons';
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -8,6 +17,7 @@ export const structure: StructureResolver = (S) =>
 
       S.listItem()
         .title('Content Items')
+        .icon(ProjectsIcon)
         .child(
           S.list()
             .title('Content Items')
@@ -19,6 +29,7 @@ export const structure: StructureResolver = (S) =>
 
       S.listItem()
         .title('Components')
+        .icon(ComponentIcon)
         .child(
           S.list()
             .title('Components')
@@ -33,9 +44,23 @@ export const structure: StructureResolver = (S) =>
             ]),
         ),
 
+      S.listItem()
+        .title('Links')
+        .icon(LinkIcon)
+        .child(
+          S.list()
+            .title('Links')
+            .items([
+              S.documentTypeListItem('navigationLink').icon(ArrowRightIcon),
+              S.documentTypeListItem('externalLink').icon(ArrowTopRightIcon),
+              S.documentTypeListItem('socialLink').icon(EarthGlobeIcon),
+            ]),
+        ),
+
       S.divider(),
 
       S.listItem()
         .title('Settings')
+        .icon(CogIcon)
         .child(S.document().schemaType('siteSettings').documentId('siteSettings')),
     ]);

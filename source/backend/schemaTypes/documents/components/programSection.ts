@@ -51,18 +51,9 @@ export default createComponentDocument('programSection', {
       validation: (Rule: Rule) => Rule.max(10),
     },
     {
-      name: 'showButton',
-      title: 'Show Button',
-      type: 'boolean',
-      initialValue: false,
-      description: 'Toggle to show or hide the call to action button',
-    },
-    {
-      name: 'ctaButton',
-      title: 'Call to Action Button',
-      type: 'buttonFragment',
-      description: 'Button to view all programs',
-      hidden: ({ parent }) => !parent?.showButton,
+      name: 'link',
+      type: 'reference',
+      to: [{ type: 'navigationLink' }, { type: 'externalLink' }],
     },
   ],
   preview: {

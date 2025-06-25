@@ -19,12 +19,17 @@ export default createComponentDocument('footer', {
       title: 'Copyright Text',
       type: 'string',
     }),
-    defineField({
+    {
       name: 'socialLinks',
       title: 'Social Links',
       type: 'array',
-      of: [{ type: 'socialLink' }],
-    }),
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'socialLink' }],
+        },
+      ],
+    },
   ],
   preview: {
     select: {

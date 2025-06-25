@@ -37,18 +37,9 @@ export default createComponentDocument('aboutSection', {
       description: 'Image for the about section',
     },
     {
-      name: 'showButton',
-      title: 'Show Button',
-      type: 'boolean',
-      initialValue: false,
-      description: 'Toggle to show or hide the call to action button',
-    },
-    {
-      name: 'ctaButton',
-      title: 'Call to Action Button',
-      type: 'buttonFragment',
-      description: 'Button to learn more or take action',
-      hidden: ({ parent }) => !parent?.showButton,
+      name: 'link',
+      type: 'reference',
+      to: [{ type: 'navigationLink' }, { type: 'externalLink' }],
     },
   ],
   preview: {

@@ -16,7 +16,12 @@ export default createComponentDocument('navigation', {
       name: 'links',
       title: 'Navigation Links',
       type: 'array',
-      of: [{ type: 'navigationLink' }],
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'navigationLink' }],
+        },
+      ],
     },
     { name: 'url', title: 'URL', type: 'url' },
   ],

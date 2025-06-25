@@ -17,24 +17,24 @@ import aboutSection from './documents/components/aboutSection';
 
 // Objects
 import carousel from './objects/carousel';
-import socialLink from './objects/socialLink';
 import blockContent from './objects/blockContent';
 import seo from './objects/seo';
 
 // Component-based imports
-import introTextBlock from './objects/fragments/introTextBlock';
-import introIconBlock from './objects/fragments/introIconBlock';
 import openGraph from './objects/openGraph';
 import footerNavigationItem from './objects/footerNavigationItem';
-import pageLink from './objects/pageLink';
-import navigationLink from './objects/navigationLink';
 import textBlock from './objects/textBlock';
 import iconBlock from './objects/iconBlock';
 
+// Links
+import navigationLink from './objects/link/navigationLink';
+import externalLink from './objects/link/externalLink';
+import socialLink from './objects/link/socialLink';
+
 // Fragments
-import buttonFragment from './objects/fragments/button';
-import linkFragment from './objects/fragments/link';
 import sectionHeader from './objects/fragments/sectionHeader';
+import introTextBlock from './objects/fragments/introTextBlock';
+import introIconBlock from './objects/fragments/introIconBlock';
 
 export const schemaTypes = [
   // Documents
@@ -54,20 +54,21 @@ export const schemaTypes = [
 
   // Objects
   carousel,
-  socialLink,
   blockContent,
   seo,
-  introTextBlock,
-  introIconBlock,
+
   openGraph,
   footerNavigationItem,
-  pageLink,
-  navigationLink,
   textBlock,
   iconBlock,
 
+  // Links
+  externalLink,
+  socialLink,
+  navigationLink,
+
   // Fragments
-  buttonFragment,
-  linkFragment,
   sectionHeader,
+  introTextBlock,
+  introIconBlock,
 ];

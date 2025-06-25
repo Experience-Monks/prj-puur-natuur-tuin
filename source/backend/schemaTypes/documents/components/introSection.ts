@@ -3,13 +3,6 @@ import { createComponentDocument } from '../../../util/document-utils/createComp
 export default createComponentDocument('introSection', {
   fields: [
     {
-      name: 'enabled',
-      title: 'Enabled',
-      type: 'boolean',
-      initialValue: true,
-      description: 'Controls whether this section is displayed',
-    },
-    {
       name: 'title',
       title: 'Section Title',
       type: 'string',
@@ -21,11 +14,13 @@ export default createComponentDocument('introSection', {
       description: 'Add text and icons in the desired order',
       type: 'array',
       of: [{ type: 'introTextBlock' }, { type: 'introIconBlock' }],
+      validation: (rule) => rule.required().min(5).max(30),
     },
     {
       name: 'content',
       title: 'Main Content',
       type: 'text',
+      validation: (rule) => rule.required(),
     },
     {
       name: 'subtitle',
@@ -33,18 +28,9 @@ export default createComponentDocument('introSection', {
       type: 'string',
     },
     {
-      name: 'showButton',
-      title: 'Show Button',
-      type: 'boolean',
-      initialValue: false,
-      description: 'Toggle to show or hide the call to action button',
-    },
-    {
-      name: 'cta',
-      title: 'Call to Action',
-      type: 'buttonFragment',
-      description: 'Button for the intro section',
-      hidden: ({ parent }) => !parent?.showButton,
+      name: 'link',
+      type: 'reference',
+      to: [{ type: 'navigationLink' }, { type: 'externalLink' }],
     },
   ],
   preview: {
@@ -53,11 +39,11 @@ export default createComponentDocument('introSection', {
       enabled: 'enabled',
       blocks: 'blocks',
     },
-    prepare({ title, enabled, blocks }) {
+    prepare({ title, blocks }) {
       const blockCount = blocks?.length || 0;
 
       return {
-        title: `${title || 'Intro Section'}${enabled === false ? ' (disabled)' : ''}`,
+        title: `${title || 'Intro Section'}`,
         subtitle: blockCount > 0 ? `${blockCount} content blocks` : 'Intro Section',
       };
     },
