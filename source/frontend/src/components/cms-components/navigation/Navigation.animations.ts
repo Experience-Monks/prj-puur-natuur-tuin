@@ -1,7 +1,7 @@
 import { validateAndUnwrapRefs } from '@mediamonks/react-kit';
 import gsap from 'gsap';
-import { fadeFromTo, fadeTo } from '../../animation/fade/fade';
-import { type NavigationRefs } from './Navigation';
+import { fadeFromTo, fadeTo } from '../../../animation/fade/fade';
+import { type NavigationRefs } from './Navigation.types';
 
 export interface MobileMenuAnimationOptions {
   duration?: number;

@@ -2471,6 +2471,35 @@ export type IntroSectionDataQuery = {
   } | null;
 };
 
+export type NavigationIdentifierFragment = {
+  __typename: 'Navigation';
+  _type?: string | null;
+  id?: string | null;
+};
+
+export type NavigationDataQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type NavigationDataQuery = {
+  __typename: 'RootQuery';
+  data?: {
+    __typename: 'Navigation';
+    _type?: string | null;
+    _key?: string | null;
+    title?: string | null;
+    logo?: {
+      __typename: 'Image';
+      asset?: { __typename: 'SanityImageAsset'; url?: string | null } | null;
+    } | null;
+    links?: Array<{
+      __typename: 'NavigationLink';
+      label?: string | null;
+      sectionId?: string | null;
+    } | null> | null;
+  } | null;
+};
+
 export type NewsSectionIdentifierFragment = { __typename: 'NewsSection'; id?: string | null };
 
 export type NewsSectionDataQueryVariables = Exact<{
@@ -2780,6 +2809,28 @@ export const IntroSectionIdentifierFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<IntroSectionIdentifierFragment, unknown>;
+export const NavigationIdentifierFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'NavigationIdentifier' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Navigation' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'id' },
+            name: { kind: 'Name', value: '_id' },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<NavigationIdentifierFragment, unknown>;
 export const NewsSectionIdentifierFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -3875,6 +3926,79 @@ export const IntroSectionDataDocument = {
     },
   ],
 } as unknown as DocumentNode<IntroSectionDataQuery, IntroSectionDataQueryVariables>;
+export const NavigationDataDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'NavigationData' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'data' },
+            name: { kind: 'Name', value: 'Navigation' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '_type' } },
+                { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'logo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'asset' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'url' } }],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'links' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'sectionId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<NavigationDataQuery, NavigationDataQueryVariables>;
 export const NewsSectionDataDocument = {
   kind: 'Document',
   definitions: [

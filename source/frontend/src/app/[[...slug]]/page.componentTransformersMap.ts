@@ -35,6 +35,10 @@ export const pageContentPropsTransformMap = {
     import('../../components/cms-components/hero-section/HeroSection.transformer').then(
       (module) => module.heroSectionTransformer,
     ),
+  Navigation: () =>
+    import('../../components/cms-components/navigation/Navigation.transformer').then(
+      (module) => module.navigationTransformer,
+    ),
   Footer: () =>
     import('../../components/cms-components/footer/Footer.transformer').then(
       (module) => module.footerTransformer,

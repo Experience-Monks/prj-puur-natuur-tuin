@@ -30,6 +30,8 @@ type Documents = {
   '\n  query HeroSectionData($id: ID!) {\n    data: HeroSection(id: $id) {\n      _type\n      _key\n      title\n      subtitle\n      enabled\n      backgroundImage {\n        asset {\n          url\n          metadata {\n            dimensions {\n              width\n              height\n            }\n          }\n        }\n      }\n      contentBlocks {\n        _key\n        _type\n        text\n        richText\n        variant\n        align\n        maxWidth\n      }\n      ctaButton {\n        text\n        link {\n          linkType\n          internalLink {\n            _id\n            slug {\n              current\n            }\n          }\n          externalUrl\n          emailAddress\n        }\n      }\n      variant\n    }\n  }\n': typeof types.HeroSectionDataDocument;
   '\n  fragment IntroSectionIdentifier on IntroSection {\n    __typename\n    id: _id\n  }\n': typeof types.IntroSectionIdentifierFragmentDoc;
   '\n  query IntroSectionData($id: ID!) {\n    data: IntroSection(id: $id) {\n      _type\n      _key\n      title\n      blocks {\n        ... on IntroTextBlock {\n          _key\n          _type\n          text\n        }\n        ... on IntroIconBlock {\n          _key\n          _type\n          iconType\n        }\n      }\n      content\n      subtitle\n      cta {\n        text\n        link {\n          linkType\n          internalLink {\n            _id\n            slug {\n              current\n            }\n          }\n          externalUrl\n          emailAddress\n        }\n      }\n      showButton\n      enabled\n    }\n  }\n': typeof types.IntroSectionDataDocument;
+  '\n  fragment NavigationIdentifier on Navigation {\n    __typename\n    id: _id\n    _type\n  }\n': typeof types.NavigationIdentifierFragmentDoc;
+  '\n  query NavigationData($id: ID!) {\n    data: Navigation(id: $id) {\n      _type\n      _key\n      title\n      logo {\n        asset {\n          url\n        }\n      }\n      links {\n        label\n        sectionId\n      }\n    }\n  }\n': typeof types.NavigationDataDocument;
   '\n  fragment NewsSectionIdentifier on NewsSection {\n    __typename\n    id: _id\n  }\n': typeof types.NewsSectionIdentifierFragmentDoc;
   '\n  query NewsSectionData($id: ID!) {\n    data: NewsSection(id: $id) {\n      _type\n      _key\n      header {\n        title\n      }\n      enabled\n      showButton\n      ctaButton {\n        text\n        link {\n          linkType\n          internalLink {\n            _id\n            slug {\n              current\n            }\n          }\n          externalUrl\n          emailAddress\n        }\n      }\n    }\n  }\n': typeof types.NewsSectionDataDocument;
   '\n  fragment ProgramSectionIdentifier on ProgramSection {\n    __typename\n    id: _id\n  }\n': typeof types.ProgramSectionIdentifierFragmentDoc;
@@ -68,6 +70,10 @@ const documents: Documents = {
     types.IntroSectionIdentifierFragmentDoc,
   '\n  query IntroSectionData($id: ID!) {\n    data: IntroSection(id: $id) {\n      _type\n      _key\n      title\n      blocks {\n        ... on IntroTextBlock {\n          _key\n          _type\n          text\n        }\n        ... on IntroIconBlock {\n          _key\n          _type\n          iconType\n        }\n      }\n      content\n      subtitle\n      cta {\n        text\n        link {\n          linkType\n          internalLink {\n            _id\n            slug {\n              current\n            }\n          }\n          externalUrl\n          emailAddress\n        }\n      }\n      showButton\n      enabled\n    }\n  }\n':
     types.IntroSectionDataDocument,
+  '\n  fragment NavigationIdentifier on Navigation {\n    __typename\n    id: _id\n    _type\n  }\n':
+    types.NavigationIdentifierFragmentDoc,
+  '\n  query NavigationData($id: ID!) {\n    data: Navigation(id: $id) {\n      _type\n      _key\n      title\n      logo {\n        asset {\n          url\n        }\n      }\n      links {\n        label\n        sectionId\n      }\n    }\n  }\n':
+    types.NavigationDataDocument,
   '\n  fragment NewsSectionIdentifier on NewsSection {\n    __typename\n    id: _id\n  }\n':
     types.NewsSectionIdentifierFragmentDoc,
   '\n  query NewsSectionData($id: ID!) {\n    data: NewsSection(id: $id) {\n      _type\n      _key\n      header {\n        title\n      }\n      enabled\n      showButton\n      ctaButton {\n        text\n        link {\n          linkType\n          internalLink {\n            _id\n            slug {\n              current\n            }\n          }\n          externalUrl\n          emailAddress\n        }\n      }\n    }\n  }\n':
@@ -188,6 +194,18 @@ export function graphql(
 export function graphql(
   source: '\n  query IntroSectionData($id: ID!) {\n    data: IntroSection(id: $id) {\n      _type\n      _key\n      title\n      blocks {\n        ... on IntroTextBlock {\n          _key\n          _type\n          text\n        }\n        ... on IntroIconBlock {\n          _key\n          _type\n          iconType\n        }\n      }\n      content\n      subtitle\n      cta {\n        text\n        link {\n          linkType\n          internalLink {\n            _id\n            slug {\n              current\n            }\n          }\n          externalUrl\n          emailAddress\n        }\n      }\n      showButton\n      enabled\n    }\n  }\n',
 ): (typeof documents)['\n  query IntroSectionData($id: ID!) {\n    data: IntroSection(id: $id) {\n      _type\n      _key\n      title\n      blocks {\n        ... on IntroTextBlock {\n          _key\n          _type\n          text\n        }\n        ... on IntroIconBlock {\n          _key\n          _type\n          iconType\n        }\n      }\n      content\n      subtitle\n      cta {\n        text\n        link {\n          linkType\n          internalLink {\n            _id\n            slug {\n              current\n            }\n          }\n          externalUrl\n          emailAddress\n        }\n      }\n      showButton\n      enabled\n    }\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  fragment NavigationIdentifier on Navigation {\n    __typename\n    id: _id\n    _type\n  }\n',
+): (typeof documents)['\n  fragment NavigationIdentifier on Navigation {\n    __typename\n    id: _id\n    _type\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query NavigationData($id: ID!) {\n    data: Navigation(id: $id) {\n      _type\n      _key\n      title\n      logo {\n        asset {\n          url\n        }\n      }\n      links {\n        label\n        sectionId\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query NavigationData($id: ID!) {\n    data: Navigation(id: $id) {\n      _type\n      _key\n      title\n      logo {\n        asset {\n          url\n        }\n      }\n      links {\n        label\n        sectionId\n      }\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -53,9 +53,11 @@ export default async function Page(props: NextPageProps): Promise<ReactElement |
   debug.info(`Start fetching page data`);
 
   const page = await getPageData(props);
-  const { pageData, footer, header } = await getGlobalPageData({
+  const { footer, header } = await getGlobalPageData({
     headerVariant: page?.headerVariant,
   });
+
+  debug.info(`footer data fetched`, footer);
 
   if (!page?.content) {
     // Return an error or fallback component instead of using Next.js notFound()

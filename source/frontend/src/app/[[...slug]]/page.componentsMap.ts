@@ -35,11 +35,11 @@ export const componentMap = {
   Footer: dynamic(() =>
     import('../../components/cms-components/footer/Footer').then((module) => module.Footer),
   ),
-  // StickyNavigation: dynamic(() =>
-  //   import('../../components/cms-components/intro-section/StickyNavigation').then(
-  //     (module) => module.StickyNavigation,
-  //   ),
-  // ),
+  Navigation: dynamic(() =>
+    import('../../components/cms-components/navigation/Navigation').then(
+      (module) => module.Navigation,
+    ),
+  ),
 } as const;
 
 export type ComponentMap = typeof componentMap;

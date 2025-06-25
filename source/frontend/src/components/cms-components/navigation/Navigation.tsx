@@ -1,26 +1,15 @@
 'use client';
 
-import { ensuredForwardRef, type MutableRefs, useRefs, useToggle } from '@mediamonks/react-kit';
+import { ensuredForwardRef, useRefs, useToggle } from '@mediamonks/react-kit';
 import { useAnimation } from '@mediamonks/react-kit/gsap';
 import Link from 'next/link';
 import type { ReactElement } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useIsSmallViewport } from '../../../hooks/useIsSmallViewport';
-import DefaultLogo from '../icons/logo.svg';
+import DefaultLogo from '../../icons/logo.svg?component';
 import { createMobileMenuOpenAnimation } from './Navigation.animations';
 import styles from './Navigation.module.scss';
-
-export type NavigationProps = {
-  links: Array<{
-    label: string;
-    href: string;
-    isActive?: boolean;
-  }>;
-};
-
-export type NavigationRefs = MutableRefs<{
-  self: HTMLElement;
-}>;
+import { type NavigationProps, type NavigationRefs } from './Navigation.types';
 
 export const Navigation = ensuredForwardRef<HTMLElement, NavigationProps>(
   ({ links }, ref): ReactElement => {
