@@ -30,8 +30,6 @@ export const Default: Story = {
         align="center"
       />,
     ],
-    ctaLabel: 'Learn More',
-    ctaUrl: '#',
   },
 };
 
@@ -63,8 +61,6 @@ export const WithMultipleTextBlocks: Story = {
         align="right"
       />,
     ],
-    ctaLabel: 'Get Started',
-    ctaUrl: '#services',
   },
 };
 
@@ -85,8 +81,6 @@ export const Centered: Story = {
         richText
       />,
     ],
-    ctaLabel: 'Contact Us',
-    ctaUrl: '#contact',
     variant: 'centered',
   },
 };
@@ -108,8 +102,6 @@ export const Large: Story = {
         maxWidth={700}
       />,
     ],
-    ctaLabel: 'View Calendar',
-    ctaUrl: '#calendar',
     variant: 'large',
   },
 };

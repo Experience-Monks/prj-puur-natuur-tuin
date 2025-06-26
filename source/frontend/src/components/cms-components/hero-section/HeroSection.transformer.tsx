@@ -1,10 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 import { type ReactElement, type ReactNode } from 'react';
 import { createPropsTransformer } from '../../../data/transformers/createPropsTransformer';
+import { linkTransformer } from '../../../data/transformers/linkTransformer';
 import type { HeroSectionIdentifierFragment } from '../../../graphql/graphql';
 import { graphqlRequest } from '../../../net/graphql/graphqlRequest';
 import { TextBlock } from '../../blocks/text-block/TextBlock';
-import { processButtonLink } from '../../buttons/button/Button.utils';
 import { HeroSection } from './HeroSection';
 import { heroSectionQuery } from './HeroSection.query';
 import { type HeroSectionProps } from './HeroSection.types';
@@ -44,8 +44,10 @@ export const heroSectionTransformer = createPropsTransformer(
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 key={block._key}
                 text={block.text}
-                variant={block.variant ?? 'default'}
-                align={block.align ?? 'left'}
+                variant={
+                  block.variant ? (block.variant as 'default' | 'large' | 'highlight') : 'default'
+                }
+                align={block.align ? (block.align as 'left' | 'right' | 'center') : 'left'}
                 richText={block.richText ?? false}
                 maxWidth={block.maxWidth ?? undefined}
               />
@@ -72,10 +74,11 @@ export const heroSectionTransformer = createPropsTransformer(
           }
         : undefined,
       contentBlocks: transformedBlocks,
-      ctaLabel: data.ctaButton?.text ?? '',
-      // TODO fix button link
-      ctaUrl: processButtonLink({}),
-      // showButton,
+      ...(data.link
+        ? {
+            link: linkTransformer(data.link),
+          }
+        : {}),
       ...(data.variant
         ? {
             variant: data.variant as HeroSectionProps['variant'],

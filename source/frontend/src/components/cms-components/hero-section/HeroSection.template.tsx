@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import Image from 'next/image';
 import { type ReactElement } from 'react';
 import { PrimaryButton } from '../../buttons/primary-button/PrimaryButton';
 import Heading, { HeadingSize } from '../../general/heading/Heading';
@@ -12,10 +13,8 @@ export function HeroSectionTemplate({
   subtitle,
   backgroundImage,
   contentBlocks = [],
-  showButton,
-  ctaLabel,
-  ctaUrl,
   className,
+  link,
   variant = 'default',
   refs,
 }: HeroSectionTemplateProps): ReactElement {
@@ -38,7 +37,14 @@ export function HeroSectionTemplate({
       <div className={styles.container}>
         <div className={styles.contentWrapper}>
           {title && (
-            <Heading as="h1" size={HeadingSize.Heading1} className={styles.title}>
+            <Heading
+              as="h1"
+              size={HeadingSize.Heading1}
+              className={clsx(
+                styles.title,
+                (subtitle || contentBlocks.length > 0) && styles.extraSpacing,
+              )}
+            >
               {title}
             </Heading>
           )}
@@ -63,9 +69,15 @@ export function HeroSectionTemplate({
             </div>
           )}
 
-          {showButton && ctaLabel && ctaUrl && (
+          {backgroundImage && (
+            <div className={styles.imageWrapper}>
+              <Image src={backgroundImage.url} alt={backgroundImage.alt ?? ''} fill />
+            </div>
+          )}
+
+          {link && (
             <div className={styles.ctaWrapper}>
-              <PrimaryButton href={ctaUrl}>{ctaLabel}</PrimaryButton>
+              <PrimaryButton {...link}>{link.children}</PrimaryButton>
             </div>
           )}
         </div>

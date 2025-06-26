@@ -1,4 +1,5 @@
 import { type Meta, type StoryObj } from '@storybook/react';
+import { CarouselRotation } from '../../general/carousel/Carousel.enum';
 import { GallerySection } from './GallerySection';
 
 const meta = {
@@ -12,6 +13,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    rotation: CarouselRotation.None,
     images: [
       'https://picsum.photos/id/1011/800/400',
       'https://picsum.photos/id/1025/800/400',

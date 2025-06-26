@@ -1,5 +1,6 @@
 import { type MutableRefs } from '@mediamonks/react-kit';
 import { type ReactNode } from 'react';
+import type { CmsLinkProps } from '../../../utils/link.utils';
 
 export type HeroSectionRefs = MutableRefs<{
   self: HTMLDivElement;
@@ -15,9 +16,7 @@ export type HeroSectionProps = {
     height?: number;
   };
   contentBlocks?: Array<ReactNode>;
-  showButton?: boolean;
-  ctaLabel?: string;
-  ctaUrl?: string;
+  link?: CmsLinkProps;
   className?: string;
   variant?: 'default' | 'centered' | 'large';
 };

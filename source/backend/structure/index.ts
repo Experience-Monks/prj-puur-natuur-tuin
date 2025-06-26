@@ -41,6 +41,7 @@ export const structure: StructureResolver = (S) =>
               S.documentTypeListItem('introSection').title('Intro Section'),
               S.documentTypeListItem('programSection').title('Program Section'),
               S.documentTypeListItem('aboutSection').title('About Section'),
+              S.documentTypeListItem('heroSection').title('Hero Section'),
             ]),
         ),
 

@@ -73,7 +73,7 @@ export default createComponentDocument('heroSection', {
     },
     prepare({ title, subtitle, media }) {
       return {
-        title: title || 'Hero Section',
+        title: `${title || 'Hero Section'}`,
         subtitle: subtitle || 'No subtitle',
         media,
       };

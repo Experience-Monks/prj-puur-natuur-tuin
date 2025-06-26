@@ -25,7 +25,7 @@ type Documents = {
   '\n  fragment FooterIdentifier on Footer {\n    __typename\n    id: _id\n    _type\n  }\n': typeof types.FooterIdentifierFragmentDoc;
   '\n  query FooterData($id: ID!) {\n    data: Footer(id: $id) {\n      _id\n      _type\n      title\n      navigationItems {\n        _key\n        title\n        link {\n          ...ExternalLink\n          ...NavigationLink\n        }\n      }\n      copyright\n      socialLinks {\n        _key\n        label\n        url\n      }\n    }\n  }\n': typeof types.FooterDataDocument;
   '\n  fragment GallerySectionIdentifier on GallerySection {\n    __typename\n    id: _key\n  }\n': typeof types.GallerySectionIdentifierFragmentDoc;
-  '\n  query GallerySectionData($id: ID!) {\n    data: GallerySection(id: $id) {\n      _type\n      _key\n      images {\n        asset {\n          url\n        }\n      }\n    }\n  }\n': typeof types.GallerySectionDataDocument;
+  '\n  query GallerySectionData($id: ID!) {\n    data: GallerySection(id: $id) {\n      _type\n      _key\n      marginBottom\n      carousel {\n        images {\n          asset {\n            url\n          }\n        }\n        rotation\n      }\n    }\n  }\n': typeof types.GallerySectionDataDocument;
   '\n  fragment HeroSectionIdentifier on HeroSection {\n    __typename\n    id: _id\n  }\n': typeof types.HeroSectionIdentifierFragmentDoc;
   '\n  query HeroSectionData($id: ID!) {\n    data: HeroSection(id: $id) {\n      _type\n      _key\n      title\n      subtitle\n      enabled\n      backgroundImage {\n        asset {\n          url\n          metadata {\n            dimensions {\n              width\n              height\n            }\n          }\n        }\n      }\n      contentBlocks {\n        _key\n        _type\n        text\n        richText\n        variant\n        align\n        maxWidth\n      }\n      link {\n        ...ExternalLink\n        ...NavigationLink\n      }\n      variant\n    }\n  }\n': typeof types.HeroSectionDataDocument;
   '\n  fragment IntroSectionIdentifier on IntroSection {\n    __typename\n    id: _id\n  }\n': typeof types.IntroSectionIdentifierFragmentDoc;
@@ -63,7 +63,7 @@ const documents: Documents = {
     types.FooterDataDocument,
   '\n  fragment GallerySectionIdentifier on GallerySection {\n    __typename\n    id: _key\n  }\n':
     types.GallerySectionIdentifierFragmentDoc,
-  '\n  query GallerySectionData($id: ID!) {\n    data: GallerySection(id: $id) {\n      _type\n      _key\n      images {\n        asset {\n          url\n        }\n      }\n    }\n  }\n':
+  '\n  query GallerySectionData($id: ID!) {\n    data: GallerySection(id: $id) {\n      _type\n      _key\n      marginBottom\n      carousel {\n        images {\n          asset {\n            url\n          }\n        }\n        rotation\n      }\n    }\n  }\n':
     types.GallerySectionDataDocument,
   '\n  fragment HeroSectionIdentifier on HeroSection {\n    __typename\n    id: _id\n  }\n':
     types.HeroSectionIdentifierFragmentDoc,
@@ -177,8 +177,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query GallerySectionData($id: ID!) {\n    data: GallerySection(id: $id) {\n      _type\n      _key\n      images {\n        asset {\n          url\n        }\n      }\n    }\n  }\n',
-): (typeof documents)['\n  query GallerySectionData($id: ID!) {\n    data: GallerySection(id: $id) {\n      _type\n      _key\n      images {\n        asset {\n          url\n        }\n      }\n    }\n  }\n'];
+  source: '\n  query GallerySectionData($id: ID!) {\n    data: GallerySection(id: $id) {\n      _type\n      _key\n      marginBottom\n      carousel {\n        images {\n          asset {\n            url\n          }\n        }\n        rotation\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query GallerySectionData($id: ID!) {\n    data: GallerySection(id: $id) {\n      _type\n      _key\n      marginBottom\n      carousel {\n        images {\n          asset {\n            url\n          }\n        }\n        rotation\n      }\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
