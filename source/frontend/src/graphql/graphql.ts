@@ -327,13 +327,13 @@ export type Footer = Document & {
   _type?: Maybe<Scalars['String']['output']>;
   /** Date the document was last modified */
   _updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  copyright?: Maybe<Scalars['String']['output']>;
+  copyrightLeft?: Maybe<Scalars['String']['output']>;
+  copyrightRight?: Maybe<Scalars['String']['output']>;
+  links?: Maybe<Array<Maybe<ExternalLinkOrNavigationLink>>>;
   /** Space below the component */
   marginBottom?: Maybe<Scalars['String']['output']>;
   /** Space above the component */
   marginTop?: Maybe<Scalars['String']['output']>;
-  navigationItems?: Maybe<Array<Maybe<FooterNavigationItem>>>;
-  socialLinks?: Maybe<Array<Maybe<SocialLink>>>;
   title?: Maybe<Scalars['String']['output']>;
 };
 
@@ -346,7 +346,8 @@ export type FooterFilter = {
   _rev?: InputMaybe<StringFilter>;
   _type?: InputMaybe<StringFilter>;
   _updatedAt?: InputMaybe<DatetimeFilter>;
-  copyright?: InputMaybe<StringFilter>;
+  copyrightLeft?: InputMaybe<StringFilter>;
+  copyrightRight?: InputMaybe<StringFilter>;
   marginBottom?: InputMaybe<StringFilter>;
   marginTop?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
@@ -379,7 +380,8 @@ export type FooterSorting = {
   _rev?: InputMaybe<SortOrder>;
   _type?: InputMaybe<SortOrder>;
   _updatedAt?: InputMaybe<SortOrder>;
-  copyright?: InputMaybe<SortOrder>;
+  copyrightLeft?: InputMaybe<SortOrder>;
+  copyrightRight?: InputMaybe<SortOrder>;
   marginBottom?: InputMaybe<SortOrder>;
   marginTop?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
@@ -825,7 +827,6 @@ export type Navigation = Document & {
   /** Space above the component */
   marginTop?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
 };
 
 export type NavigationFilter = {
@@ -841,7 +842,6 @@ export type NavigationFilter = {
   marginBottom?: InputMaybe<StringFilter>;
   marginTop?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
-  url?: InputMaybe<StringFilter>;
 };
 
 export type NavigationLink = Document & {
@@ -899,7 +899,6 @@ export type NavigationSorting = {
   marginBottom?: InputMaybe<SortOrder>;
   marginTop?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
-  url?: InputMaybe<SortOrder>;
 };
 
 export type News = Document & {
@@ -1049,8 +1048,7 @@ export type Page = Document & {
       Maybe<AboutSectionOrGallerySectionOrHeroSectionOrIntroSectionOrNewsSectionOrProgramSection>
     >
   >;
-  /** Optional variant for the header */
-  headerVariant?: Maybe<Scalars['String']['output']>;
+  footerVariant?: Maybe<Scalars['String']['output']>;
   /** Set to true if this is the homepage/landing page */
   landing?: Maybe<Scalars['Boolean']['output']>;
   openGraph?: Maybe<OpenGraph>;
@@ -1073,7 +1071,7 @@ export type PageFilter = {
   _rev?: InputMaybe<StringFilter>;
   _type?: InputMaybe<StringFilter>;
   _updatedAt?: InputMaybe<DatetimeFilter>;
-  headerVariant?: InputMaybe<StringFilter>;
+  footerVariant?: InputMaybe<StringFilter>;
   landing?: InputMaybe<BooleanFilter>;
   openGraph?: InputMaybe<OpenGraphFilter>;
   overwrittenFooter?: InputMaybe<FooterFilter>;
@@ -1090,7 +1088,7 @@ export type PageSorting = {
   _rev?: InputMaybe<SortOrder>;
   _type?: InputMaybe<SortOrder>;
   _updatedAt?: InputMaybe<SortOrder>;
-  headerVariant?: InputMaybe<SortOrder>;
+  footerVariant?: InputMaybe<SortOrder>;
   landing?: InputMaybe<SortOrder>;
   openGraph?: InputMaybe<OpenGraphSorting>;
   slug?: InputMaybe<SlugSorting>;
@@ -1909,7 +1907,6 @@ export type SiteSettings = Document & {
   _updatedAt?: Maybe<Scalars['DateTime']['output']>;
   contactEmail?: Maybe<Scalars['String']['output']>;
   fallbackImage?: Maybe<Image>;
-  footerText?: Maybe<Scalars['String']['output']>;
   logo?: Maybe<Image>;
   mainFooter?: Maybe<Footer>;
   mainNavigation?: Maybe<Navigation>;
@@ -1933,7 +1930,6 @@ export type SiteSettingsFilter = {
   _updatedAt?: InputMaybe<DatetimeFilter>;
   contactEmail?: InputMaybe<StringFilter>;
   fallbackImage?: InputMaybe<ImageFilter>;
-  footerText?: InputMaybe<StringFilter>;
   logo?: InputMaybe<ImageFilter>;
   mainFooter?: InputMaybe<FooterFilter>;
   mainNavigation?: InputMaybe<NavigationFilter>;
@@ -1954,7 +1950,6 @@ export type SiteSettingsSorting = {
   _updatedAt?: InputMaybe<SortOrder>;
   contactEmail?: InputMaybe<SortOrder>;
   fallbackImage?: InputMaybe<ImageSorting>;
-  footerText?: InputMaybe<SortOrder>;
   logo?: InputMaybe<ImageSorting>;
   nextPage?: InputMaybe<SortOrder>;
   openGraphDescription?: InputMaybe<SortOrder>;
@@ -2194,7 +2189,7 @@ export type GetSettingsQueryQuery = {
 export type PageDataFragment = {
   __typename: 'Page';
   title?: string | null;
-  headerVariant?: string | null;
+  footerVariant?: string | null;
   id?: string | null;
   slug?: { __typename: 'Slug'; current?: string | null } | null;
   openGraph?: {
@@ -2232,7 +2227,7 @@ export type GetPageBySlugQuery = {
   pages: Array<{
     __typename: 'Page';
     title?: string | null;
-    headerVariant?: string | null;
+    footerVariant?: string | null;
     id?: string | null;
     slug?: { __typename: 'Slug'; current?: string | null } | null;
     openGraph?: {
@@ -2269,7 +2264,7 @@ export type GetLandingPageQuery = {
   pages: Array<{
     __typename: 'Page';
     title?: string | null;
-    headerVariant?: string | null;
+    footerVariant?: string | null;
     id?: string | null;
     slug?: { __typename: 'Slug'; current?: string | null } | null;
     openGraph?: {
@@ -2375,45 +2370,36 @@ export type FooterDataQuery = {
     _id?: string | null;
     _type?: string | null;
     title?: string | null;
-    copyright?: string | null;
-    navigationItems?: Array<{
-      __typename: 'FooterNavigationItem';
-      _key?: string | null;
-      title?: string | null;
-      link?:
-        | {
-            __typename: 'ExternalLink';
-            label?: string | null;
-            url?: string | null;
-            target?: string | null;
-            ariaLabel?: string | null;
-          }
-        | {
-            __typename: 'NavigationLink';
-            label?: string | null;
-            ariaLabel?: string | null;
-            component?:
-              | { __typename: 'AboutSection'; id?: string | null }
-              | { __typename: 'GallerySection'; id?: string | null }
-              | { __typename: 'HeroSection'; id?: string | null }
-              | { __typename: 'IntroSection'; id?: string | null }
-              | { __typename: 'NewsSection'; id?: string | null }
-              | { __typename: 'ProgramSection'; id?: string | null }
-              | null;
-            page?: {
-              __typename: 'Page';
-              id?: string | null;
-              slug?: { __typename: 'Slug'; current?: string | null } | null;
-            } | null;
-          }
-        | null;
-    } | null> | null;
-    socialLinks?: Array<{
-      __typename: 'SocialLink';
-      _key?: string | null;
-      label?: string | null;
-      url?: string | null;
-    } | null> | null;
+    copyrightLeft?: string | null;
+    copyrightRight?: string | null;
+    links?: Array<
+      | {
+          __typename: 'ExternalLink';
+          label?: string | null;
+          url?: string | null;
+          target?: string | null;
+          ariaLabel?: string | null;
+        }
+      | {
+          __typename: 'NavigationLink';
+          label?: string | null;
+          ariaLabel?: string | null;
+          component?:
+            | { __typename: 'AboutSection'; id?: string | null }
+            | { __typename: 'GallerySection'; id?: string | null }
+            | { __typename: 'HeroSection'; id?: string | null }
+            | { __typename: 'IntroSection'; id?: string | null }
+            | { __typename: 'NewsSection'; id?: string | null }
+            | { __typename: 'ProgramSection'; id?: string | null }
+            | null;
+          page?: {
+            __typename: 'Page';
+            id?: string | null;
+            slug?: { __typename: 'Slug'; current?: string | null } | null;
+          } | null;
+        }
+      | null
+    > | null;
   } | null;
 };
 
@@ -2812,7 +2798,7 @@ export const PageDataFragmentDoc = {
               ],
             },
           },
-          { kind: 'Field', name: { kind: 'Name', value: 'headerVariant' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'footerVariant' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'content' },
@@ -3438,7 +3424,7 @@ export const GetPageBySlugDocument = {
               ],
             },
           },
-          { kind: 'Field', name: { kind: 'Name', value: 'headerVariant' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'footerVariant' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'content' },
@@ -3597,7 +3583,7 @@ export const GetLandingPageDocument = {
               ],
             },
           },
-          { kind: 'Field', name: { kind: 'Name', value: 'headerVariant' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'footerVariant' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'content' },
@@ -3855,45 +3841,17 @@ export const FooterDataDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'navigationItems' },
+                  name: { kind: 'Name', value: 'links' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: '_key' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'link' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'ExternalLink' },
-                            },
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'NavigationLink' },
-                            },
-                          ],
-                        },
-                      },
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ExternalLink' } },
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'NavigationLink' } },
                     ],
                   },
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'copyright' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'socialLinks' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: '_key' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-                    ],
-                  },
-                },
+                { kind: 'Field', name: { kind: 'Name', value: 'copyrightLeft' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'copyrightRight' } },
               ],
             },
           },

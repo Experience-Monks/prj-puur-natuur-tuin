@@ -54,7 +54,8 @@ export default async function Page(props: NextPageProps): Promise<ReactElement |
 
   const page = await getPageData(props);
   const { footer, header } = await getGlobalPageData({
-    headerVariant: page?.headerVariant,
+    // TODO adjust to footer variant
+    headerVariant: page?.footerVariant,
   });
 
   debug.info(`footer data fetched`, footer);
