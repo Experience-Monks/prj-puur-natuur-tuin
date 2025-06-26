@@ -41,10 +41,16 @@ export default defineType({
       type: 'openGraph',
     }),
     defineField({
-      name: 'headerVariant',
-      title: 'Header Variant',
+      name: 'footerVariant',
+      title: 'Footer Variant',
       type: 'string',
-      description: 'Optional variant for the header',
+      initialValue: 'darkBackground',
+      options: {
+        list: [
+          { title: 'Dark background', value: 'darkBackground' },
+          { title: 'Bright background', value: 'brightBackground' },
+        ],
+      },
     }),
     defineField({
       name: 'overwrittenMainNavigation',

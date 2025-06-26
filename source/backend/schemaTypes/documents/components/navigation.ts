@@ -22,7 +22,7 @@ export default createComponentDocument('navigation', {
           to: [{ type: 'navigationLink' }],
         },
       ],
+      validation: (rule) => rule.required().min(1).max(6),
     },
-    { name: 'url', title: 'URL', type: 'url' },
   ],
 });

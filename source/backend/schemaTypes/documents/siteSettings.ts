@@ -7,7 +7,6 @@ export default defineType({
   fields: [
     { name: 'siteTitle', title: 'Site Titel', type: 'string' },
     { name: 'logo', title: 'Logo', type: 'image' },
-    { name: 'footerText', title: 'Footer Tekst', type: 'string' },
     { name: 'contactEmail', title: 'Contact E-mail', type: 'string' },
     {
       name: 'socialLinks',

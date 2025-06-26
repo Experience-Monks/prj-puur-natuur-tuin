@@ -33,11 +33,12 @@
 
 // Icon styles
 .icon {
+  @include size(fluid-size(52px, 140px));
   position: relative;
-  inset-block-start: 2.5rem;
+  inset-block-start: fluid-size(5px, 32px);
   display: inline;
   aspect-ratio: 1/1;
-  margin-inline: 1rem;
+  margin-inline: fluid-size(5px, 10px);
 }
 
 .contentWrapper {
