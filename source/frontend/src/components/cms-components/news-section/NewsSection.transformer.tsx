@@ -84,14 +84,6 @@ export const newsSectionTransformer = createPropsTransformer(
       const ctaUrl = processButtonLink(data.ctaButton ?? {});
       const showButton = Boolean(ctaLabel && ctaUrl);
 
-      console.log('[NewsSectionTransformer] CTA props:', {
-        ctaLabel,
-        ctaUrl,
-        showButton,
-        hasCtaButton: Boolean(data.ctaButton),
-        ctaButtonText: data.ctaButton?.text,
-      });
-
       return {
         title: data.title ?? 'Nieuws',
         news,

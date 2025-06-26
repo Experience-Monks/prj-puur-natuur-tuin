@@ -7,74 +7,92 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  padding-block: 1rem;
+  padding-inline: 2rem;
   background-color: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(5px);
   transition: all 0.3s ease;
-  z-index: 1000;
+  z-index: zindex($zLayout, 'navigation');
+  color: $colorGreenPrimary;
 
   &.scrolled {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 0.5rem 2rem;
+    padding-block: 0.5rem;
     background-color: rgba(255, 255, 255, 0.9);
   }
 
-  .leftLinks,
-  .rightLinks {
-    display: flex;
-    gap: 2rem;
+  @include respond-to(MEDIUM) {
+    display: grid;
+    grid-template-columns: 1fr 100px 1fr;
+    padding-inline: 10vw;
 
-    a {
-      color: $colorGreenDark;
-      text-decoration: none;
-      font-weight: 500;
-      padding: 0.5rem 0;
-      position: relative;
-      transition: color 0.3s ease;
-
-      &:after {
-        content: '';
-        position: absolute;
-        inset-block-end: 0;
-        inset-inline-start: 0;
-        inline-size: 0;
-        block-size: remify(2);
-        background-color: $colorGreenPrimary;
-        transition: width 0.3s ease;
-      }
-
-      &:hover,
-      &.active {
-        color: $colorGreenPrimary;
-
-        &:after {
-          inline-size: 100%;
-        }
-      }
+    &.scrolled {
+      padding-block: 0.5rem 0.8rem;
     }
   }
 
-  .logoContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  @include respond-to(XLARGE) {
+    padding-inline: calc((100vw - $maxLargeInlineSize) / 2);
+  }
+}
 
-    .logo {
-      block-size: remify(80);
-      inline-size: auto;
-      transition: all 0.3s ease;
+.leftLinks,
+.rightLinks {
+  display: flex;
+  gap: fluid-size(24px, 70px);
+}
 
-      .scrolled & {
-        block-size: remify(50);
-      }
+.rightLinks {
+  justify-content: flex-end;
+}
+
+.link {
+  color: $colorGreenDark;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.3s ease;
+
+  &::after {
+    @include pseudo;
+    @include size(100%, remify(2));
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    background-color: $colorGreenPrimary;
+    transition: transform 0.3s ease;
+    transform: scaleX(0);
+  }
+
+  &:hover,
+  &.active {
+    color: $colorGreenPrimary;
+
+    &::after {
+      transform: scaleX(1);
     }
+  }
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  block-size: remify(80);
+  inline-size: auto;
+  transition: all 0.3s ease;
+
+  .scrolled & {
+    block-size: remify(50);
   }
 }
 
 // Mobile Navigation Styles
 .mobileNavigation {
   flex-direction: column;
-  padding: 0.5rem 1rem;
 
   .mobileHeader {
     display: flex;
@@ -83,32 +101,30 @@
     inline-size: 100%;
     padding: 0.5rem 0;
     position: relative;
-    z-index: 1100; // Higher than the menu to stay on top
+    z-index: zindex($zLayout, 'navigation-items');
+  }
 
-    .logoContainer {
-      .logo {
-        block-size: remify(40);
-      }
+  .logoContainer {
+    .logo {
+      block-size: remify(40);
     }
   }
 
   .hamburgerButton {
+    @include size(remify(30), remify(20));
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    inline-size: remify(30);
-    block-size: remify(20);
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
-    z-index: 1100;
+    z-index: zindex($zLayout, 'navigation-items');
     position: relative;
 
     .hamburgerLine {
+      @include size(100%, remify(2));
       display: block;
-      inline-size: 100%;
-      block-size: remify(2);
       background-color: $colorGreenDark;
       transition: all 0.3s ease;
     }
@@ -131,17 +147,16 @@
   }
 
   .mobileMenu {
+    @include size(100%, 100vh);
     position: fixed;
     inset-block: 0;
     inset-inline-end: 0;
-    inline-size: remify(100%);
-    block-size: 100vh;
     background-color: rgba(255, 255, 255, 0.98);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 1050;
+    z-index: zindex($zLayout, 'navigation-overlay');
     visibility: hidden;
     transform: translateX(100%);
     opacity: 0;
@@ -152,30 +167,30 @@
       opacity: 1;
       transition: all 0.3s ease;
     }
+  }
 
-    .mobileLinks {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      inline-size: 80%;
-      max-inline-size: remify(400);
-      text-align: center;
+  .mobileLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    inline-size: 80%;
+    max-inline-size: remify(400);
+    text-align: center;
+  }
 
-      a {
-        display: block;
-        color: $colorGreenDark;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 1.5rem;
-        padding: 0.75rem 1rem;
-        position: relative;
-        transition: all 0.3s ease;
+  .mobileLink {
+    display: block;
+    color: $colorGreenDark;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.5rem;
+    padding: 0.75rem 1rem;
+    position: relative;
+    transition: all 0.3s ease;
 
-        &:hover,
-        &.active {
-          color: $colorGreenPrimary;
-        }
-      }
+    &:hover,
+    &.active {
+      color: $colorGreenPrimary;
     }
   }
 }

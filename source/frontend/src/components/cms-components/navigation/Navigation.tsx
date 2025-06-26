@@ -2,9 +2,18 @@
 
 import { ensuredForwardRef, useRefs, useToggle } from '@mediamonks/react-kit';
 import { useAnimation } from '@mediamonks/react-kit/gsap';
+import classNames from 'clsx';
 import Link from 'next/link';
-import type { ReactElement } from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import {
+  type ReactElement,
+  type MouseEvent,
+  useMemo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useIsSmallViewport } from '../../../hooks/useIsSmallViewport';
 import DefaultLogo from '../../icons/logo.svg?component';
 import { createMobileMenuOpenAnimation } from './Navigation.animations';
@@ -16,6 +25,7 @@ export const Navigation = ensuredForwardRef<HTMLElement, NavigationProps>(
     const refs = useRefs<NavigationRefs>({
       self: ref,
     });
+    const pathname = usePathname();
 
     const isSmallViewport = useIsSmallViewport();
     const [isScrolled, setIsScrolled] = useState(false);
@@ -23,6 +33,15 @@ export const Navigation = ensuredForwardRef<HTMLElement, NavigationProps>(
 
     const mobileMenuRef = useRef<HTMLDivElement>(null);
     const mobileLinksRef = useRef<HTMLDivElement>(null);
+
+    const linksWithActive = useMemo(
+      () =>
+        links.map((item) => ({
+          ...item,
+          isActive: pathname.includes(item.href),
+        })),
+      [links, pathname],
+    );
 
     // Use the useAnimation hook to create and manage the animation
     const timeline = useAnimation(
@@ -73,7 +92,7 @@ export const Navigation = ensuredForwardRef<HTMLElement, NavigationProps>(
     }, [isMobileMenuOpen, timeline]);
 
     const onNavigationClick = useCallback(
-      (event: React.MouseEvent<HTMLAnchorElement>, href: string): void => {
+      (event: MouseEvent<HTMLAnchorElement>, href: string): void => {
         event.preventDefault();
 
         // Check if it's a section link
@@ -103,7 +122,7 @@ export const Navigation = ensuredForwardRef<HTMLElement, NavigationProps>(
 
     const onLinkClick = useCallback(
       (href: string) =>
-        (event: React.MouseEvent<HTMLAnchorElement>): void => {
+        (event: MouseEvent<HTMLAnchorElement>): void => {
           onNavigationClick(event, href);
         },
       [onNavigationClick],
@@ -141,11 +160,11 @@ export const Navigation = ensuredForwardRef<HTMLElement, NavigationProps>(
             className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.visible : ''}`}
           >
             <div ref={mobileLinksRef} className={styles.mobileLinks}>
-              {links.map((link) => (
+              {linksWithActive.map((link) => (
                 <Link
                   key={`mobile-link-${link.label}`}
                   href={link.href}
-                  className={link.isActive ? styles.active : ''}
+                  className={classNames(link.isActive && styles.active, styles.mobileLink)}
                   onClick={onLinkClick(link.href)}
                 >
                   {link.label}
@@ -161,11 +180,11 @@ export const Navigation = ensuredForwardRef<HTMLElement, NavigationProps>(
     return (
       <nav ref={refs.self} className={`${styles.navigation} ${isScrolled ? styles.scrolled : ''}`}>
         <div className={styles.leftLinks}>
-          {links.slice(0, Math.ceil(links.length / 2)).map((link) => (
+          {linksWithActive.slice(0, Math.ceil(links.length / 2)).map((link) => (
             <Link
               key={`left-link-${link.label}`}
               href={link.href}
-              className={link.isActive ? styles.active : ''}
+              className={classNames(link.isActive && styles.active, styles.link)}
               onClick={onLinkClick(link.href)}
             >
               {link.label}
@@ -176,11 +195,11 @@ export const Navigation = ensuredForwardRef<HTMLElement, NavigationProps>(
           <DefaultLogo className={styles.logo} />
         </div>
         <div className={styles.rightLinks}>
-          {links.slice(Math.ceil(links.length / 2)).map((link) => (
+          {linksWithActive.slice(Math.ceil(links.length / 2)).map((link) => (
             <Link
               key={`right-link-${link.label}`}
               href={link.href}
-              className={link.isActive ? styles.active : ''}
+              className={classNames(link.isActive && styles.active, styles.link)}
               onClick={onLinkClick(link.href)}
             >
               {link.label}

@@ -1,7 +1,7 @@
 // Fonts
 
 // Z Index
-$zLayout: default, navigation;
+$zLayout: default, navigation, navigation-overlay, navigation-items, overlay;
 
 // Colors
 $colorGreenPrimary: #0f7d19;
@@ -17,6 +17,7 @@ $spacingSectionInline: remify(20);
 
 //Size
 $maxInlineSize: remify(1070);
+$maxLargeInlineSize: remify(1200);
 
 // Shared variables like MediaQueries
 @import '../../data/shared-variables/shared-variables.internal.json';
