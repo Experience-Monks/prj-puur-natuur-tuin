@@ -1,4 +1,5 @@
 import { createPropsTransformer } from '../../../data/transformers/createPropsTransformer';
+import { linkTransformer } from '../../../data/transformers/linkTransformer';
 import { type FooterIdentifierFragment } from '../../../graphql/graphql';
 import { graphqlRequest } from '../../../net/graphql/graphqlRequest';
 import { Footer } from './Footer';
@@ -27,25 +28,9 @@ export const footerTransformer = createPropsTransformer(
 
     // Transform the CMS data to the component props format
     return {
-      links:
-        data.navigationItems?.map((item) => {
-          // Get the URL (either direct URL or from reference)
-          const href =
-            item?.link?.externalUrl ??
-            (item?.link?.page?.slug?.current ? `/${item.link.page.slug.current}` : '#');
-
-          return {
-            label: item?.title ?? '',
-            href,
-          };
-        }) ?? [],
-      socialLinks:
-        data.socialLinks?.map((link) => ({
-          label: link?.label ?? '',
-          href: link?.url ?? '#',
-          icon: undefined,
-        })) ?? [],
-      copyright: data.copyright ?? undefined,
+      links: data.links?.map((link) => linkTransformer(link)) ?? [],
+      copyrightLeft: data.copyrightLeft ?? undefined,
+      copyrightRight: data.copyrightRight ?? undefined,
     };
   },
 );

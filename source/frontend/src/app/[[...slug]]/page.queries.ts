@@ -70,7 +70,7 @@ export const pageFragment = graphql(`
         }
       }
     }
-    headerVariant
+    footerVariant
     content {
       ...PageContent
     }

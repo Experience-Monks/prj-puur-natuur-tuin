@@ -14,20 +14,12 @@ export const footerQuery = graphql(`
       _id
       _type
       title
-      navigationItems {
-        _key
-        title
-        link {
-          ...ExternalLink
-          ...NavigationLink
-        }
+      links {
+        ...ExternalLink
+        ...NavigationLink
       }
-      copyright
-      socialLinks {
-        _key
-        label
-        url
-      }
+      copyrightLeft
+      copyrightRight
     }
   }
 `);

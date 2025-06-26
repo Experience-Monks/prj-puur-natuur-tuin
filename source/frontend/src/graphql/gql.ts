@@ -17,13 +17,13 @@ type Documents = {
   '\n  fragment PageContent on Document {\n    id: _id\n    __typename\n  }\n': typeof types.PageContentFragmentDoc;
   '\n  query getAllPages {\n    pages: allPage {\n      _id\n      slug {\n        current\n      }\n      landing\n      parent {\n        slug {\n          current\n        }\n      }\n    }\n  }\n': typeof types.GetAllPagesDocument;
   '\n  query GetSettingsQuery {\n    settings: allSiteSettings(limit: 1) {\n      openGraphTitle\n      openGraphDescription\n      openGraphImage {\n        asset {\n          url\n        }\n      }\n      fallbackImage {\n        asset {\n          url\n        }\n      }\n      mainNavigation {\n        id: _id\n        _type\n      }\n      mainFooter {\n        id: _id\n        _type\n      }\n      nextPage\n      previousPage\n    }\n  }\n': typeof types.GetSettingsQueryDocument;
-  '\n  fragment PageData on Page {\n    id: _id\n    __typename\n    slug {\n      current\n    }\n    title\n    openGraph {\n      title\n      description\n      image {\n        asset {\n          url\n        }\n      }\n    }\n    headerVariant\n    content {\n      ...PageContent\n    }\n    overwrittenMainNavigation {\n      id: _id\n      _type\n    }\n    overwrittenFooter {\n      id: _id\n      _type\n    }\n  }\n': typeof types.PageDataFragmentDoc;
+  '\n  fragment PageData on Page {\n    id: _id\n    __typename\n    slug {\n      current\n    }\n    title\n    openGraph {\n      title\n      description\n      image {\n        asset {\n          url\n        }\n      }\n    }\n    footerVariant\n    content {\n      ...PageContent\n    }\n    overwrittenMainNavigation {\n      id: _id\n      _type\n    }\n    overwrittenFooter {\n      id: _id\n      _type\n    }\n  }\n': typeof types.PageDataFragmentDoc;
   '\n  query GetPageBySlug($slug: String!) {\n    pages: allPage(where: { slug: { current: { eq: $slug } } }) {\n      ...PageData\n    }\n  }\n': typeof types.GetPageBySlugDocument;
   '\n  query GetLandingPage {\n    pages: allPage(where: { landing: { eq: true } }) {\n      ...PageData\n    }\n  }\n': typeof types.GetLandingPageDocument;
   '\n  fragment AboutSectionIdentifier on AboutSection {\n    __typename\n    id: _id\n  }\n': typeof types.AboutSectionIdentifierFragmentDoc;
   '\n  query AboutSectionData($id: ID!) {\n    data: AboutSection(id: $id) {\n      _type\n      _key\n      title\n      content\n      image {\n        asset {\n          url\n          metadata {\n            dimensions {\n              width\n              height\n            }\n          }\n        }\n      }\n      link {\n        ...ExternalLink\n        ...NavigationLink\n      }\n    }\n  }\n': typeof types.AboutSectionDataDocument;
   '\n  fragment FooterIdentifier on Footer {\n    __typename\n    id: _id\n    _type\n  }\n': typeof types.FooterIdentifierFragmentDoc;
-  '\n  query FooterData($id: ID!) {\n    data: Footer(id: $id) {\n      _id\n      _type\n      title\n      navigationItems {\n        _key\n        title\n        link {\n          ...ExternalLink\n          ...NavigationLink\n        }\n      }\n      copyright\n      socialLinks {\n        _key\n        label\n        url\n      }\n    }\n  }\n': typeof types.FooterDataDocument;
+  '\n  query FooterData($id: ID!) {\n    data: Footer(id: $id) {\n      _id\n      _type\n      title\n      links {\n        ...ExternalLink\n        ...NavigationLink\n      }\n      copyrightLeft\n      copyrightRight\n    }\n  }\n': typeof types.FooterDataDocument;
   '\n  fragment GallerySectionIdentifier on GallerySection {\n    __typename\n    id: _key\n  }\n': typeof types.GallerySectionIdentifierFragmentDoc;
   '\n  query GallerySectionData($id: ID!) {\n    data: GallerySection(id: $id) {\n      _type\n      _key\n      images {\n        asset {\n          url\n        }\n      }\n    }\n  }\n': typeof types.GallerySectionDataDocument;
   '\n  fragment HeroSectionIdentifier on HeroSection {\n    __typename\n    id: _id\n  }\n': typeof types.HeroSectionIdentifierFragmentDoc;
@@ -47,7 +47,7 @@ const documents: Documents = {
     types.GetAllPagesDocument,
   '\n  query GetSettingsQuery {\n    settings: allSiteSettings(limit: 1) {\n      openGraphTitle\n      openGraphDescription\n      openGraphImage {\n        asset {\n          url\n        }\n      }\n      fallbackImage {\n        asset {\n          url\n        }\n      }\n      mainNavigation {\n        id: _id\n        _type\n      }\n      mainFooter {\n        id: _id\n        _type\n      }\n      nextPage\n      previousPage\n    }\n  }\n':
     types.GetSettingsQueryDocument,
-  '\n  fragment PageData on Page {\n    id: _id\n    __typename\n    slug {\n      current\n    }\n    title\n    openGraph {\n      title\n      description\n      image {\n        asset {\n          url\n        }\n      }\n    }\n    headerVariant\n    content {\n      ...PageContent\n    }\n    overwrittenMainNavigation {\n      id: _id\n      _type\n    }\n    overwrittenFooter {\n      id: _id\n      _type\n    }\n  }\n':
+  '\n  fragment PageData on Page {\n    id: _id\n    __typename\n    slug {\n      current\n    }\n    title\n    openGraph {\n      title\n      description\n      image {\n        asset {\n          url\n        }\n      }\n    }\n    footerVariant\n    content {\n      ...PageContent\n    }\n    overwrittenMainNavigation {\n      id: _id\n      _type\n    }\n    overwrittenFooter {\n      id: _id\n      _type\n    }\n  }\n':
     types.PageDataFragmentDoc,
   '\n  query GetPageBySlug($slug: String!) {\n    pages: allPage(where: { slug: { current: { eq: $slug } } }) {\n      ...PageData\n    }\n  }\n':
     types.GetPageBySlugDocument,
@@ -59,7 +59,7 @@ const documents: Documents = {
     types.AboutSectionDataDocument,
   '\n  fragment FooterIdentifier on Footer {\n    __typename\n    id: _id\n    _type\n  }\n':
     types.FooterIdentifierFragmentDoc,
-  '\n  query FooterData($id: ID!) {\n    data: Footer(id: $id) {\n      _id\n      _type\n      title\n      navigationItems {\n        _key\n        title\n        link {\n          ...ExternalLink\n          ...NavigationLink\n        }\n      }\n      copyright\n      socialLinks {\n        _key\n        label\n        url\n      }\n    }\n  }\n':
+  '\n  query FooterData($id: ID!) {\n    data: Footer(id: $id) {\n      _id\n      _type\n      title\n      links {\n        ...ExternalLink\n        ...NavigationLink\n      }\n      copyrightLeft\n      copyrightRight\n    }\n  }\n':
     types.FooterDataDocument,
   '\n  fragment GallerySectionIdentifier on GallerySection {\n    __typename\n    id: _key\n  }\n':
     types.GallerySectionIdentifierFragmentDoc,
@@ -129,8 +129,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  fragment PageData on Page {\n    id: _id\n    __typename\n    slug {\n      current\n    }\n    title\n    openGraph {\n      title\n      description\n      image {\n        asset {\n          url\n        }\n      }\n    }\n    headerVariant\n    content {\n      ...PageContent\n    }\n    overwrittenMainNavigation {\n      id: _id\n      _type\n    }\n    overwrittenFooter {\n      id: _id\n      _type\n    }\n  }\n',
-): (typeof documents)['\n  fragment PageData on Page {\n    id: _id\n    __typename\n    slug {\n      current\n    }\n    title\n    openGraph {\n      title\n      description\n      image {\n        asset {\n          url\n        }\n      }\n    }\n    headerVariant\n    content {\n      ...PageContent\n    }\n    overwrittenMainNavigation {\n      id: _id\n      _type\n    }\n    overwrittenFooter {\n      id: _id\n      _type\n    }\n  }\n'];
+  source: '\n  fragment PageData on Page {\n    id: _id\n    __typename\n    slug {\n      current\n    }\n    title\n    openGraph {\n      title\n      description\n      image {\n        asset {\n          url\n        }\n      }\n    }\n    footerVariant\n    content {\n      ...PageContent\n    }\n    overwrittenMainNavigation {\n      id: _id\n      _type\n    }\n    overwrittenFooter {\n      id: _id\n      _type\n    }\n  }\n',
+): (typeof documents)['\n  fragment PageData on Page {\n    id: _id\n    __typename\n    slug {\n      current\n    }\n    title\n    openGraph {\n      title\n      description\n      image {\n        asset {\n          url\n        }\n      }\n    }\n    footerVariant\n    content {\n      ...PageContent\n    }\n    overwrittenMainNavigation {\n      id: _id\n      _type\n    }\n    overwrittenFooter {\n      id: _id\n      _type\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -165,8 +165,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query FooterData($id: ID!) {\n    data: Footer(id: $id) {\n      _id\n      _type\n      title\n      navigationItems {\n        _key\n        title\n        link {\n          ...ExternalLink\n          ...NavigationLink\n        }\n      }\n      copyright\n      socialLinks {\n        _key\n        label\n        url\n      }\n    }\n  }\n',
-): (typeof documents)['\n  query FooterData($id: ID!) {\n    data: Footer(id: $id) {\n      _id\n      _type\n      title\n      navigationItems {\n        _key\n        title\n        link {\n          ...ExternalLink\n          ...NavigationLink\n        }\n      }\n      copyright\n      socialLinks {\n        _key\n        label\n        url\n      }\n    }\n  }\n'];
+  source: '\n  query FooterData($id: ID!) {\n    data: Footer(id: $id) {\n      _id\n      _type\n      title\n      links {\n        ...ExternalLink\n        ...NavigationLink\n      }\n      copyrightLeft\n      copyrightRight\n    }\n  }\n',
+): (typeof documents)['\n  query FooterData($id: ID!) {\n    data: Footer(id: $id) {\n      _id\n      _type\n      title\n      links {\n        ...ExternalLink\n        ...NavigationLink\n      }\n      copyrightLeft\n      copyrightRight\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
