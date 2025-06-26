@@ -8,28 +8,28 @@ export default createComponentDocument('footer', {
       title: 'Title',
       type: 'string',
     }),
-    defineField({
-      name: 'navigationItems',
-      title: 'Navigation Items',
-      type: 'array',
-      of: [{ type: 'footerNavigationItem' }],
-    }),
-    defineField({
-      name: 'copyright',
-      title: 'Copyright Text',
-      type: 'string',
-    }),
     {
-      name: 'socialLinks',
-      title: 'Social Links',
+      name: 'links',
+      title: 'Navigation Links',
       type: 'array',
       of: [
         {
           type: 'reference',
-          to: [{ type: 'socialLink' }],
+          to: [{ type: 'navigationLink' }, { type: 'externalLink' }],
         },
       ],
+      validation: (rule) => rule.required().min(1).max(6),
     },
+    defineField({
+      name: 'copyrightLeft',
+      title: 'Copyright Left Text',
+      type: 'string',
+    }),
+    defineField({
+      name: 'copyrightRight',
+      title: 'Copyright Right Text',
+      type: 'string',
+    }),
   ],
   preview: {
     select: {
