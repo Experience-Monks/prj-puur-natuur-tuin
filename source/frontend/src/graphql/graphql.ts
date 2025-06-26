@@ -117,16 +117,19 @@ export type Carousel = {
   _key?: Maybe<Scalars['String']['output']>;
   _type?: Maybe<Scalars['String']['output']>;
   images?: Maybe<Array<Maybe<Image>>>;
+  rotation?: Maybe<Scalars['String']['output']>;
 };
 
 export type CarouselFilter = {
   _key?: InputMaybe<StringFilter>;
   _type?: InputMaybe<StringFilter>;
+  rotation?: InputMaybe<StringFilter>;
 };
 
 export type CarouselSorting = {
   _key?: InputMaybe<SortOrder>;
   _type?: InputMaybe<SortOrder>;
+  rotation?: InputMaybe<SortOrder>;
 };
 
 export type CrossDatasetReference = {
@@ -397,11 +400,11 @@ export type GallerySection = Document & {
   _type?: Maybe<Scalars['String']['output']>;
   /** Date the document was last modified */
   _updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  images?: Maybe<Array<Maybe<Image>>>;
+  carousel?: Maybe<Carousel>;
   /** Space below the component */
   marginBottom?: Maybe<Scalars['String']['output']>;
-  /** Space above the component */
-  marginTop?: Maybe<Scalars['String']['output']>;
+  /** A descriptive title to identify this gallery section in the CMS (not displayed on the website) */
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export type GallerySectionFilter = {
@@ -413,8 +416,9 @@ export type GallerySectionFilter = {
   _rev?: InputMaybe<StringFilter>;
   _type?: InputMaybe<StringFilter>;
   _updatedAt?: InputMaybe<DatetimeFilter>;
+  carousel?: InputMaybe<CarouselFilter>;
   marginBottom?: InputMaybe<StringFilter>;
-  marginTop?: InputMaybe<StringFilter>;
+  title?: InputMaybe<StringFilter>;
 };
 
 export type GallerySectionSorting = {
@@ -424,8 +428,9 @@ export type GallerySectionSorting = {
   _rev?: InputMaybe<SortOrder>;
   _type?: InputMaybe<SortOrder>;
   _updatedAt?: InputMaybe<SortOrder>;
+  carousel?: InputMaybe<CarouselSorting>;
   marginBottom?: InputMaybe<SortOrder>;
-  marginTop?: InputMaybe<SortOrder>;
+  title?: InputMaybe<SortOrder>;
 };
 
 export type Geopoint = {
@@ -2406,10 +2411,15 @@ export type GallerySectionDataQuery = {
     __typename: 'GallerySection';
     _type?: string | null;
     _key?: string | null;
-    images?: Array<{
-      __typename: 'Image';
-      asset?: { __typename: 'SanityImageAsset'; url?: string | null } | null;
-    } | null> | null;
+    marginBottom?: string | null;
+    carousel?: {
+      __typename: 'Carousel';
+      rotation?: string | null;
+      images?: Array<{
+        __typename: 'Image';
+        asset?: { __typename: 'SanityImageAsset'; url?: string | null } | null;
+      } | null> | null;
+    } | null;
   } | null;
 };
 
@@ -3959,20 +3969,33 @@ export const GallerySectionDataDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: '_type' } },
                 { kind: 'Field', name: { kind: 'Name', value: '_key' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'marginBottom' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'images' },
+                  name: { kind: 'Name', value: 'carousel' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'asset' },
+                        name: { kind: 'Name', value: 'images' },
                         selectionSet: {
                           kind: 'SelectionSet',
-                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'url' } }],
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'asset' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                                ],
+                              },
+                            },
+                          ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rotation' } },
                     ],
                   },
                 },

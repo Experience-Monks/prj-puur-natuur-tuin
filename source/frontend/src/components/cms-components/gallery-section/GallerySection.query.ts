@@ -12,10 +12,14 @@ export const gallerySectionQuery = graphql(`
     data: GallerySection(id: $id) {
       _type
       _key
-      images {
-        asset {
-          url
+      marginBottom
+      carousel {
+        images {
+          asset {
+            url
+          }
         }
+        rotation
       }
     }
   }
