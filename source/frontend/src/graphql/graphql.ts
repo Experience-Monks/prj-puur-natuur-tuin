@@ -403,8 +403,6 @@ export type GallerySection = Document & {
   carousel?: Maybe<Carousel>;
   /** Space below the component */
   marginBottom?: Maybe<Scalars['String']['output']>;
-  /** Space above the component */
-  marginTop?: Maybe<Scalars['String']['output']>;
   /** A descriptive title to identify this gallery section in the CMS (not displayed on the website) */
   title?: Maybe<Scalars['String']['output']>;
 };
@@ -420,7 +418,6 @@ export type GallerySectionFilter = {
   _updatedAt?: InputMaybe<DatetimeFilter>;
   carousel?: InputMaybe<CarouselFilter>;
   marginBottom?: InputMaybe<StringFilter>;
-  marginTop?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
 };
 
@@ -433,7 +430,6 @@ export type GallerySectionSorting = {
   _updatedAt?: InputMaybe<SortOrder>;
   carousel?: InputMaybe<CarouselSorting>;
   marginBottom?: InputMaybe<SortOrder>;
-  marginTop?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
 };
 
