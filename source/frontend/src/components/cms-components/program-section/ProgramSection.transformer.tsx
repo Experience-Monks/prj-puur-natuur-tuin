@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { graphqlRequest } from 'src/net/graphql/graphqlRequest';
+import type { GlobalSettings } from '../../../app/[[...slug]]/page.types';
 import { createPropsTransformer } from '../../../data/transformers/createPropsTransformer';
 import type { ProgramSectionIdentifierFragment } from '../../../graphql/graphql';
 import { processButtonLink } from '../../buttons/button/Button.utils';
@@ -11,7 +12,7 @@ export const programSectionTransformer = createPropsTransformer(
   ProgramSection,
   async (
     identifier: ProgramSectionIdentifierFragment,
-    { includeDrafts }: { includeDrafts: boolean },
+    { includeDrafts }: GlobalSettings,
   ): Promise<ProgramSectionProps> => {
     const { id } = identifier;
 

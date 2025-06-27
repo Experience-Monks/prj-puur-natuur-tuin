@@ -1,3 +1,4 @@
+import type { GlobalSettings } from '../../../app/[[...slug]]/page.types';
 import { createPropsTransformer } from '../../../data/transformers/createPropsTransformer';
 import { linkTransformer } from '../../../data/transformers/linkTransformer';
 import { type FooterIdentifierFragment } from '../../../graphql/graphql';
@@ -10,7 +11,7 @@ export const footerTransformer = createPropsTransformer(
   Footer,
   async (
     identifier: FooterIdentifierFragment,
-    { includeDrafts }: { includeDrafts: boolean },
+    { includeDrafts, defaults }: GlobalSettings,
   ): Promise<FooterProps> => {
     const { id } = identifier;
 
@@ -31,6 +32,7 @@ export const footerTransformer = createPropsTransformer(
       links: data.links?.map((link) => linkTransformer(link)) ?? [],
       copyrightLeft: data.copyrightLeft ?? undefined,
       copyrightRight: data.copyrightRight ?? undefined,
+      footerVariant: defaults.footerVariant ?? undefined,
     };
   },
 );

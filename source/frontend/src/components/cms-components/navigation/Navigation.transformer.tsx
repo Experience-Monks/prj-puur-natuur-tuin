@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import type { GlobalSettings } from '../../../app/[[...slug]]/page.types';
 import { createPropsTransformer } from '../../../data/transformers/createPropsTransformer';
 import type { NavigationIdentifierFragment } from '../../../graphql/graphql';
 import { graphqlRequest } from '../../../net/graphql/graphqlRequest';
@@ -13,7 +14,7 @@ export const navigationTransformer = createPropsTransformer(
   Navigation,
   async (
     identifier: NavigationIdentifierFragment,
-    { includeDrafts }: { includeDrafts: boolean },
+    { includeDrafts }: GlobalSettings,
   ): Promise<NavigationProps> => {
     const { id } = identifier;
 
@@ -28,8 +29,6 @@ export const navigationTransformer = createPropsTransformer(
     if (!data) {
       throw new ReferenceError(`Content entry "${id}" of type "NewsSection" not found or invalid.`);
     }
-
-    console.log({ data });
 
     const links =
       data?.links?.map((link) => ({

@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { graphqlRequest } from 'src/net/graphql/graphqlRequest';
+import type { GlobalSettings } from '../../../app/[[...slug]]/page.types';
 import { createPropsTransformer } from '../../../data/transformers/createPropsTransformer';
 import { linkTransformer } from '../../../data/transformers/linkTransformer';
 import { type IntroSectionIdentifierFragment } from '../../../graphql/graphql';
@@ -16,7 +17,7 @@ export const introSectionTransformer = createPropsTransformer(
   IntroSection,
   async (
     identifier: IntroSectionIdentifierFragment,
-    { includeDrafts }: { includeDrafts: boolean },
+    { includeDrafts }: GlobalSettings,
   ): Promise<IntroSectionProps> => {
     const { id } = identifier;
 

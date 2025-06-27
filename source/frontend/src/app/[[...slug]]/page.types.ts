@@ -1,3 +1,4 @@
+import { type FooterVariant } from '../../components/cms-components/footer/Footer.types';
 import { type PageContentPropsTransformMap } from './page.componentTransformersMap';
 import {
   type ComponentPropsTransformer,
@@ -14,10 +15,18 @@ export type TransformedPageProps = {
   footer?: Array<PageContentProps>;
 };
 
-export type GlobalConfiguration = {
-  baseUrl: string;
-  navigation: ContentIdentifierItem;
-  footer: ContentIdentifierItem;
+export type GlobalSettings = {
+  includeDrafts: boolean;
+  defaults: {
+    navigation: ContentIdentifierItem;
+    footerVariant?: FooterVariant;
+    footer: ContentIdentifierItem;
+    fallbackImage: string;
+  };
+  globalLabels: {
+    nextPage: string;
+    previousPage: string;
+  };
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -6,7 +6,11 @@ import { type PageDataFragment } from '../../graphql/graphql';
 import { type EntryIdentifier } from '../../types/EntryIdentifier';
 import { deepOmitUndefined } from '../../utils/transformer/deepOmitUndefined';
 import { propsTransformMap } from './page.componentTransformersMap';
-import { type PageContentProps, type TransformedPageProps } from './page.types';
+import {
+  type GlobalSettings,
+  type PageContentProps,
+  type TransformedPageProps,
+} from './page.types';
 
 type MaybeEntryIdentifier<Type extends string = string> = {
   __typename?: Type;
@@ -55,11 +59,6 @@ export type PageTransformerContextDefaults = {
   navigation: ContentIdentifierItem;
 };
 
-export type PageTransformerContext = {
-  defaults?: PageTransformerContextDefaults;
-  includeDrafts: boolean;
-};
-
 const isPage = (data: Record<string, unknown>): data is PageData =>
   // eslint-disable-next-line no-underscore-dangle
   data.__typename === 'Page';
@@ -67,7 +66,7 @@ const isPage = (data: Record<string, unknown>): data is PageData =>
 /* eslint-disable no-underscore-dangle */
 export async function pageTransformer(
   data: PageData,
-  context: PageTransformerContext,
+  context: GlobalSettings,
   options: {
     skipMetadata?: boolean;
   },
@@ -93,8 +92,8 @@ export async function pageTransformer(
 
   contentIdentifierItems = getContentIdentifierItems(data);
 
-  const navigationTransform = transformContentProps([context.defaults?.navigation], context);
-  const footerTransform = transformContentProps([context.defaults?.footer], context);
+  const navigationTransform = transformContentProps([context.defaults.navigation], context);
+  const footerTransform = transformContentProps([context.defaults.footer], context);
 
   const [navigation, content, footer] = await Promise.all([
     navigationTransform,
@@ -119,7 +118,7 @@ export async function pageTransformer(
 
 export async function transformContentProps(
   identifiers: ContentIdentifierItems,
-  context: ComponentPropsTransformContext,
+  context: GlobalSettings,
 ): Promise<Array<PageContentProps | null>> {
   const promises = identifiers.map(async (identifier) => {
     if (!identifier) {
@@ -166,11 +165,9 @@ export async function transformContentProps(
   return results.filter((item): item is PageContentProps => item !== null);
 }
 
-export type ComponentPropsTransformContext = PageTransformerContext;
-
 type ComponentPropsTransform<Type extends string, Props> = (
   identifier: EntryIdentifier<Type>,
-  context: ComponentPropsTransformContext,
+  context: GlobalSettings,
 ) => Promise<Props>;
 
 export type ComponentPropsTransformer<Type extends string, Props> = {

@@ -1,4 +1,3 @@
-import { type Maybe } from '@graphql-tools/utils';
 import { notFound } from 'next/navigation';
 import type { NextPageProps } from '../../definitions';
 import type {
@@ -87,39 +86,15 @@ export async function getPageData({
 
 /**
  * Helper method to retrieve the global page data object
- * @param options
  */
-export async function getGlobalPageData(
-  options: Partial<{ headerVariant: Maybe<string> }> = {},
-): Promise<{
-  pageData: TransformerPageData;
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  header: GetSettingsQueryQuery['settings'][number]['mainNavigation'] | NonNullable<unknown>;
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  footer: GetSettingsQueryQuery['settings'][number]['mainFooter'] | NonNullable<unknown>;
-}> {
+export async function getGlobalPageData(): Promise<
+  GetSettingsQueryQuery['settings'][number] | null
+> {
   // Use a more specific type for the settings response that matches the actual schema
   const response = await getSettings();
 
   // Get the first settings object (there should only be one)
-  const settingsItem = response.settings[0] ?? {};
-
-  // Map the settings fields to our TransformerPageData structure
-  const pageData: TransformerPageData = {
-    headerVariant: options.headerVariant ?? '',
-    fallbackImage: settingsItem.fallbackImage?.asset?.url ?? '',
-    globalLabels: {
-      nextPage: settingsItem.nextPage ?? '',
-      previousPage: settingsItem.previousPage ?? '',
-    },
-  };
-
-  // Get navigation and footer from settings
-  return {
-    pageData,
-    header: settingsItem.mainNavigation ?? {},
-    footer: settingsItem.mainFooter ?? {},
-  };
+  return response.settings[0] ?? null;
 }
 
 export async function getLandingPage(): Promise<GetLandingPageQuery> {

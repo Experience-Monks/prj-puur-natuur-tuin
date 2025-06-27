@@ -1,3 +1,4 @@
+import type { GlobalSettings } from '../../../app/[[...slug]]/page.types';
 import { createPropsTransformer } from '../../../data/transformers/createPropsTransformer';
 import type { GallerySectionIdentifierFragment } from '../../../graphql/graphql';
 import { graphqlRequest } from '../../../net/graphql/graphqlRequest';
@@ -10,7 +11,7 @@ export const gallerySectionTransformer = createPropsTransformer(
   GallerySection,
   async (
     identifier: GallerySectionIdentifierFragment,
-    { includeDrafts }: { includeDrafts: boolean },
+    { includeDrafts }: GlobalSettings,
   ): Promise<GallerySectionProps> => {
     const { id } = identifier;
 

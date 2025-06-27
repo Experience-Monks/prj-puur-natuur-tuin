@@ -1,4 +1,5 @@
 import { graphqlRequest } from 'src/net/graphql/graphqlRequest';
+import type { GlobalSettings } from '../../../app/[[...slug]]/page.types';
 import { createPropsTransformer } from '../../../data/transformers/createPropsTransformer';
 import type { NewsSectionIdentifierFragment } from '../../../graphql/graphql';
 import { processButtonLink } from '../../buttons/button/Button.utils';
@@ -10,7 +11,7 @@ export const newsSectionTransformer = createPropsTransformer(
   NewsSection,
   async (
     identifier: NewsSectionIdentifierFragment,
-    { includeDrafts }: { includeDrafts: boolean },
+    { includeDrafts }: GlobalSettings,
   ): Promise<NewsSectionProps> => {
     const { id } = identifier;
 

@@ -4,13 +4,15 @@ import { type Metadata } from 'next';
 import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { type ReactElement } from 'react';
+import { type FooterVariant } from '../../components/cms-components/footer/Footer.types';
 import { ComponentRenderer } from '../../components/layout/component-renderer/ComponentRenderer';
 import { DraftMode } from '../../components/utils/DraftMode/DraftMode';
 import { baseMetadata } from '../../data/metadata';
 import { type NextPageProps } from '../../definitions';
 import { extend } from '../../utils/debug';
 import { type PageData, pageTransformer } from './page.transformers';
-import { getGlobalPageData, getPageData } from './page.utils';
+import { type GlobalSettings } from './page.types';
+import { getGlobalPageData, getPageData, TransformerPageData } from './page.utils';
 
 const debug = extend('PageGeneration');
 
@@ -51,34 +53,36 @@ export default async function Page(props: NextPageProps): Promise<ReactElement |
   const includeDrafts = isEnabled || false;
 
   debug.info(`Start fetching page data`);
-
   const page = await getPageData(props);
-  const { footer, header } = await getGlobalPageData({
-    // TODO adjust to footer variant
-    headerVariant: page?.footerVariant,
-  });
 
-  debug.info(`footer data fetched`, footer);
+  debug.info(`Start fetching settings`);
+  const settings = await getGlobalPageData();
 
-  if (!page?.content) {
+  if (!page?.content || !settings) {
     // Return an error or fallback component instead of using Next.js notFound()
     return notFound();
   }
 
   // Prepare the header with the correct type
   const pageHeader = page.overwrittenMainNavigation
-    ? { ...page.overwrittenMainNavigation, _type: 'stickyNavigation' }
-    : { ...header, _type: 'stickyNavigation' };
+    ? { ...page.overwrittenMainNavigation, _type: 'Navigation' }
+    : { ...settings.mainNavigation, _type: 'Navigation' };
 
   // Prepare the footer with the correct type
   const pageFooter = page.overwrittenFooter
     ? { ...page.overwrittenFooter, _type: 'footer' }
-    : { ...footer, _type: 'footer' };
+    : { ...settings.mainFooter, _type: 'footer' };
 
-  const context = {
+  const context: GlobalSettings = {
     defaults: {
       navigation: pageHeader,
       footer: pageFooter,
+      footerVariant: page?.footerVariant as FooterVariant,
+      fallbackImage: settings.fallbackImage?.asset?.url ?? '',
+    },
+    globalLabels: {
+      nextPage: settings.nextPage ?? '',
+      previousPage: settings.previousPage ?? '',
     },
     includeDrafts,
   };

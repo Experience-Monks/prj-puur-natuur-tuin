@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { type ReactElement, type ReactNode } from 'react';
+import type { GlobalSettings } from '../../../app/[[...slug]]/page.types';
 import { createPropsTransformer } from '../../../data/transformers/createPropsTransformer';
 import { linkTransformer } from '../../../data/transformers/linkTransformer';
 import type { HeroSectionIdentifierFragment } from '../../../graphql/graphql';
@@ -13,7 +14,7 @@ export const heroSectionTransformer = createPropsTransformer(
   HeroSection,
   async (
     identifier: HeroSectionIdentifierFragment,
-    { includeDrafts }: { includeDrafts: boolean },
+    { includeDrafts }: GlobalSettings,
   ): Promise<HeroSectionProps> => {
     const { id } = identifier;
 
