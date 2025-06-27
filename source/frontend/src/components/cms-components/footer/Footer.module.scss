@@ -1,18 +1,29 @@
 @import '../../../styles/utils';
 
 .footer {
-  background-color: $colorGreenPrimary;
-  color: $colorGreenDark;
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  position: relative;
   align-items: center;
   justify-content: center;
   padding: $spacingSectionBlock $spacingSectionInline remify(55);
+  max-inline-size: 100vw;
+
+  &.darkBackground {
+    background-color: $colorGreenPrimary;
+    color: $colorGreenDark;
+  }
+
+  &.brightBackground {
+    background-color: $colorGreenDark;
+    color: $colorGreenPrimary;
+  }
 }
 
 .footerContent {
-  max-inline-size: remify(1220);
+  @include size(100%);
+  max-inline-size: 100%;
 }
 
 .logoSection {
@@ -21,18 +32,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-block-end: remify(96);
 }
 
 .logoContainer {
-  @include size(100%);
-  aspect-ratio: 1116 / 441;
+  inline-size: 100%;
 }
 
 .logo {
   @include size(100%);
   display: block;
   color: inherit;
+  margin-block-start: remify(20);
 }
 
 .copyright {
@@ -41,15 +51,41 @@
 
 .linksWrapper {
   display: flex;
-  gap: 2rem;
+  justify-content: space-between;
+  gap: fluid-size(16px, 70px);
+}
 
-  a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s ease;
+.leftLinks,
+.rightLinks {
+  display: flex;
+  gap: fluid-size(16px, 70px);
+}
 
-    &:hover {
-      color: $colorGreenDark;
+.rightLinks {
+  justify-content: flex-end;
+}
+
+.link {
+  position: relative;
+  color: white;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  padding-block-end: remify(6);
+
+  &::after {
+    @include pseudo;
+    @include size(100%, remify(2));
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    background-color: $colorGreenLight;
+    transition: transform 0.3s ease;
+    transform: scaleX(0);
+  }
+
+  &:hover,
+  &.active {
+    &::after {
+      transform: scaleX(1);
     }
   }
 }
@@ -57,14 +93,19 @@
 .brandSection {
   display: flex;
   justify-content: space-between;
+  margin-block-start: remify(32);
 }
 
 .brandName {
   color: inherit;
 }
 
-@include respond-to(MEDIUM) {
+@include respond-to(XLARGE) {
   .footerContent {
-    @include size(100%);
+    max-inline-size: remify(1220);
+  }
+
+  .logoContainer {
+    inline-size: 108%;
   }
 }
