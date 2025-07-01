@@ -15,10 +15,20 @@ export const newsSectionQuery = graphql(`
       header {
         title
       }
-      enabled
+      maxItems
       link {
         ...ExternalLink
         ...NavigationLink
+      }
+    }
+    allNews(sort: { date: DESC }) {
+      _id
+      title
+      date
+      icon {
+        asset {
+          url
+        }
       }
     }
   }

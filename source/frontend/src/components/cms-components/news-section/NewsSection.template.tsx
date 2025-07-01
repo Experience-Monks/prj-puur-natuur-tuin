@@ -5,16 +5,14 @@ import { PrimaryButton } from '../../buttons/primary-button/PrimaryButton';
 import Heading from '../../general/heading/Heading';
 import { NewsCard } from '../../news-card/NewsCard';
 import styles from './NewsSection.module.scss';
-import type { NewsSectionProps } from './NewsSection.types';
+import type { NewsSectionTemplateProps } from './NewsSection.types';
 
 export function NewsSectionTemplate({
   title,
   news,
-  showButton,
-  ctaLabel,
-  ctaUrl,
+  link,
   refs,
-}: NewsSectionProps): ReactElement {
+}: NewsSectionTemplateProps): ReactElement {
   return (
     <div className={styles.newsSection} ref={refs.self}>
       <Heading as="h2" className={styles.heading}>
@@ -27,9 +25,9 @@ export function NewsSectionTemplate({
           </li>
         ))}
       </ul>
-      {showButton && ctaLabel && ctaUrl && (
+      {link && (
         <div className={styles.ctaWrapper}>
-          <PrimaryButton href={ctaUrl}>{ctaLabel}</PrimaryButton>
+          <PrimaryButton {...link}>{link.children}</PrimaryButton>
         </div>
       )}
     </div>

@@ -3,13 +3,6 @@ import { createComponentDocument } from '../../../util/document-utils/createComp
 export default createComponentDocument('heroSection', {
   fields: [
     {
-      name: 'enabled',
-      title: 'Enabled',
-      type: 'boolean',
-      initialValue: true,
-      description: 'Controls whether this section is displayed',
-    },
-    {
       name: 'title',
       title: 'Title',
       type: 'string',

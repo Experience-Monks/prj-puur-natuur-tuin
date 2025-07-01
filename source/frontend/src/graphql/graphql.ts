@@ -495,8 +495,6 @@ export type HeroSection = Document & {
   _updatedAt?: Maybe<Scalars['DateTime']['output']>;
   backgroundImage?: Maybe<Image>;
   contentBlocks?: Maybe<Array<Maybe<TextBlock>>>;
-  /** Controls whether this section is displayed */
-  enabled?: Maybe<Scalars['Boolean']['output']>;
   link?: Maybe<ExternalLinkOrNavigationLink>;
   /** Space below the component */
   marginBottom?: Maybe<Scalars['String']['output']>;
@@ -520,7 +518,6 @@ export type HeroSectionFilter = {
   _type?: InputMaybe<StringFilter>;
   _updatedAt?: InputMaybe<DatetimeFilter>;
   backgroundImage?: InputMaybe<ImageFilter>;
-  enabled?: InputMaybe<BooleanFilter>;
   marginBottom?: InputMaybe<StringFilter>;
   marginTop?: InputMaybe<StringFilter>;
   subtitle?: InputMaybe<StringFilter>;
@@ -536,7 +533,6 @@ export type HeroSectionSorting = {
   _type?: InputMaybe<SortOrder>;
   _updatedAt?: InputMaybe<SortOrder>;
   backgroundImage?: InputMaybe<ImageSorting>;
-  enabled?: InputMaybe<SortOrder>;
   marginBottom?: InputMaybe<SortOrder>;
   marginTop?: InputMaybe<SortOrder>;
   subtitle?: InputMaybe<SortOrder>;
@@ -943,8 +939,6 @@ export type NewsSection = Document & {
   /** Date the document was last modified */
   _updatedAt?: Maybe<Scalars['DateTime']['output']>;
   displayMode?: Maybe<Scalars['String']['output']>;
-  /** Controls whether this section is displayed */
-  enabled?: Maybe<Scalars['Boolean']['output']>;
   header?: Maybe<SectionHeader>;
   link?: Maybe<ExternalLinkOrNavigationLink>;
   manualItems?: Maybe<Array<Maybe<News>>>;
@@ -965,7 +959,6 @@ export type NewsSectionFilter = {
   _type?: InputMaybe<StringFilter>;
   _updatedAt?: InputMaybe<DatetimeFilter>;
   displayMode?: InputMaybe<StringFilter>;
-  enabled?: InputMaybe<BooleanFilter>;
   header?: InputMaybe<SectionHeaderFilter>;
   marginBottom?: InputMaybe<StringFilter>;
   marginTop?: InputMaybe<StringFilter>;
@@ -980,7 +973,6 @@ export type NewsSectionSorting = {
   _type?: InputMaybe<SortOrder>;
   _updatedAt?: InputMaybe<SortOrder>;
   displayMode?: InputMaybe<SortOrder>;
-  enabled?: InputMaybe<SortOrder>;
   header?: InputMaybe<SectionHeaderSorting>;
   marginBottom?: InputMaybe<SortOrder>;
   marginTop?: InputMaybe<SortOrder>;
@@ -2437,7 +2429,6 @@ export type HeroSectionDataQuery = {
     _key?: string | null;
     title?: string | null;
     subtitle?: string | null;
-    enabled?: boolean | null;
     variant?: string | null;
     backgroundImage?: {
       __typename: 'Image';
@@ -2608,7 +2599,7 @@ export type NewsSectionDataQuery = {
     __typename: 'NewsSection';
     _type?: string | null;
     _key?: string | null;
-    enabled?: boolean | null;
+    maxItems?: number | null;
     header?: { __typename: 'SectionHeader'; title?: string | null } | null;
     link?:
       | {
@@ -2638,6 +2629,16 @@ export type NewsSectionDataQuery = {
         }
       | null;
   } | null;
+  allNews: Array<{
+    __typename: 'News';
+    _id?: string | null;
+    title?: string | null;
+    date?: string | null;
+    icon?: {
+      __typename: 'Image';
+      asset?: { __typename: 'SanityImageAsset'; url?: string | null } | null;
+    } | null;
+  }>;
 };
 
 export type ProgramSectionIdentifierFragment = { __typename: 'ProgramSection'; id?: string | null };
@@ -4045,7 +4046,6 @@ export const HeroSectionDataDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: '_key' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'enabled' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'backgroundImage' },
@@ -4550,7 +4550,7 @@ export const NewsSectionDataDocument = {
                     selections: [{ kind: 'Field', name: { kind: 'Name', value: 'title' } }],
                   },
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'enabled' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'maxItems' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'link' },
@@ -4559,6 +4559,51 @@ export const NewsSectionDataDocument = {
                     selections: [
                       { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ExternalLink' } },
                       { kind: 'FragmentSpread', name: { kind: 'Name', value: 'NavigationLink' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allNews' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sort' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'date' },
+                      value: { kind: 'EnumValue', value: 'DESC' },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '_id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'icon' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'asset' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'url' } }],
+                        },
+                      },
                     ],
                   },
                 },

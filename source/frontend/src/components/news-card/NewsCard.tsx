@@ -4,6 +4,8 @@ import { type ReactElement } from 'react';
 import { useDutchDate } from '../../hooks/useDutchDate';
 import { useEnabledAnimation } from '../../hooks/useEnabledAnimation';
 import { useEnabledBeforeUnmount } from '../../hooks/useEnabledBeforeUnmount';
+import type { CmsLinkProps } from '../../utils/link.utils';
+import Button from '../buttons/button/Button';
 import Copy, { CopySize } from '../general/copy/Copy';
 import Heading, { HeadingSize } from '../general/heading/Heading';
 import { createInAnimation, createOutAnimation } from './NewsCard.animations';
@@ -13,14 +15,15 @@ type NewsCardProps = {
   title: string;
   date: string;
   icon: string;
+  link: CmsLinkProps;
 };
 
 export type NewsCardRefs = MutableRefs<{
-  self: HTMLDivElement;
+  self: HTMLButtonElement;
 }>;
 
-export const NewsCard = ensuredForwardRef<HTMLDivElement, NewsCardProps>(
-  ({ title, date, icon }, ref): ReactElement => {
+export const NewsCard = ensuredForwardRef<HTMLButtonElement, NewsCardProps>(
+  ({ title, date, icon, link }, ref): ReactElement => {
     const refs = useRefs<NewsCardRefs>({
       self: ref,
     });
@@ -32,7 +35,13 @@ export const NewsCard = ensuredForwardRef<HTMLDivElement, NewsCardProps>(
     useEnabledBeforeUnmount(async () => createOutAnimation(refs));
 
     return (
-      <div className={styles.newsCard} ref={refs.self}>
+      <Button
+        className={styles.newsCard}
+        href={link.href}
+        target={link.target}
+        aria-label={link.ariaLabel ?? `Lees meer over ${title}`}
+        ref={refs.self}
+      >
         <div className={styles.iconBackground}>
           <div className={styles.iconWrapper}>
             <Image
@@ -53,7 +62,7 @@ export const NewsCard = ensuredForwardRef<HTMLDivElement, NewsCardProps>(
             {title}
           </Heading>
         </div>
-      </div>
+      </Button>
     );
   },
 );

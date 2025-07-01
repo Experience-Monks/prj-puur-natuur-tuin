@@ -4,13 +4,6 @@ import { Rule } from 'sanity';
 export default createComponentDocument('newsSection', {
   fields: [
     {
-      name: 'enabled',
-      title: 'Enabled',
-      type: 'boolean',
-      initialValue: true,
-      description: 'Controls whether this section is displayed',
-    },
-    {
       name: 'header',
       title: 'Section Header',
       type: 'sectionHeader',

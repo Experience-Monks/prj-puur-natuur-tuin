@@ -14,7 +14,6 @@ export const heroSectionQuery = graphql(`
       _key
       title
       subtitle
-      enabled
       backgroundImage {
         asset {
           url
